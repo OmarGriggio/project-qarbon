@@ -177,3 +177,5 @@ REST_AUTH = {
     'USE_JWT': True,
 }
 
+AUTH_USER_MODEL = "backend.api.CustomUser"
+

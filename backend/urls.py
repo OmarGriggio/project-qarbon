@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet
+from .api import views
 
 router = routers.DefaultRouter()
 router.register('messages', MessageViewSet)
@@ -38,4 +39,25 @@ urlpatterns = [
 
     # http://localhost:8000/api/admin/
     path('api/admin/', admin.site.urls),
+
+    # http://localhost:8000/api/event-list/
+    path('api/event-list/', views.event_list, name="Liste des évènements"),
+
+    # http://localhost:8000/api/place-list/
+    path('api/place-list/', views.place_list, name="Liste des lieux"),
+
+    # http://localhost:8000/api/place-find/
+    path('api/place-find/<str:pk>/', views.place_find, name="Détails d'un lieu"),
+
+    # http://localhost:8000/api/event-create/
+    path('api/event-create/', views.event_create, name="Ajout d'un évènement"),
+
+    # http://localhost:8000/api/place-create/
+    path('api/place-create/', views.place_create, name="Ajout d'un lieu"),
+
+    # http://localhost:8000/api/events-find-by-place/
+    path('api/events-find-by-place/<str:pk>/', views.event_list_by_place, name="Liste des evenements d'après un lieu"),
+
+    # http://localhost:8000/api/places-find-by-event/
+    path('api/places-find-by-event/<str:pk>/', views.place_list_by_event, name="Liste des endroits ou ont (eu) lieu un événement"),
 ]
