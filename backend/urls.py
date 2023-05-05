@@ -27,14 +27,16 @@ router.register('groups', GroupViewSet)
 
 urlpatterns = [
     # http://localhost:8000/
-    path('', index_view, name='index'),
+    path('', views.welcome_page, name='index'),
 
     # http://localhost:8000/api/<router-viewsets>
-    path('api/', include(router.urls)),
+    #path('api/', include(router.urls)),
+    path('api/', views.api_overview, name="API"),
 
     path('api/explorer/', include('rest_framework.urls', namespace='rest_framework')),
 
     path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
+
     path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
 
     # http://localhost:8000/api/admin/

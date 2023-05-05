@@ -47,12 +47,18 @@ def welcome_page(request):
 @api_view(['GET'])
 def api_overview(request):
     api_urls = [
-    "API vue d'ensemble : /api/",
-    "Liste d'événements : api/event-list/",
-    "Liste de lieux : api/place-list/",
-    "Créer un compte : api/create-account/",
-    "Ajouter un nouvel Evenement : api/event-create/",
-    "Ajouter un nouveau lieu : api/place-create/"
+        "messages : http://127.0.0.1:8000/api/messages/",
+        "users : http://127.0.0.1:8000/api/users/",
+        "groups : http://127.0.0.1:8000/api/groups/"
+        "API vue d'ensemble : http://127.0.0.1:8000/api/",
+        "Liste d'événements : http://127.0.0.1:8000/api/event-list/",
+        "Liste de lieux : http://127.0.0.1:8000/api/place-list/",
+        "Créer un compte : http://127.0.0.1:8000/api/create-account/",
+        "Ajouter un nouvel Evenement : http://127.0.0.1:8000/api/event-create/",
+        "Ajouter un nouveau lieu : http://127.0.0.1:8000/api/place-create/",
+        "Trouver les lieux ou se déroulent un événement : http://127.0.0.1:8000/api/places-find-by-event/<EVENT_NAME>",
+        "Trouver les événements pour un lieu donné : http://127.0.0.1:8000/api/events-find-by-place/<PLACE_NAME>/",
+        "Obtenir les détails d'un lieu : http://127.0.0.1:8000/api/events-find/<PLACE_NAME>/",
     ]
     return Response(api_urls)
     
@@ -64,18 +70,17 @@ def event_list(request):
 
 @api_view(['GET'])
 def event_list_by_place(request, pk):
-    events = Event.objects.raw("SELECT * FROM `django_rest_api_manager_event` join django_rest_api_manager_place on django_rest_api_manager_event.place_id = django_rest_api_manager_place.name where django_rest_api_manager_place.name = '"+ pk +"'")
+    events = Event.objects.raw("SELECT * FROM `api_event` join api_place on api_event.place_id = api_place.name where api_place.name = '"+ pk +"'")
     serializer = EventSerializer(events, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def place_list_by_event(request, pk):
-    places = Place.objects.raw("SELECT django_rest_api_manager_place.name, street, number, postal_code, locality FROM `django_rest_api_manager_event` join django_rest_api_manager_place on django_rest_api_manager_event.place_id = django_rest_api_manager_place.name where django_rest_api_manager_event.name = '"+ pk +"'")
+    places = Place.objects.raw("SELECT distinct api_place.name, street, number, postal_code, locality FROM `api_event` join api_place on api_event.place_id = api_place.name where api_event.name = '"+ pk +"'")
     serializer = PlaceSerializer(places, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-
 def place_list(request):
     places = Place.objects.all()
     serializer = PlaceSerializer(places, many=True)

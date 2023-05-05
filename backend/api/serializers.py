@@ -2,7 +2,6 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from .models import Message, Place, Event
 
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
