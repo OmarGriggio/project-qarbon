@@ -1,10 +1,14 @@
 <template>
   <div id="nav">
-    <router-link :to="{ name: 'home' }">Home</router-link> |
+    <router-link :to="{ name: 'home' }">Home</router-link> 
     <router-link :to="{ name: 'messages' }">Django Rest</router-link>
+    <RouterLink :to="{ name: 'login' }">Login</RouterLink>
   </div>
-  <router-view />
+<router-view />
 </template>
+
+
+
 
 <style>
 #app {
