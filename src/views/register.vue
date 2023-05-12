@@ -51,6 +51,9 @@ export default {
           password1: this.password,
           password2: this.password
         })
+        .then(() => {
+          this.$router.push({ name: "home" })
+        })
         .catch((err) => {
           this.loginError = err.response.data
         })

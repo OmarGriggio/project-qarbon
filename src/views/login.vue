@@ -20,13 +20,13 @@
   <div v-if="user">
     Logged in user data:
     <pre>{{ user }}</pre>
-    <input type="submit" value="Logout" @click="logout" />
+    <input type="submit" value="Logout" @click="logout"/>
     <br />
   </div>
 </template>
 
 <script>
-import authService from "../services/authService"
+import authService from "../services/authService";
 
 export default {
   data() {

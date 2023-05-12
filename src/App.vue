@@ -2,12 +2,46 @@
   <div id="nav">
     <router-link :to="{ name: 'home' }">Home</router-link> 
     <router-link :to="{ name: 'messages' }">Django Rest</router-link>
-    <RouterLink :to="{ name: 'login' }">Login</RouterLink>
+    
+    <div v-if="!user">
+      <RouterLink :to="{ name: 'login' }">Login</RouterLink>
+    </div>
+    <div v-else>
+      <p>Logged in as {{ user.username }}</p>
+      <button @click="logout">Logout</button>
+    </div> 
   </div>
 <router-view />
 </template>
 
+<script>
 
+import authService from "../src/services/authService";
+
+export default {
+  data() {
+    return {
+      
+    }
+  },
+  computed: {
+    user() {
+      return authService.user.value
+    }
+  },
+  methods: {
+    logout() {
+      authService.logout()
+    }
+  },
+  async mounted() {
+    authService.getUser()
+    // this.messages = await messageService.fetchMessages()
+  }
+}
+
+
+</script>
 
 
 <style>
