@@ -58,7 +58,7 @@ def api_overview(request):
         "Ajouter un nouveau lieu : http://127.0.0.1:8000/api/place-create/",
         "Trouver les lieux ou se déroulent un événement : http://127.0.0.1:8000/api/places-find-by-event/<EVENT_NAME>",
         "Trouver les événements pour un lieu donné : http://127.0.0.1:8000/api/events-find-by-place/<PLACE_NAME>/",
-        "Obtenir les détails d'un lieu : http://127.0.0.1:8000/api/events-find/<PLACE_NAME>/",
+        "Obtenir les détails d'un lieu : http://127.0.0.1:8000/api/event-find/<PLACE_NAME>/",
     ]
     return Response(api_urls)
     
@@ -90,6 +90,13 @@ def place_list(request):
 def place_find(request, pk):
     places = Place.objects.get(name=pk)
     serializer = PlaceSerializer(places, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def event_find(request, pk):
+    name = request.GET.get('name')
+    events = Event.objects.filter(name = pk)
+    serializer = EventSerializer(events, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])

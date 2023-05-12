@@ -51,6 +51,9 @@ urlpatterns = [
     # http://localhost:8000/api/place-find/
     path('api/place-find/<str:pk>/', views.place_find, name="Détails d'un lieu"),
 
+    # http://localhost:8000/api/place-find/
+    path('api/event-find/<str:pk>/', views.event_find, name="Détails d'un event"),
+
     # http://localhost:8000/api/event-create/
     path('api/event-create/', views.event_create, name="Ajout d'un évènement"),
 
