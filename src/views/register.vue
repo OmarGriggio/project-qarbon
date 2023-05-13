@@ -1,9 +1,10 @@
 <template>
   <div>
     <h1>Page d'inscription</h1>
-    <div>
+    <div class="input-group flex-nowrap">
+      <span class="input-group-text" id="basic-addon1">@</span>
       <label for="username">Username :</label>
-      <input type="text" id="firstName" v-model="username"/>
+      <input type="text" id="firstName" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" v-model="username"/>
     </div>
     <div>
       <label for="password">Mot de passe:</label>
@@ -77,3 +78,6 @@ export default {
   }
 }
 </script>
+<style>
+
+</style>
