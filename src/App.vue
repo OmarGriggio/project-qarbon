@@ -1,28 +1,25 @@
 <template>
   <div id="nav">
-    <router-link :to="{ name: 'home' }">Home</router-link> 
-    <router-link :to="{ name: 'messages' }">Django Rest</router-link>
-    
+    <router-link :to="{ name: 'home' }">Home</router-link> |
+    <router-link :to="{ name: 'messages' }">Django Rest</router-link> |
+
     <div v-if="!user">
       <RouterLink :to="{ name: 'login' }">Login</RouterLink>
     </div>
     <div v-else>
       <p>Logged in as {{ user.username }}</p>
       <button @click="logout">Logout</button>
-    </div> 
+    </div>
   </div>
-<router-view />
+  <router-view />
 </template>
 
 <script>
-
-import authService from "../src/services/authService";
+import authService from "../src/services/authService"
 
 export default {
   data() {
-    return {
-      
-    }
+    return {}
   },
   computed: {
     user() {
@@ -39,10 +36,7 @@ export default {
     // this.messages = await messageService.fetchMessages()
   }
 }
-
-
 </script>
-
 
 <style>
 #app {
