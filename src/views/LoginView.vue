@@ -1,42 +1,42 @@
 <template>
-  <div>
-    <div class="container text-center">
+  <div class="Login">
+    <div class="container text-center col-lg-4">
       <h1>Se connecter</h1>
-      <div>
-        <form @submit.prevent="login">
-          <div class="container col-lg-3">
-            <div class="container row-lg-1">
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Nom d'utilisateur"
-                aria-label="default input example"
-                v-model="username"
-                required
-              />
-              <input
-                class="form-control"
-                type="password"
-                placeholder="Mot de passe"
-                aria-label="default input example"
-                v-model="password"
-                required
-              />
-            </div>
+      <br />
+      <form class="Login-Form" @submit.prevent="login">
+        <div class="container col-lg-8">
+          <div class="container row-1">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Nom d'utilisateur"
+              aria-label="default input example"
+              v-model="username"
+              required
+            />
+            <input
+              class="form-control"
+              type="password"
+              placeholder="Mot de passe"
+              aria-label="default input example"
+              v-model="password"
+              required
+            />
           </div>
-          <br />
-          <button type="button" class="btn btn-primary col-lg">Se connecter</button>
-        </form>
-      </div>
-      <p v-if="!user">
-        Vous n'avez pas de compte ? <router-link to="/register">S'inscrire</router-link>
-      </p>
+        </div>
+        <br />
+        <button type="button" class="btn btn-primary col-lg">Se connecter</button>
+      </form>
     </div>
-    <div v-if="user">
-      Logged in user data:
-      <pre>{{ user }}</pre>
-      <input type="submit" value="Logout" @click="logout" /> <br />
-    </div>
+    <br />
+    <p v-if="!user">
+      Vous n'avez pas de compte ? <router-link to="/register">S'inscrire</router-link>
+    </p>
+  </div>
+  <div v-if="user">
+    Logged in user data:
+    <pre>{{ user }}</pre>
+    <input type="submit" value="Logout" @click="logout" /> <br />
   </div>
 </template>
 
@@ -82,3 +82,12 @@ export default {
   }
 }
 </script>
+
+<style>
+.form-control {
+  margin: 5px;
+}
+.Login {
+  padding-top: 130px;
+}
+</style>
