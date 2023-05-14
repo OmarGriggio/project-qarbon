@@ -3,8 +3,9 @@
     <div class="container">
       <form class="register-form">
         <h2>Page d'inscription</h2>
+        <br />
         <div>
-          <div class="p-1">
+          <div>
             <div class="container col-lg-3">
               <input
                 type="text"
@@ -16,7 +17,7 @@
               />
             </div>
           </div>
-          <div class="p-1">
+          <div>
             <div class="container col-lg-3">
               <input
                 type="password"
@@ -28,7 +29,7 @@
               />
             </div>
           </div>
-          <div class="p-1">
+          <div>
             <div class="container col-lg-3">
               <input
                 type="password"
@@ -114,6 +115,9 @@ export default {
 <style>
 .register .btn {
   margin: 1.5rem;
+}
+.register .form-control {
+  margin: 5px;
 }
 .register {
   padding-top: 70px;

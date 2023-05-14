@@ -2,11 +2,9 @@
   <div id="nav">
     <router-link :to="{ name: 'home' }">Home</router-link> |
     <router-link :to="{ name: 'messages' }">Django Rest</router-link> |
+    <router-link :to="{ name: 'create-place' }">Creer un endroit</router-link> |
 
-    <div v-if="!user">
-      <RouterLink :to="{ name: 'login' }">Login</RouterLink> |
-      <router-link :to="{ name: 'create-place' }">Creer un endroit</router-link>
-    </div>
+    <div v-if="!user"><RouterLink :to="{ name: 'login' }">Login</RouterLink> |</div>
     <div v-else>
       <p>Logged in as {{ user.username }}</p>
       <button @click="logout">Logout</button>
@@ -53,7 +51,6 @@ export default {
   padding: 20px;
   justify-content: center;
   gap: 10px;
-  
 }
 
 #nav a {
