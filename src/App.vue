@@ -49,7 +49,11 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+  gap: 10px;
+  
 }
 
 #nav a {
