@@ -5,7 +5,7 @@
         <h2>Page d'inscription</h2>
         <div>
           <div class="p-1">
-            <div class="container col-lg-4">
+            <div class="container col-lg-3">
               <input
                 type="text"
                 id="firstName"
@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="p-1">
-            <div class="container col-lg-4">
+            <div class="container col-lg-3">
               <input
                 type="password"
                 id="password"
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="p-1">
-            <div class="container col-lg-4">
+            <div class="container col-lg-3">
               <input
                 type="password"
                 id="confirmPassword"
@@ -40,7 +40,11 @@
               />
             </div>
           </div>
-          <button class="btn btn-primary" v-if="!user" @click="register">S'inscrire</button>
+          <div>
+            <button class="btn btn-primary col-lg-1" v-if="!user" @click="register">
+              S'inscrire
+            </button>
+          </div>
           <p v-if="passwordMismatch">Password do not match</p>
           <p v-if="loginError">{{ loginError }}</p>
           <p v-if="!user">
@@ -109,9 +113,9 @@ export default {
 </script>
 <style>
 .register .btn {
-  margin: 2rem;
+  margin: 1.5rem;
 }
 .register {
-  padding-top: 130px;
+  padding-top: 70px;
 }
 </style>

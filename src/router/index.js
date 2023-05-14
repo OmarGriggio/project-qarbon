@@ -23,8 +23,13 @@ const routes = [
   {
     path: "/register",
     name: "register",
-    component: () => import("../views/registerView.vue")
+    component: () => import("../views/RegisterView.vue")
   },
+  {
+    path: "/create-place",
+    name: "create-place",
+    component: () => import("../views/CreatePlaceView.vue")
+  }
 ]
 
 const router = createRouter({

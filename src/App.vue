@@ -4,7 +4,8 @@
     <router-link :to="{ name: 'messages' }">Django Rest</router-link> |
 
     <div v-if="!user">
-      <RouterLink :to="{ name: 'login' }">Login</RouterLink>
+      <RouterLink :to="{ name: 'login' }">Login</RouterLink> |
+      <router-link :to="{ name: 'create-place' }">Creer un endroit</router-link>
     </div>
     <div v-else>
       <p>Logged in as {{ user.username }}</p>
