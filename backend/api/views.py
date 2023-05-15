@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User, Group
-from django.views.generic import TemplateView
 from django.views.decorators.cache import never_cache
 from rest_framework import viewsets, permissions
 from .models import Message
@@ -8,11 +7,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Event, Place
 from .serializers import EventSerializer, PlaceSerializer
-from filters import EventFilter, PlaceFilter
+from .filters import EventFilter, PlaceFilter
 
-
-# Serve Vue Application
-index_view = never_cache(TemplateView.as_view(template_name='index.html'))
 
 class UserViewSet(viewsets.ModelViewSet):
     """
