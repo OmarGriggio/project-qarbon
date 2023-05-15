@@ -3,7 +3,6 @@
     <div class="container text-center col-lg-4">
       <h1>Se connecter</h1>
       <br />
-      <form class="Login-Form" @submit.prevent="login">
         <div class="container col-lg-8">
           <div class="container row-1">
             <input
@@ -12,7 +11,6 @@
               placeholder="Nom d'utilisateur"
               aria-label="default input example"
               v-model="username"
-              required
             />
             <input
               class="form-control"
@@ -20,13 +18,11 @@
               placeholder="Mot de passe"
               aria-label="default input example"
               v-model="password"
-              required
             />
           </div>
         </div>
         <br />
-        <button type="button" class="btn btn-primary col-lg">Se connecter</button>
-      </form>
+        <button type="button" class="btn btn-primary col-lg" @click="login">Se connecter</button>
     </div>
     <br />
     <p v-if="!user">

@@ -20,7 +20,6 @@ class Place(models.Model):
         return self.name
     
 class Event(models.Model):
-
     auto_increment_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=80)
     description = models.TextField(blank=True, null=True)

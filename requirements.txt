@@ -7,4 +7,4 @@ whitenoise==6.4.0
 django-cors-headers==3.14.0
 dj-rest-auth[with_social]==3.0.0
 djangorestframework-simplejwt==5.2.2
-bootstrap==5.3
+# bootstrap==5.3

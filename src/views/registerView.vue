@@ -42,7 +42,12 @@
             </div>
           </div>
           <div>
-            <button class="btn btn-primary col-lg-1" v-if="!user" @click="register">
+            <button
+              class="btn btn-primary col-lg-1"
+              v-if="!user"
+              @click="register"
+              :disabled="passwordMismatch"
+            >
               S'inscrire
             </button>
           </div>
