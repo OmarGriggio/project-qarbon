@@ -16,8 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-
-from api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet
+from .api.views import UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet
 
 router = routers.DefaultRouter()
 router.register('messages', MessageViewSet)
@@ -27,7 +26,6 @@ router.register('events', EventViewSet)
 router.register('places', PlaceViewSet)
 
 urlpatterns = [
-    path('', index_view, name='index'),
     path('api/', include(router.urls)),
     path('api/explorer/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
