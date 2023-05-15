@@ -10,12 +10,11 @@ class EventFilter(filters.FilterSet):
         model = Event
         fields = ['name', 'description', 'place_name']
 
+
 class PlaceFilter(filters.FilterSet):
     name = filters.CharFilter(lookup_expr='icontains')
     street = filters.CharFilter(lookup_expr='icontains')
     locality = filters.CharFilter(lookup_expr='icontains')
-    event_name = filters.CharFilter(field_name='event__name', lookup_expr='icontains')
-
 
     class Meta:
         model = Place
