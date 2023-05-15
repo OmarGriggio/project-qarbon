@@ -10,7 +10,7 @@ class Message(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class Place(models.Model):
-    name = models.CharField(max_length=80, primary_key=True)
+    name = models.CharField(max_length=80)
     street = models.CharField(max_length=200)
     number = models.IntegerField()
     postal_code = models.IntegerField()
