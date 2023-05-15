@@ -1,11 +1,43 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Message, Place, Event
+from django.db.models import Avg
+from .models import Message, Place, Event, Profile, Rating
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ['user', 'rated_by', 'rating']
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'location', 'birth_date']
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    profile = ProfileSerializer()
+    # average_rating = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
+        fields = ['username', 'email', 'groups', 'password', 'profile']
+        extra_kwargs = {'password': {'write_only': True}}
+
+        def create(self, validated_data):
+            user = User(
+                email=validated_data['email'],
+                username=validated_data['username']
+            )
+            user.set_password(validated_data['password'])
+            user.save()
+            Profile.objects.create(user=user)
+            return user
+
+        def get_average_rating(self, obj):
+            average = obj.ratings_received.aggregate(Avg('rating'))['rating__avg']
+            if average is None:
+                return 0
+            return round(average, 1)
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -22,8 +54,6 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['name', 'description', 'date', 'place', 'user']
-
-
 
 
 class PlaceSerializer(serializers.ModelSerializer):
