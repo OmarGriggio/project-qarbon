@@ -16,28 +16,28 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     profile = ProfileSerializer()
-    # average_rating = serializers.SerializerMethodField()
+    average_rating = serializers.SerializerMethodField()
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        Profile.objects.create(user=user)
+        return user
+
+    def get_average_rating(self, obj):
+        average = obj.ratings_received.aggregate(Avg('rating'))['rating__avg']
+        if average is None:
+            return 0
+        return round(average, 1)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'groups', 'password', 'profile']
+        fields = ['username', 'email', 'groups', 'password', 'profile', 'average_rating']
         extra_kwargs = {'password': {'write_only': True}}
-
-        def create(self, validated_data):
-            user = User(
-                email=validated_data['email'],
-                username=validated_data['username']
-            )
-            user.set_password(validated_data['password'])
-            user.save()
-            Profile.objects.create(user=user)
-            return user
-
-        def get_average_rating(self, obj):
-            average = obj.ratings_received.aggregate(Avg('rating'))['rating__avg']
-            if average is None:
-                return 0
-            return round(average, 1)
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
