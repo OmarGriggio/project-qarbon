@@ -39,6 +39,19 @@ class MessageViewSet(viewsets.ModelViewSet):
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
 
 
+class EventViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows events to be viewed or edited.
+    """
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
+    
+    # Ajoute auto le user authentifié comme user de l'event
+    def create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    
 @api_view(['GET'])
 def welcome_page(request):
     welcome_text = ["Bienvenue dans cette API que votre application peut consommer","Pour avoir une vue d'ensemble, ajoutez 'api/' à l'url"]

@@ -21,7 +21,7 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = ['name', 'description', 'date', 'place', 'user']
 
 
 

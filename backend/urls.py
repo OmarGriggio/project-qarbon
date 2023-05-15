@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet
+from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet, EventViewSet
 from .api import views
 
 router = routers.DefaultRouter()
@@ -65,4 +65,8 @@ urlpatterns = [
 
     # http://localhost:8000/api/places-find-by-event/
     path('api/places-find-by-event/<str:pk>/', views.place_list_by_event, name="Liste des endroits ou ont (eu) lieu un événement"),
+
+
+    # 
+    path('events/', EventViewSet.as_view({'get': 'list'}), name='events'),
 ]
