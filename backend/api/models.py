@@ -22,10 +22,10 @@ class Place(models.Model):
 class Event(models.Model):
     name = models.CharField(max_length=80)
     description = models.TextField(blank=True, null=True)
-    price = models.DecimalField(decimal_places=2, max_digits=5)
+    price = models.DecimalField(decimal_places=2, max_digits=6)
     date = models.DateTimeField(auto_now=False, auto_now_add=False)
-    place = models.ForeignKey(Place, on_delete=models.DO_NOTHING)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='events')
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
 
     def __str__(self):
         return self.name 
