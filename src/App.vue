@@ -3,7 +3,8 @@
     <router-link :to="{ name: 'home' }">Home</router-link> |
     <router-link :to="{ name: 'messages' }">Django Rest</router-link> |
     <router-link :to="{ name: 'create-place' }">Creer un endroit</router-link> |
-
+    <router-link :to="{ name: 'event-form' }">Ajouter un événement</router-link> |
+    
     <div v-if="!user"><RouterLink :to="{ name: 'login' }">Login</RouterLink> |</div>
     <div v-else>
       <p>Logged in as {{ user.username }}</p>
