@@ -4,11 +4,17 @@ from rest_framework import viewsets, permissions
 from .models import Message
 from .serializers import UserSerializer, GroupSerializer, MessageSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from .models import Event, Place
 from .serializers import EventSerializer, PlaceSerializer
 from .filters import EventFilter, PlaceFilter
+from dotenv import load_dotenv
+from pathlib import Path
+import requests
+import os
 
+# Load the .env file
+load_dotenv()
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -43,6 +49,16 @@ class PlaceViewSet(viewsets.ModelViewSet):
     serializer_class = PlaceSerializer
     filterset_class = PlaceFilter
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
+
+    @action(detail=False, methods=['get'])
+    def search(self, request):
+        print(os.getcwd())
+        query = request.GET.get('query')
+        api_key = os.getenv('GOOGLE_PLACES_API_KEY')
+        print(api_key)
+        url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={query}&key={api_key}"
+        response = requests.get(url)
+        return Response(response.json())
 
 
 class EventViewSet(viewsets.ModelViewSet):
