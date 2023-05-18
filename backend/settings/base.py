@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # CORS
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://127.0.0.1:5173",
     "http://localhost:8080",
 ]
 CORS_ALLOW_CREDENTIALS = True
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth',
+    'django_filters',
     'dj_rest_auth.registration',
     "corsheaders",
     'backend.api',
@@ -170,7 +172,10 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS': [
+    'django_filters.rest_framework.DjangoFilterBackend',
+    ],
 }
 
 REST_AUTH = {
