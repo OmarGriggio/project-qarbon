@@ -3,26 +3,26 @@
     <div class="container text-center col-lg-4">
       <h1>Se connecter</h1>
       <br />
-        <div class="container col-lg-8">
-          <div class="container row-1">
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Nom d'utilisateur"
-              aria-label="default input example"
-              v-model="username"
-            />
-            <input
-              class="form-control"
-              type="password"
-              placeholder="Mot de passe"
-              aria-label="default input example"
-              v-model="password"
-            />
-          </div>
+      <div class="container col-lg-8">
+        <div class="container row-1">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Nom d'utilisateur"
+            aria-label="default input example"
+            v-model="username"
+          />
+          <input
+            class="form-control"
+            type="password"
+            placeholder="Mot de passe"
+            aria-label="default input example"
+            v-model="password"
+          />
         </div>
-        <br />
-        <button type="button" class="btn btn-primary col-lg" @click="login">Se connecter</button>
+      </div>
+      <br />
+      <button type="button" class="btn btn-primary col-lg" @click="login">Se connecter</button>
     </div>
     <br />
     <p v-if="!user">
@@ -38,6 +38,7 @@
 
 <script>
 import authService from "../services/authService"
+import { LOCALSTORARGE_TOKEN_KEY } from "../services/authService"
 
 export default {
   data() {
@@ -62,7 +63,8 @@ export default {
           password: this.password
         })
         .catch((err) => {
-          this.loginError = err.response.data
+          this.loginError = err.response && err.response.data ? err.response.data : err
+          console.error(this.loginError)
         })
 
       this.username = ""
@@ -73,8 +75,15 @@ export default {
     }
   },
   async mounted() {
-    authService.getUser()
-    // this.messages = await messageService.fetchMessages()
+    // authService.getUser()
+    if (localStorage.getItem(LOCALSTORARGE_TOKEN_KEY)) {
+      try {
+        await authService.getUser()
+        // this.messages = await messageService.fetchMessages()
+      } catch (error) {
+        console.log("Error fetching user", error)
+      }
+    }
   }
 }
 </script>
