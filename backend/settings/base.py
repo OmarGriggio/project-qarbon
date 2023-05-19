@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,9 +32,14 @@ ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://127.0.0.1:8080",
     "http://localhost:8080",
 ]
 CORS_ALLOW_CREDENTIALS = True
+# SESSION_COOKIE_AGE = 86400
+# SESSION_COOKIE_SECURE = False
+# SESSION_COOKIE_HTTPONLY = False
+
 
 SITE_ID = 1
 
@@ -166,8 +171,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
@@ -180,7 +185,16 @@ REST_FRAMEWORK = {
 
 REST_AUTH = {
     'USE_JWT': True,
+    'JWT_USE_REFRESH_TOKENS': True,
+    'JWT_AUTH_HTTPONLY':False
+    # 'JWT_AUTH_COOKIE': 'jwt-app-auth',
+    # 'JWT_AUTH_REFRESH_COOKIE': 'jwt-refresh-token',
+    # 'JWT_AUTH_HTTPONLY':False # Change in prod ?
 }
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+}
 #AUTH_USER_MODEL = "api.User"
-

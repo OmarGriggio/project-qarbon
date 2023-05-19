@@ -4,17 +4,20 @@ from rest_framework import viewsets, permissions
 from .models import Message
 from .serializers import UserSerializer, GroupSerializer, MessageSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, action
+from rest_framework.decorators import api_view
 from .models import Event, Place
 from .serializers import EventSerializer, PlaceSerializer
 from .filters import EventFilter, PlaceFilter
-from dotenv import load_dotenv
-from pathlib import Path
-import requests
-import os
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+# from dotenv import load_dotenv
+# from pathlib import Path
+# import requests
+# import os
 
 # Load the .env file
-load_dotenv()
+# load_dotenv()
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -22,7 +25,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -50,15 +53,13 @@ class PlaceViewSet(viewsets.ModelViewSet):
     filterset_class = PlaceFilter
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
 
-    @action(detail=False, methods=['get'])
-    def search(self, request):
-        print(os.getcwd())
-        query = request.GET.get('query')
-        api_key = os.getenv('GOOGLE_PLACES_API_KEY')
-        print(api_key)
-        url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={query}&key={api_key}"
-        response = requests.get(url)
-        return Response(response.json())
+    # @action(detail=False, methods=['get'])
+    # def search(self, request):
+    #     query = request.GET.get('query')
+    #     api_key = os.getenv('GOOGLE_PLACES_API_KEY')
+    #     url = f"https://maps.googleapis.com/maps/api/place/autocomplete/json?input={query}&key={api_key}&components=country:ch"
+    #     response = requests.get(url)
+    #     return Response(response.json())
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -75,6 +76,14 @@ class EventViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 @api_view(['GET'])
+def is_authenticated(request):
+    auth = JWTAuthentication()
+    try:
+        auth.get_validated_token(raw_token=request.COOKIES.get('jwt-app-auth'))
+        return Response({'is_authenticated': True})
+    except:
+        return Response({'is_authenticated': False})
+@api_view(['GET'])
 def api_overview(request):
     api_urls = {
         "messages": "http://127.0.0.1:8000/api/messages/",
@@ -82,5 +91,6 @@ def api_overview(request):
         "groups": "http://127.0.0.1:8000/api/groups/",
         "events": "http://127.0.0.1:8000/api/events/",
         "places": "http://127.0.0.1:8000/api/places/",
+        "is_authenticated": "http://127.0.0.1:8000/api/dj-rest-auth/is_authenticated/",
     }
     return Response(api_urls)
