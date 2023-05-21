@@ -34,7 +34,7 @@
               <button type="submit" class="btn btn-submit btn-lg btn-block">Create Event</button>
             </form>
             <!-- Place Modal -->
-            <place-modal v-if="showPlaceModal" @close="showPlaceModal = false"></place-modal>
+            <!-- <place-modal v-if="showPlaceModal" @close="showPlaceModal = false"></place-modal> -->
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@ export default {
     },
     async submitForm() {
       try {
-        const token = localStorage.getItem("myapp_access_token")
+        const token = localStorage.getItem("access_token")
         const headers = { Authorization: `Bearer ${token}` }
         await axios.post("http://127.0.0.1:8000/api/events/", this.event, { headers })
         this.event = {

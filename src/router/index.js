@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router"
 import HomeView from "../views/HomeView.vue"
-import { LOCALSTORARGE_TOKEN_KEY } from "../services/authService"
+import { LOCALSTORAGE_TOKEN_KEY } from "../services/authService"
 
 const routes = [
   {
@@ -46,7 +46,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
-  const isAuthenticated = localStorage.getItem(LOCALSTORARGE_TOKEN_KEY)
+  const isAuthenticated = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)
   console.log(isAuthenticated)
 
   if (requiresAuth && !isAuthenticated) {

@@ -16,7 +16,7 @@
 
 <script>
 import authService from "../src/services/authService"
-import { LOCALSTORARGE_TOKEN_KEY } from "../src/services/authService"
+import { LOCALSTORAGE_TOKEN_KEY } from "../src/services/authService"
 
 
 export default {
@@ -36,7 +36,7 @@ export default {
   async mounted() {
     // authService
     authService.checkTokenExpiry()
-    if (localStorage.getItem(LOCALSTORARGE_TOKEN_KEY)) {
+    if (localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)) {
       try {
         await authService.getUser()
         // this.messages = await messageService.fetchMessages()
