@@ -24,8 +24,10 @@ class Event(models.Model):
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(decimal_places=2, max_digits=6)
     date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    image = models.ImageField(upload_to='events/images/', null=True, blank=True)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
+
 
     def __str__(self):
         return self.name 

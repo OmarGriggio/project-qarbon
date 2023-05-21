@@ -72,8 +72,10 @@ class EventViewSet(viewsets.ModelViewSet):
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
     
     # Ajoute auto le user authentifié comme user de l'event
-    def create(self, serializer):
+    def perform_create(self, serializer):
+        print("Serializer validated data:", serializer.validated_data)
         serializer.save(user=self.request.user)
+
 
 @api_view(['GET'])
 def is_authenticated(request):

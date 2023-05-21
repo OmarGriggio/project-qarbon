@@ -11,7 +11,7 @@ class ModelAdmin(admin.ModelAdmin):
 
 @admin.register(Event)
 class ModelAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'date', 'place', 'user')
+    list_display = ('pk', 'name', 'date', 'place', 'image', 'user')
     list_filter = ('date',)
     search_fields = ('name', 'description')
 

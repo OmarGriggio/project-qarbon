@@ -78,8 +78,10 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['name', 'description','price', 'date', 'place', 'user']
-
+        fields = ['name', 'description','price', 'date', 'image', 'place', 'user']
+        # On récupère l'utilisateur authentifié donc pas besoin de faire un POST avec la pk.
+        # Utilisateur automatiquement associé avec le token JWT dans le requête
+        read_only_fields = ('user',)
 
 class PlaceSerializer(serializers.ModelSerializer):
     class Meta:
