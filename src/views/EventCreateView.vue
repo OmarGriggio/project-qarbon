@@ -49,6 +49,10 @@
                   </option>
                 </select>
               </div>
+              <div class="mb-3">
+                <label for="image" class="form-label">Image for the event:</label>
+                <input type="file" id="image" @change="handleFileUpload($event)" />
+              </div>
               <button type="submit" class="btn btn-submit btn-lg btn-block">Create Event</button>
             </form>
             <!-- Place Modal -->
@@ -61,7 +65,6 @@
 </template>
 <script>
 import axios from "axios"
-import authService from "../services/authService"
 export default {
   data() {
     return {
@@ -86,17 +89,27 @@ export default {
         this.$router.push("/create-place")
       }
     },
+    handleFileUpload(event) {
+      this.event.image = event.target.files[0]
+    },
     async submitForm() {
       try {
         const token = localStorage.getItem("access_token")
         const headers = { Authorization: `Bearer ${token}` }
+
+        const formData = new FormData()
+        for (let key in this.event) {
+          formData.append(key, this.event[key])
+        }
+
         console.log(this.event)
-        await axios.post("http://127.0.0.1:8000/api/events/", this.event, { headers })
+        await axios.post("http://127.0.0.1:8000/api/events/", formData, { headers })
         this.event = {
           name: "",
           description: "",
           price: 0,
           date: "",
+          image: null,
           place: ""
         }
       } catch (error) {

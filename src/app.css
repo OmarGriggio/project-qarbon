@@ -1,0 +1,16 @@
+:root {
+    --main-color: #42b983;
+  }
+  
+  body {
+    background-color: var(--main-color);
+  }
+  
+  a {
+    color: var(--main-color);
+  }
+  
+  .btn {
+    background-color: var(--main-color);
+  }
+  

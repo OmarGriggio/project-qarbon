@@ -15,12 +15,12 @@
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
               <router-link class="nav-link" :to="{ name: 'create-place' }"
-                >Creer un endroit</router-link
+                >Create a place</router-link
               >
             </li>
             <li class="nav-item">
               <router-link class="nav-link" :to="{ name: 'event-create' }"
-                >Ajouter un événement</router-link
+                >Add an event</router-link
               >
             </li>
           </ul>
@@ -30,7 +30,7 @@
             </li>
             <li class="nav-item" v-else>
               <span class="navbar-text mr-3">Logged in as {{ user.username }}</span>
-              <button class="btn btn-outline-success" @click="logout">Logout</button>
+              <button class="btn btn-outline-success" @click="logout">Sign out</button>
             </li>
           </ul>
         </div>

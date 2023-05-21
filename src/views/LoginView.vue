@@ -1,7 +1,7 @@
 <template>
   <div class="Login">
     <div class="container text-center col-lg-4">
-      <h1>Se connecter</h1>
+      <h1 style="color: var(--main-color)">Welcome back</h1>
       <br />
       <div class="container col-lg-8">
         <div class="container row-1">
@@ -22,11 +22,12 @@
         </div>
       </div>
       <br />
-      <button type="button" class="btn btn-primary col-lg" @click="login">Se connecter</button>
+      <button type="button" class="btn btn-success col-lg" @click="login">Sign in</button>
     </div>
     <br />
     <p v-if="!user">
-      Vous n'avez pas de compte ? <router-link to="/register">S'inscrire</router-link>
+      No account ?
+      <router-link style="color: var(--main-color)" to="/register"> register</router-link>
     </p>
   </div>
   <div v-if="user">
@@ -94,5 +95,9 @@ export default {
 }
 .Login {
   padding-top: 130px;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
