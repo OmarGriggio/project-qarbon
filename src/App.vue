@@ -1,15 +1,41 @@
 <template>
-  <div id="nav">
-    <router-link :to="{ name: 'home' }">Home</router-link> |
-    <!-- <router-link :to="{ name: 'messages' }">Django Rest</router-link> | -->
-    <router-link :to="{ name: 'create-place' }">Creer un endroit</router-link> |
-    <router-link :to="{ name: 'event-create' }">Ajouter un événement</router-link> |
-
-    <div v-if="!user"><RouterLink :to="{ name: 'login' }">Login</RouterLink> |</div>
-    <div v-else>
-      <p>Logged in as {{ user.username }}</p>
-      <button @click="logout">Logout</button>
-    </div>
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div id="nav" class="container-fluid">
+        <router-link class="navbar-brand ms-3 fs-2" to="/">Qarbon</router-link>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <router-link class="nav-link" :to="{ name: 'create-place' }"
+                >Creer un endroit</router-link
+              >
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :to="{ name: 'event-create' }"
+                >Ajouter un événement</router-link
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item" v-if="!user">
+              <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
+            </li>
+            <li class="nav-item" v-else>
+              <span class="navbar-text mr-3">Logged in as {{ user.username }}</span>
+              <button class="btn btn-outline-success" @click="logout">Logout</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </div>
   <router-view />
 </template>
@@ -17,7 +43,6 @@
 <script>
 import authService from "../src/services/authService"
 import { LOCALSTORAGE_TOKEN_KEY } from "../src/services/authService"
-
 
 export default {
   data() {
@@ -47,7 +72,6 @@ export default {
   }
 }
 </script>
-
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -55,8 +79,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-left: 15%;
+  margin-right: 15%;
 }
-
 #nav {
   display: flex;
   padding: 20px;
