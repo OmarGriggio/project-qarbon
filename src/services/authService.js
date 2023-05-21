@@ -125,7 +125,8 @@ export default {
   getUser() {
     return api.get(`dj-rest-auth/user/`).then((response) => {
       user.value = response.data
-      console.log(user.value)
+      // console.log(user.value)
+      return user.value
     })
   },
   checkTokenExpiry() {
