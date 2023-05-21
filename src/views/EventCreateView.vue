@@ -8,19 +8,37 @@
               <h2 class="mb-4 text-center">Create Event</h2>
               <div class="mb-3">
                 <label for="name" class="form-label">Event Name:</label>
-                <input type="text" id="name" v-model="event.name" class="form-control" placeholder="Enter event name" />
+                <input
+                  type="text"
+                  id="name"
+                  v-model="event.name"
+                  class="form-control"
+                  placeholder="Enter event name"
+                />
               </div>
               <div class="mb-3">
                 <label for="description" class="form-label">Description:</label>
-                <textarea id="description" v-model="event.description" class="form-control" rows="3" placeholder="Describe the event"></textarea>
+                <textarea
+                  id="description"
+                  v-model="event.description"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Describe the event"
+                ></textarea>
               </div>
               <div class="mb-3">
                 <label for="price" class="form-label">Price:</label>
-                <input type="number" id="price" v-model="event.price" class="form-control" placeholder="0.00" />
+                <input
+                  type="number"
+                  id="price"
+                  v-model="event.price"
+                  class="form-control"
+                  placeholder="0.00"
+                />
               </div>
               <div class="mb-3">
                 <label for="date" class="form-label">Date:</label>
-                <input type="date" id="date" v-model="event.date" class="form-control" />
+                <input type="datetime-local" id="date" v-model="event.date" class="form-control" />
               </div>
               <div class="mb-3">
                 <label for="place" class="form-label">Place:</label>
@@ -43,15 +61,16 @@
 </template>
 <script>
 import axios from "axios"
+import authService from "../services/authService"
 export default {
   data() {
     return {
       event: {
         name: "",
         description: "",
-        price: "",
+        price: 0,
         date: "",
-        place: ""
+        place: 0
       },
       places: [],
       newPlace: {
@@ -71,11 +90,12 @@ export default {
       try {
         const token = localStorage.getItem("access_token")
         const headers = { Authorization: `Bearer ${token}` }
+        console.log(this.event)
         await axios.post("http://127.0.0.1:8000/api/events/", this.event, { headers })
         this.event = {
           name: "",
           description: "",
-          price: "",
+          price: 0,
           date: "",
           place: ""
         }
@@ -86,6 +106,8 @@ export default {
   },
   async created() {
     try {
+      // this.user = await authService.getUser()
+      // this.event.user = this.user.pk
       const response = await axios.get("http://127.0.0.1:8000/api/places/")
       this.places = response.data
     } catch (error) {
