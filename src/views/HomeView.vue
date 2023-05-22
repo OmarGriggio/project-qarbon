@@ -14,6 +14,7 @@
                 "
                 >seconds!</span
               >
+              <button class="btn btn-success ms-4 mb-2" style="font-size: 20px; font-weight: bold;">Get started</button>
             </h1>
             <!-- <p class="lead" style="text-align: left; font-weight: bold; font-size: 25px;">
               We are dedicated to bringing you the latest and greatest events in town. 
