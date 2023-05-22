@@ -5,7 +5,7 @@
         <div class="col-lg-6">
           <div class="welcome-text">
             <h1 style="color: black; text-align: left; font-weight: bold; font-size: 50px">
-              Find your favorite students events in
+              Find your favorite student events in
               <span
                 style="
                   background: linear-gradient(to right, #42b983, lightgreen);
