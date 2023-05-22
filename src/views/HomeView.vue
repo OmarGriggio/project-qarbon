@@ -4,13 +4,18 @@
       <div class="col-lg-8 text-center">
         <h1 style="color: var(--main-color)">Welcome to our Students Events Platform!</h1>
         <p class="lead">
-          We are dedicated to bringing you the latest and greatest events in town. Browse through our selection and find something that piques your interest.
+          We are dedicated to bringing you the latest and greatest events in town. Browse through
+          our selection and find something that piques your interest.
         </p>
       </div>
     </div>
     <div class="row justify-content-center">
       <div class="col-lg-6">
-        <div id="carouselExampleCaptions" class="carousel slide">
+        <div
+          id="carouselExampleCaptions"
+          class="carousel slide carousel-fade"
+          data-bs-ride="carousel"
+        >
           <div class="carousel-indicators">
             <button
               v-for="(event, index) in events"
