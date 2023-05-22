@@ -1,62 +1,69 @@
 <template>
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="card shadow-lg p-3 mb-5 bg-white rounded">
-          <div class="card-body">
-            <form @submit.prevent="submitForm" class="event-form">
-              <h2 class="mb-4 text-center">Create Event</h2>
-              <div class="mb-3">
-                <label for="name" class="form-label">Event Name:</label>
-                <input
-                  type="text"
-                  id="name"
-                  v-model="event.name"
-                  class="form-control"
-                  placeholder="Enter event name"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="description" class="form-label">Description:</label>
-                <textarea
-                  id="description"
-                  v-model="event.description"
-                  class="form-control"
-                  rows="3"
-                  placeholder="Describe the event"
-                ></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="price" class="form-label">Price:</label>
-                <input
-                  type="number"
-                  id="price"
-                  v-model="event.price"
-                  class="form-control"
-                  placeholder="0.00"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="date" class="form-label">Date:</label>
-                <input type="datetime-local" id="date" v-model="event.date" class="form-control" />
-              </div>
-              <div class="mb-3">
-                <label for="place" class="form-label">Place:</label>
-                <select id="place" v-model="event.place" @change="checkPlace" class="form-select">
-                  <option value="new">Add a new place</option>
-                  <option v-for="place in places" :key="place.id" :value="place.id">
-                    {{ place.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="image" class="form-label">Image for the event:</label>
-                <input type="file" id="image" @change="handleFileUpload($event)" />
-              </div>
-              <button type="submit" class="btn btn-submit btn-lg btn-block">Create Event</button>
-            </form>
-            <!-- Place Modal -->
-            <!-- <place-modal v-if="showPlaceModal" @close="showPlaceModal = false"></place-modal> -->
+  <div id="content">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+            <div class="card-body">
+              <form @submit.prevent="submitForm" class="event-form">
+                <h2 class="mb-4 text-center">Create Event</h2>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Event Name:</label>
+                  <input
+                    type="text"
+                    id="name"
+                    v-model="event.name"
+                    class="form-control"
+                    placeholder="Enter event name"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="form-label">Description:</label>
+                  <textarea
+                    id="description"
+                    v-model="event.description"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Describe the event"
+                  ></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="price" class="form-label">Price:</label>
+                  <input
+                    type="number"
+                    id="price"
+                    v-model="event.price"
+                    class="form-control"
+                    placeholder="0.00"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="date" class="form-label">Date:</label>
+                  <input
+                    type="datetime-local"
+                    id="date"
+                    v-model="event.date"
+                    class="form-control"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="place" class="form-label">Place:</label>
+                  <select id="place" v-model="event.place" @change="checkPlace" class="form-select">
+                    <option value="new">Add a new place</option>
+                    <option v-for="place in places" :key="place.id" :value="place.id">
+                      {{ place.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="image" class="form-label">Image for the event:</label>
+                  <input type="file" id="image" @change="handleFileUpload($event)" />
+                </div>
+                <button type="submit" class="btn btn-submit btn-lg btn-block">Create Event</button>
+              </form>
+              <!-- Place Modal -->
+              <!-- <place-modal v-if="showPlaceModal" @close="showPlaceModal = false"></place-modal> -->
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="content">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div id="nav" class="container-fluid">
         <router-link class="navbar-brand ms-3 fs-2" to="/">Qarbon</router-link>
@@ -79,9 +79,21 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+#background {
+  position: fixed;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fbfbfd;
+}
+
+#content {
   margin-left: 15%;
   margin-right: 15%;
 }
+
 #nav {
   display: flex;
   padding: 20px;
