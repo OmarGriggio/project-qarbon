@@ -1,17 +1,26 @@
 <template>
   <div id="content">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8 text-center">
-          <h1 style="color: var(--main-color)">Welcome to our Students Events Platform!</h1>
-          <p class="lead">
-            We are dedicated to bringing you the latest and greatest events in town. Browse through
-            our selection and find something that piques your interest.
-          </p>
-        </div>
-      </div>
-      <div class="row justify-content-center">
+      <div class="row align-items-center mt-5">
         <div class="col-lg-6">
+          <div class="welcome-text">
+            <h1 style="color: black; text-align: left; font-weight: bold; font-size: 50px">
+              Find your favorite students events in
+              <span
+                style="
+                  background: linear-gradient(to right, #42b983, lightgreen);
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                "
+                >seconds!</span
+              >
+            </h1>
+            <!-- <p class="lead" style="text-align: left; font-weight: bold; font-size: 25px;">
+              We are dedicated to bringing you the latest and greatest events in town. 
+            </p> -->
+          </div>
+        </div>
+        <div class="col-lg-5 border border-success border-5 border-dark p-0">
           <div
             id="carouselExampleCaptions"
             class="carousel slide carousel-fade"
@@ -74,7 +83,6 @@ export default {
   data() {
     return {
       events: []
-      // other data properties
     }
   },
   async created() {
@@ -86,9 +94,9 @@ export default {
       console.error(error)
     }
   }
-  // other methods
 }
 </script>
+
 <style scoped>
 .carousel-caption {
   background-color: rgba(0, 0, 0, 0.6);

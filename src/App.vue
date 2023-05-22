@@ -2,7 +2,7 @@
   <div id="content">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div id="nav" class="container-fluid">
-        <router-link class="navbar-brand ms-3 fs-2" to="/">Qarbon</router-link>
+        <router-link class="navbar-brand ms-3 fs-2 p-0" to="/">Qarbon</router-link>
         <button
           class="navbar-toggler"
           type="button"
@@ -90,13 +90,12 @@ export default {
 }
 
 #content {
-  margin-left: 15%;
-  margin-right: 15%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 #nav {
   display: flex;
-  padding: 20px;
   justify-content: center;
   gap: 10px;
 }
