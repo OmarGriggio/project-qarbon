@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers 
 from .api.views import UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet, is_authenticated
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 router = routers.DefaultRouter()
@@ -35,4 +37,4 @@ urlpatterns = [
     path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('api/dj-rest-auth/is_authenticated/', is_authenticated),
     path('api/admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
