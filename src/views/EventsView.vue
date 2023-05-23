@@ -45,6 +45,7 @@
     data() {
       return {
         searchEvent:'',
+        searchPlace:'',
         error: null,
         events: [],
         places: [],
