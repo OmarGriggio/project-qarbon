@@ -36,6 +36,12 @@ const routes = [
     name: "event-create",
     component: () => import("../views/EventCreateView.vue"),
     meta: { requiresAuth: true }
+  },
+  {
+    path: "/event-list",
+    name: "event-list",
+    component: () => import("../views/EventsView.vue"),
+    meta: { requiresAuth: false }
   }
 ]
 

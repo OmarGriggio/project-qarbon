@@ -76,6 +76,7 @@
       authService.getUser()
       try {
         this.events = await axios.get("http://localhost:8000/api/events/").then((response) => response.data)
+        this.places = await axios.get("http://localhost:8000/api/places/").then((response) => response.data)
       } catch (err) {
         this.error = err.response.data
       }
