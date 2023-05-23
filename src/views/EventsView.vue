@@ -28,28 +28,7 @@
     <br/>
   
   
-  <div>
-    <div v-if="error">
-      <p>Une erreur est survenue: {{ error }}</p>
-    </div>
-  <div v-else>
-  <h2 style="margin-bottom: 30px;margin-top: 30px;">PLACES</h2>
-  <div class="row justify-content-center">
-  
-  <div v-for="place in places" :key="place.id" class="col-md-6">
-  <div class="card" style="width: auto;">
-    <div class="card-body">
-      <h5 class="card-title">{{ place.name }}</h5>
-  <p class="card-text">
-   {{ place.street }} {{ place.number }} <br/> {{ place.postal_code }} {{ place.locality }}
-  </p>
-  <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
+
   
 
     
@@ -66,7 +45,6 @@
     data() {
       return {
         searchEvent:'',
-        searchPlace:'',
         error: null,
         events: [],
         places: [],
@@ -76,7 +54,6 @@
       authService.getUser()
       try {
         this.events = await axios.get("http://localhost:8000/api/events/").then((response) => response.data)
-        this.places = await axios.get("http://localhost:8000/api/places/").then((response) => response.data)
       } catch (err) {
         this.error = err.response.data
       }
