@@ -14,11 +14,26 @@
           <div v-for="event in events" :key="event.id" class="col-md-4">
             <div class="card" style="width: auto;">
               <div class="card-body">
-                <h5 class="card-title">{{ event.name }}</h5>
-                <p class="card-text">{{ event.description }}</p>
-  
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="card-text">{{ event.description }}</p>
+                  </li>
+                  <li class="list-group-item">
+                    <br/>
+                    <h5 class="card-subtitle">
+                   {{ this.places[event.place].name }} 
+                </h5>
+                <p class="subtitle-text"> {{ this.places[event.place].street }} {{ this.places[event.place].number }}<br/>{{ this.places[event.place].postal_code }} {{ this.places[event.place].locality }} </p>  
+
+                  </li>
+                </ul>
+                
+                
+                  
                 <!-- Vous pouvez afficher plus d'informations sur l'événement ici -->
               </div>
+              
             </div>
           </div>       
         </div>
@@ -55,6 +70,8 @@
       authService.getUser()
       try {
         this.events = await axios.get("http://localhost:8000/api/events/").then((response) => response.data)
+        this.places = await axios.get("http://localhost:8000/api/places/").then((response) => response.data)
+
       } catch (err) {
         this.error = err.response.data
       }
@@ -115,6 +132,17 @@
       font-size: 20px;
       font-weight: bold;
       margin-bottom: 10px;
+    }
+
+    .card-subtitle {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .subtitle-text {
+      text-align: left;
     }
   
     .w-100 {
