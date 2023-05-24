@@ -4,7 +4,7 @@ from rest_framework import viewsets, permissions
 from .models import Message
 from .serializers import UserSerializer, GroupSerializer, MessageSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from .models import Event, Place
 from .serializers import EventSerializer, PlaceSerializer
 from .filters import EventFilter, PlaceFilter
@@ -75,6 +75,15 @@ class EventViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         print("Serializer validated data:", serializer.validated_data)
         serializer.save(user=self.request.user)
+
+    # Register the user to the event
+    @action(detail=True, methods=['post'])
+    def register(self, request, pk=None):
+        event = Event.objects.get(pk=pk)
+        user = request.user
+        event.participants.add(user)
+        event.save()
+        return Response({'status': 'User registered for the event'})
 
 
 @api_view(['GET'])

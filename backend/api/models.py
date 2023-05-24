@@ -26,6 +26,7 @@ class Event(models.Model):
     image = models.ImageField(upload_to='events/images/', null=True, blank=True)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
+    participants = models.ManyToManyField(User, related_name='participating_events', blank=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

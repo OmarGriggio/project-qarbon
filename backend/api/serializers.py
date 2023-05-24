@@ -85,7 +85,7 @@ class EventSerializer(serializers.ModelSerializer):
     user = UserStringSerializer(read_only=True)
     class Meta:
         model = Event
-        fields = ['name', 'description','price', 'date', 'image', 'place', 'user']
+        fields = ['id','name', 'description','price', 'date', 'image', 'place', 'user', 'participants']
         # On récupère l'utilisateur authentifié donc pas besoin de faire un POST avec la pk.
         # Utilisateur automatiquement associé avec le token JWT dans le requête
         read_only_fields = ('user',)

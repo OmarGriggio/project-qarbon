@@ -55,6 +55,8 @@
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
+                  <p>ID : {{ event.id }}</p>
+                  <p>Participants : {{ event.participants }}</p>
                   <h5 class="card-title">{{ event.name }}</h5>
                   <p class="card-text">{{ event.description }}</p>
                 </li>
@@ -73,8 +75,16 @@
                   <img :src="event.image" alt="event image" style="width: 50%; height: 50%" />
                   <br />
                   <br />
+                  <button
+                    v-if="!event.participants.includes(user.pk)"
+                    @click="registerForEvent(event.id)"
+                  >
+                    Register
+                  </button>
+                  <p v-else>You are already registered</p>
                 </li>
                 <p>Posted by {{ event.user.username }}</p>
+                <br />
               </ul>
               <!-- Vous pouvez afficher plus d'informations sur l'événement ici -->
 
@@ -189,8 +199,16 @@ export default {
     },
     eventUrlTitle(Event) {
       return `Check out ${Event.name} on our plateform !`
+    },
+    async registerForEvent(id) {
+      const token = localStorage.getItem("access_token")
+      const headers = { Authorization: `Bearer ${token}` }
+      const formData = new FormData()
+      for (let key in this.place) {
+        formData.append(key, this.place[key])
+      }
+      await axios.post(`http://127.0.0.1:8000/api/events/${id}/register/`, formData, { headers })
     }
-  
   },
   components: {
     ShareNetwork,
