@@ -75,13 +75,18 @@
                   <img :src="event.image" alt="event image" style="width: 50%; height: 50%" />
                   <br />
                   <br />
-                  <button
+                  <div v-if="user">
+                    <button
                     v-if="!event.participants.includes(user.pk)"
                     @click="registerForEvent(event.id)"
                   >
                     Register
                   </button>
                   <p v-else>You are already registered</p>
+                  </div>
+                  <div v-else>
+                    <p>You need to be logged in to register</p>
+                  </div>
                 </li>
                 <p>Posted by {{ event.user.username }}</p>
                 <br />
