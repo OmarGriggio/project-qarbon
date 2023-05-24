@@ -75,7 +75,14 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
         model = Message
         fields = ('url', 'subject', 'body', 'pk')
 
+class UserStringSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username']
+
 class EventSerializer(serializers.ModelSerializer):
+
+    user = UserStringSerializer(read_only=True)
     class Meta:
         model = Event
         fields = ['name', 'description','price', 'date', 'image', 'place', 'user']

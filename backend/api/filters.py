@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Event, Place
+from .models import Event, Place, User
 
 class EventFilter(filters.FilterSet):
     name = filters.CharFilter(lookup_expr='icontains')
@@ -20,3 +20,4 @@ class PlaceFilter(filters.FilterSet):
     class Meta:
         model = Place
         fields = ['name', 'street', 'locality']
+

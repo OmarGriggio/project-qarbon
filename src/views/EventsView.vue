@@ -70,16 +70,15 @@
                     {{ this.places[event.place].postal_code }}
                     {{ this.places[event.place].locality }}
                   </p>
-                    <img
-                      :src="event.image"
-                      alt="event image"
-                      style="width: 50%; height: 50%"
-                    />  
+                  <img :src="event.image" alt="event image" style="width: 50%; height: 50%" />
+                  <br />
+                  <br />
                 </li>
+                <p>Posted by {{ event.user.username }}</p>
               </ul>
               <!-- Vous pouvez afficher plus d'informations sur l'événement ici -->
-              
-              <button>  
+
+              <button>
                 <font-awesome-icon icon="fa-brands fa-twitter" />
                 <ShareNetwork
                   network="twitter"
@@ -106,9 +105,9 @@ import authService from "../services/authService"
 import axios from "axios"
 import { ShareNetwork } from "vue-social-sharing"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
-import { faTwitter } from '@fortawesome/free-brands-svg-icons'
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
+import { faTwitter } from "@fortawesome/free-brands-svg-icons"
 library.add(faUserSecret, faTwitter)
 
 export default {
@@ -119,8 +118,10 @@ export default {
       searchPlace: "",
       searchUser: "",
       error: null,
+      userFind: null,
       events: [],
-      places: []
+      places: [],
+      users: []
     }
   },
   async mounted() {
@@ -189,6 +190,7 @@ export default {
     eventUrlTitle(Event) {
       return `Check out ${Event.name} on our plateform !`
     }
+  
   },
   components: {
     ShareNetwork,
