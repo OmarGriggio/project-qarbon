@@ -73,13 +73,16 @@
                 </li>
               </ul>
               <!-- Vous pouvez afficher plus d'informations sur l'événement ici -->
-              <button>
+              
+              <button>  
+                <font-awesome-icon icon="fa-brands fa-twitter" />
                 <ShareNetwork
                   network="twitter"
-                  :url="eventUrl(event.id)" :title="eventUrlTitle(event)"
+                  :url="eventUrl(event.id)"
+                  :title="eventUrlTitle(event)"
                   description="This is an awesome event !"
                   twitter-user="qarbonEvent"
-                  >
+                >
                   <span>Share on Twitter</span>
                 </ShareNetwork>
               </button>
@@ -97,6 +100,11 @@
 import authService from "../services/authService"
 import axios from "axios"
 import { ShareNetwork } from "vue-social-sharing"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { faTwitter } from '@fortawesome/free-brands-svg-icons'
+library.add(faUserSecret, faTwitter)
 
 export default {
   name: "createEvents",
@@ -170,15 +178,16 @@ export default {
       this.searchUser = ""
       this.fetchEvents()
     },
-    eventUrl(index){
-      return `http://localhost:5173/#/events/${index}`;
+    eventUrl(index) {
+      return `http://localhost:5173/#/events/${index}`
     },
-    eventUrlTitle(Event){
-      return `Check out ${Event.name} on our plateform !`;
+    eventUrlTitle(Event) {
+      return `Check out ${Event.name} on our plateform !`
     }
   },
   components: {
-    ShareNetwork
+    ShareNetwork,
+    FontAwesomeIcon
   }
 }
 </script>
