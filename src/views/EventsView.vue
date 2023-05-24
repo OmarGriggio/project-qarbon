@@ -44,6 +44,10 @@
         FILTER
       </button>
 
+      <button class="btn btn-primary" style="margin-left: 10px" @click="resetFilters">
+        RESET
+      </button>
+
       <div class="row justify-content-center">
         <div v-for="event in events" :key="event.id" class="col-md-4">
           <div class="card" style="width: auto">
@@ -147,6 +151,12 @@ export default {
       } catch (err) {
         this.error = err.response.data
       }
+    },
+    resetFilters() {
+      this.searchEvent = ""
+      this.searchPlace = ""
+      this.searchUser = ""
+      this.fetchEvents()
     }
   }
 }
