@@ -55,7 +55,6 @@ export default {
           postal_code: 0,
           locality: ""
         }
-
         await this.fetchPlaces();
       } catch (error) {
         console.error(error.response.data)
@@ -73,6 +72,7 @@ export default {
 
   async mounted() {
     await this.fetchPlaces();
+    await this.fetchEvents();
   }
 }
 </script>
