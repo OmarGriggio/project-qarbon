@@ -70,6 +70,11 @@
                     {{ this.places[event.place].postal_code }}
                     {{ this.places[event.place].locality }}
                   </p>
+                    <img
+                      :src="event.image"
+                      alt="event image"
+                      style="width: 50%; height: 50%"
+                    />  
                 </li>
               </ul>
               <!-- Vous pouvez afficher plus d'informations sur l'événement ici -->
