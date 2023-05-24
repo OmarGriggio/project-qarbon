@@ -30,23 +30,24 @@
         "
       />
 
-      <input v-model="searchUser" placeholder="> search by username" style="
+      <input
+        v-model="searchUser"
+        placeholder="> search by username"
+        style="
           margin-right: 10px;
           width: 10%;
           margin-bottom: 30px;
           text-align: center;
           border-radius: 9px;
           text-emphasis-color: white;
-      "/>
-      
-      
+        "
+      />
+
       <button class="btn btn-primary" style="margin-left: 10px" @click="filterEvents">
         FILTER
       </button>
 
-      <button class="btn btn-primary" style="margin-left: 10px" @click="resetFilters">
-        RESET
-      </button>
+      <button class="btn btn-primary" style="margin-left: 10px" @click="resetFilters">RESET</button>
 
       <div class="row justify-content-center">
         <div v-for="event in events" :key="event.id" class="col-md-4">
@@ -72,6 +73,16 @@
                 </li>
               </ul>
               <!-- Vous pouvez afficher plus d'informations sur l'événement ici -->
+              <button>
+                <ShareNetwork
+                  network="twitter"
+                  :url="eventUrl(event.id)" :title="eventUrlTitle(event)"
+                  description="This is an awesome event !"
+                  twitter-user="qarbonEvent"
+                  >
+                  <span>Share on Twitter</span>
+                </ShareNetwork>
+              </button>
             </div>
           </div>
         </div>
@@ -85,6 +96,7 @@
 <script>
 import authService from "../services/authService"
 import axios from "axios"
+import { ShareNetwork } from "vue-social-sharing"
 
 export default {
   name: "createEvents",
@@ -157,7 +169,16 @@ export default {
       this.searchPlace = ""
       this.searchUser = ""
       this.fetchEvents()
+    },
+    eventUrl(index){
+      return `http://localhost:5173/#/events/${index}`;
+    },
+    eventUrlTitle(Event){
+      return `Check out ${Event.name} on our plateform !`;
     }
+  },
+  components: {
+    ShareNetwork
   }
 }
 </script>
