@@ -55,6 +55,7 @@
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
+                  <p>Capacity : {{ event.capacity }}</p>
                   <div v-if="event.participants.length">
                     <p>Participants inscrits :</p>
                     <select v-model="selectedParticipantId">

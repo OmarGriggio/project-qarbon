@@ -47,6 +47,17 @@
                   />
                 </div>
                 <div class="mb-3">
+                  <label for="capacity" class="form-label">Capacity:</label>
+                  <input
+                    type="number"
+                    id="capacity"
+                    v-model="event.capacity"
+                    class="form-control"
+                    placeholder="0"
+                  />
+
+                </div>
+                <div class="mb-3">
                   <label for="place" class="form-label">Place:</label>
                   <select id="place" v-model="event.place" @change="checkPlace" class="form-select">
                     <option value="new">Add a new place</option>
@@ -80,7 +91,8 @@ export default {
         description: "",
         price: 0,
         date: "",
-        place: 0
+        place: 0,
+        capacity: 0,
       },
       places: [],
       newPlace: {
@@ -117,7 +129,8 @@ export default {
           price: 0,
           date: "",
           image: null,
-          place: ""
+          place: "",
+          capacity: 0,
         }
       } catch (error) {
         console.error(error.response.data)
