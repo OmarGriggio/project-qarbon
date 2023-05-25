@@ -55,8 +55,6 @@
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                  <p>ID : {{ event.id }}</p>
-                  <p>Participants : {{ event.participants }}</p>
                   <div v-if="event.participants.length">
                     <p>Participants inscrits :</p>
                     <select v-model="selectedParticipantId">
@@ -91,11 +89,9 @@
                   <img :src="event.image" alt="event image" style="width: 50%; height: 50%" />
                   <br />
                   <br />
+                  
                   <div v-if="user">
-                    <button
-                      v-if="!event.participants.includes(user.pk)"
-                      @click="registerForEvent(event.id)"
-                    >
+                    <button v-if="!isUserRegistered(event)" @click="registerForEvent(event.id)">
                       Register
                     </button>
                     <p v-else>You are already registered</p>
@@ -230,6 +226,14 @@ export default {
       }
       await axios.post(`http://127.0.0.1:8000/api/events/${id}/register/`, formData, { headers })
       await this.fetchEvents()
+    },
+    isUserRegistered(event) {
+      for (let participant of event.participants) {
+        if (participant.id === this.user.id) {
+          return false
+        }
+        return true
+      }
     }
   },
   components: {
