@@ -128,6 +128,17 @@
                   <span>Share on Twitter</span>
                 </ShareNetwork>
               </button>
+              <br>
+              <button>
+                <font-awesome-icon icon="fa-brands fa-facebook" />
+                <ShareNetwork 
+                network="facebook" 
+                :url="eventUrl(event.id)"
+                :title="eventUrlTitle(event)" 
+                description="This is an awesome event !">
+                  <span>Share on Facebook</span>
+                </ShareNetwork>
+              </button>
             </div>
           </div>
         </div>
@@ -146,7 +157,8 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
 import { faTwitter } from "@fortawesome/free-brands-svg-icons"
-library.add(faUserSecret, faTwitter)
+import { faFacebook } from "@fortawesome/free-brands-svg-icons"
+library.add(faUserSecret, faTwitter, faFacebook)
 
 export default {
   name: "createEvents",
