@@ -57,6 +57,22 @@
                 <li class="list-group-item">
                   <p>ID : {{ event.id }}</p>
                   <p>Participants : {{ event.participants }}</p>
+                  <div v-if="event.participants.length">
+                    <p>Participants inscrits :</p>
+                    <select v-model="selectedParticipantId">
+                      <option
+                        v-for="participant in event.participants"
+                        :key="participant.id"
+                        :value="participant.id"
+                      >
+                        {{ participant.username }}
+                      </option>
+                    </select>
+                  </div>
+                  <div v-else>
+                    <p>Aucun participant inscrit</p>
+                  </div>
+
                   <h5 class="card-title">{{ event.name }}</h5>
                   <p class="card-text">{{ event.description }}</p>
                 </li>
