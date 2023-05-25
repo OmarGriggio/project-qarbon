@@ -77,12 +77,12 @@
                   <br />
                   <div v-if="user">
                     <button
-                    v-if="!event.participants.includes(user.pk)"
-                    @click="registerForEvent(event.id)"
-                  >
-                    Register
-                  </button>
-                  <p v-else>You are already registered</p>
+                      v-if="!event.participants.includes(user.pk)"
+                      @click="registerForEvent(event.id)"
+                    >
+                      Register
+                    </button>
+                    <p v-else>You are already registered</p>
                   </div>
                   <div v-else>
                     <p>You need to be logged in to register</p>
@@ -213,6 +213,7 @@ export default {
         formData.append(key, this.place[key])
       }
       await axios.post(`http://127.0.0.1:8000/api/events/${id}/register/`, formData, { headers })
+      await this.fetchEvents()
     }
   },
   components: {

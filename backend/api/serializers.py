@@ -80,9 +80,16 @@ class UserStringSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username']
 
+class BasicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
 class EventSerializer(serializers.ModelSerializer):
 
     user = UserStringSerializer(read_only=True)
+    participants = BasicUserSerializer(many=True, read_only=True)
+
     class Meta:
         model = Event
         fields = ['id','name', 'description','price', 'date', 'image', 'place', 'user', 'participants']
