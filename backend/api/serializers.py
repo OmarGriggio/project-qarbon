@@ -80,7 +80,8 @@ class UserStringSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username']
 
-class BasicUserSerializer(serializers.ModelSerializer):
+# Serializers pour afficher les participants d'un événement
+class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username']
@@ -88,7 +89,7 @@ class BasicUserSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
 
     user = UserStringSerializer(read_only=True)
-    participants = BasicUserSerializer(many=True, read_only=True)
+    participants = UserRegisterSerializer(many=True, read_only=True)
 
     class Meta:
         model = Event
