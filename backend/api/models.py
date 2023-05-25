@@ -27,6 +27,7 @@ class Event(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
     participants = models.ManyToManyField(User, related_name='participating_events', blank=True)
+    capacity = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
