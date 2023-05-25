@@ -55,7 +55,13 @@
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
+                  <p>User connect id : {{ user.pk }}</p>
+                  <p v-for="part in event.participants" :key="part.id">
+                    User ID registered to the events : {{ part.id }}
+                  </p>
+                  <p>{{ event.participants }}</p>
                   <p>Capacity : {{ event.capacity }}</p>
+                  <p>Available place : {{ event.participants.length }} / {{ event.capacity }}</p>
                   <div v-if="event.participants.length">
                     <p>Participants inscrits :</p>
                     <select v-model="selectedParticipantId">
@@ -90,12 +96,16 @@
                   <img :src="event.image" alt="event image" style="width: 50%; height: 50%" />
                   <br />
                   <br />
-                  
+
                   <div v-if="user">
-                    <button v-if="!isUserRegistered(event)" @click="registerForEvent(event.id)">
+                    <button
+                      v-if="!isUserRegistered(event) && !isEventFull(event)"
+                      @click="registerForEvent(event.id)"
+                    >
                       Register
                     </button>
-                    <p v-else>You are already registered</p>
+                    <p v-else-if="isUserRegistered(event)">You are already registered</p>
+                    <p v-else>The event is full</p>
                   </div>
                   <div v-else>
                     <p>You need to be logged in to register</p>
@@ -167,6 +177,9 @@ export default {
     }
   },
   methods: {
+    isEventFull(event) {
+      return event.participants.length <= event.capacity
+    },
     logout() {
       authService.logout()
     },
@@ -230,10 +243,10 @@ export default {
     },
     isUserRegistered(event) {
       for (let participant of event.participants) {
-        if (participant.id === this.user.id) {
-          return false
+        if (participant.id === this.user.pk) {
+          return true
         }
-        return true
+        return false
       }
     }
   },
