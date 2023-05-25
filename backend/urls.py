@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers 
-from .api.views import UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet, is_authenticated
+from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet, is_authenticated
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -29,6 +29,8 @@ router.register('events', EventViewSet)
 router.register('places', PlaceViewSet)
 
 urlpatterns = [
+    
+    path('', index_view, name='index'),
     path('api/', include(router.urls)),
     path('api/events/<int:pk>/register/', EventViewSet.register, name='register_event'),
     # path('dj-rest-auth/login/', CustomLoginView.as_view(), name='account_login'),

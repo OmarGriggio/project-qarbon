@@ -2,6 +2,7 @@ from django.contrib.auth.models import User, Group
 from django.views.decorators.cache import never_cache
 from rest_framework import viewsets, permissions
 from .models import Message
+from django.views.generic import TemplateView
 from .serializers import UserSerializer, GroupSerializer, MessageSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
@@ -10,13 +11,9 @@ from .serializers import EventSerializer, PlaceSerializer
 from .filters import EventFilter, PlaceFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-# from dotenv import load_dotenv
-# from pathlib import Path
-# import requests
-# import os
 
-# Load the .env file
-# load_dotenv()
+# Serve Vue Application
+index_view = never_cache(TemplateView.as_view(template_name='index.html'))
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -52,14 +49,6 @@ class PlaceViewSet(viewsets.ModelViewSet):
     serializer_class = PlaceSerializer
     filterset_class = PlaceFilter
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
-
-    # @action(detail=False, methods=['get'])
-    # def search(self, request):
-    #     query = request.GET.get('query')
-    #     api_key = os.getenv('GOOGLE_PLACES_API_KEY')
-    #     url = f"https://maps.googleapis.com/maps/api/place/autocomplete/json?input={query}&key={api_key}&components=country:ch"
-    #     response = requests.get(url)
-    #     return Response(response.json())
 
 
 class EventViewSet(viewsets.ModelViewSet):
