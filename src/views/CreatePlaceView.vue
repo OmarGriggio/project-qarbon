@@ -3,11 +3,18 @@
     <div class="create-place">
       <form>
         <h1>Ajouter un nouvel endroit</h1>
-        <input type="text" placeholder="Nom" v-model="place.name" />
-        <input type="text" placeholder="Rue" v-model="place.street" />
-        <input type="number" placeholder="Numero" v-model="place.number" />
-        <input type="number" placeholder="Code Postal" v-model="place.postal_code" />
-        <input type="text" placeholder="Localité" v-model="place.locality" />
+        <label class="lbl">Nom du lieu</label>
+        <input class="inpt" type="text" placeholder="Nom" v-model="place.name" /><br/>
+        <label class="lbl">Rue</label>
+        <input class="inpt" type="text" placeholder="Rue" v-model="place.street" /><br/>
+        <label class="lbl">n°</label>
+
+        <input class="inpt" type="number" placeholder="Numero" v-model="place.number" /><br/>
+        <label class="lbl">Code postal</label>
+
+        <input class="inpt" type="number" placeholder="Code Postal" v-model="place.postal_code" /><br/>
+        <label class="lbl">Localité</label>
+        <input class="inpt" type="text" placeholder="Localité" v-model="place.locality" /><br/>
 
         <button type="submit" @click="submitForm">Create</button>
       </form>
@@ -15,9 +22,9 @@
   </div>
 
   <div>
-    <div v-for="place in places" :key="place.id" :value="place.id">
+    <!--div v-for="place in places" :key="place.id" :value="place.id">
       {{ place }}
-    </div>
+    </div-->
   </div>
 </template>
 <script>
@@ -76,3 +83,44 @@ export default {
   }
 }
 </script>
+<style>
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.lbl {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.inpt {
+  width: 300px;
+  height: 30px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  width: 150px;
+  height: 40px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+</style>
