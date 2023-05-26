@@ -1,0 +1,45 @@
+import api from "./api"
+
+export default {
+  async filterEvents(filters) {
+    let url = "/events/?"
+    if (filters.name) {
+      url += `name=${filters.name}&`
+    }
+    if (filters.place_name) {
+      url += `place_name=${filters.place_name}&`
+    }
+    if (filters.user) {
+      url += `user=${filters.user}`
+    }
+
+    try {
+      const events = await api.get(url)
+      return events.data
+    } catch (err) {
+      throw err.response.data
+    }
+  },
+
+  async registerForEvent(id, place, token) {
+    const headers = { Authorization: `Bearer ${token}` }
+    const formData = new FormData()
+    for (let key in place) {
+      formData.append(key, place[key])
+    }
+    try {
+      await api.post(`/events/${id}/register/`, formData, { headers })
+    } catch (err) {
+      throw err.response.data
+    }
+  },
+
+  checkUserRegistered(event, userId) {
+    for (let participant of event.participants) {
+      if (participant.id === userId) {
+        return true
+      }
+    }
+    return false
+  }
+}
