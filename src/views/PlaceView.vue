@@ -31,7 +31,7 @@
 
 <script>
 import authService from "../services/authService"
-// import api from "../services/api"
+import api from "../services/api"
 import axios from "axios"
 
 
@@ -64,8 +64,7 @@ export default {
       sessionStorage.setItem("place", JSON.stringify(event))
     },
     components: {
-      ShareNetwork,
-      FontAwesomeIcon
+      
     }
   }
 }
