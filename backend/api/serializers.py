@@ -86,10 +86,16 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username']
 
-class EventSerializer(serializers.ModelSerializer):
+class PlaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Place
+        fields = '__all__'
 
+
+class EventSerializer(serializers.ModelSerializer):
     user = UserStringSerializer(read_only=True)
     participants = UserRegisterSerializer(many=True, read_only=True)
+    place = PlaceSerializer(read_only=True)
 
     class Meta:
         model = Event
@@ -97,8 +103,3 @@ class EventSerializer(serializers.ModelSerializer):
         # On récupère l'utilisateur authentifié donc pas besoin de faire un POST avec la pk.
         # Utilisateur automatiquement associé avec le token JWT dans le requête
         read_only_fields = ('user',)
-
-class PlaceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Place
-        fields = '__all__'

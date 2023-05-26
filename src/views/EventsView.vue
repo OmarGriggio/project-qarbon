@@ -7,7 +7,7 @@
       <h2 style="margin-bottom: 30px; padding-top: 30px">EVENTS</h2>
       <input
         v-model="searchEvent"
-        placeholder="> Search events by name"
+        placeholder="Search events by name"
         style="
           margin-right: 10px;
           width: 20%;
@@ -19,7 +19,7 @@
       />
       <input
         v-model="searchPlace"
-        placeholder="> search events by place name"
+        placeholder="Search events by place name"
         style="
           margin-right: 10px;
           width: 20%;
@@ -32,7 +32,7 @@
 
       <input
         v-model="searchUser"
-        placeholder="> search by username"
+        placeholder="Search events by username"
         style="
           margin-right: 10px;
           width: 10%;
@@ -43,11 +43,11 @@
         "
       />
 
-      <button class="btn btn-primary" style="margin-left: 10px" @click="filterEvents">
+      <button class="btn btn-success" style="margin-left: 10px" @click="filterEvents">
         FILTER
       </button>
 
-      <button class="btn btn-primary" style="margin-left: 10px" @click="resetFilters">RESET</button>
+      <button class="btn btn-success" style="margin-left: 10px" @click="resetFilters">RESET</button>
 
       <div class="row justify-content-center">
         <div v-for="event in events" :key="event.id" class="col-md-4">
@@ -55,7 +55,7 @@
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                  <p>User connect id : {{ user.pk }}</p>
+                  <p v-if="user">User connect id : {{ user.pk }}</p>
                   <p v-for="part in event.participants" :key="part.id">
                     User ID registered to the events : {{ part.id }}
                   </p>
@@ -84,14 +84,14 @@
                 <li class="list-group-item">
                   <br />
                   <h5 class="card-subtitle">
-                    {{ this.places[event.place].name }}
+                    {{ event.place.name }}
                   </h5>
                   <p class="subtitle-text">
-                    {{ this.places[event.place].street }}
-                    {{ this.places[event.place].number }}
+                    {{ event.place.street }}
+                    {{ event.place.number }}
                     <br />
-                    {{ this.places[event.place].postal_code }}
-                    {{ this.places[event.place].locality }}
+                    {{ event.place.postal_code }}
+                    {{ event.place.locality }}
                   </p>
                   <img :src="event.image" alt="event image" style="width: 50%; height: 50%" />
                   <br />
@@ -164,7 +164,7 @@
 
 <script>
 import authService from "../services/authService"
-import axios from "axios"
+import eventService from "../services/eventService"
 import { ShareNetwork } from "vue-social-sharing"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
@@ -189,17 +189,12 @@ export default {
     }
   },
   async mounted() {
-    authService.getUser()
-    this.fetchPlaces()
-    if (!this.searchEvent && !this.searchPlace && !this.searchUser) {
-      this.fetchEvents()
-    } else {
-      this.filterEvents()
-    }
+    // authService.getUser()
+    this.filterEvents()
   },
   computed: {
     user() {
-      return authService.user.value
+      return authService.user.value ? authService.user.value : null
     }
   },
   methods: {
@@ -210,46 +205,21 @@ export default {
       authService.logout()
     },
     async filterEvents() {
-      let url = "http://localhost:8000/api/events/?"
-      if (this.searchEvent) {
-        url += `name=${this.searchEvent}&`
-      }
-      if (this.searchPlace) {
-        url += `place_name=${this.searchPlace}&`
-      }
-      if (this.searchUser) {
-        url += `user=${this.searchUser}`
-      }
       try {
-        const events = await axios.get(url)
-        this.events = events.data
+        this.events = await eventService.filterEvents({
+          name: this.searchEvent,
+          place_name: this.searchPlace,
+          user: this.searchUser
+        })
       } catch (err) {
-        this.error = err.response.data
-      }
-    },
-    async fetchPlaces() {
-      try {
-        this.places = await axios
-          .get("http://localhost:8000/api/places/")
-          .then((response) => response.data)
-      } catch (err) {
-        this.error = err.response.data
-      }
-    },
-    async fetchEvents() {
-      try {
-        this.events = await axios
-          .get("http://localhost:8000/api/events/")
-          .then((response) => response.data)
-      } catch (err) {
-        this.error = err.response.data
+        this.error = err
       }
     },
     resetFilters() {
       this.searchEvent = ""
       this.searchPlace = ""
       this.searchUser = ""
-      this.fetchEvents()
+      this.filterEvents()
     },
     eventUrl(index) {
       return `http://localhost:5173/#/events/${index}`
@@ -259,13 +229,12 @@ export default {
     },
     async registerForEvent(id) {
       const token = localStorage.getItem("access_token")
-      const headers = { Authorization: `Bearer ${token}` }
-      const formData = new FormData()
-      for (let key in this.place) {
-        formData.append(key, this.place[key])
+      try {
+        await eventService.registerForEvent(id, this.place, token)
+        await this.filterEvents()
+      } catch (err) {
+        this.error = err
       }
-      await axios.post(`http://127.0.0.1:8000/api/events/${id}/register/`, formData, { headers })
-      await this.fetchEvents()
     },
     isUserRegistered(event) {
       for (let participant of event.participants) {
