@@ -10,44 +10,43 @@
             {{ place.postal_code }} {{ place.locality }}
           </p>
           <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
+          <ShareNetwork
+            network="twitter"
+            :url="placeURL(place.id)"
+            :title="place.name"
+            description="Check out this place!"
+            twitter-user="qarbon"
+          >
+            <button class="btn btn-primary" style="margin-left: 10px">
+              <span><font-awesome-icon icon="fa-brands fa-twitter" /></span>
+            </button>
+          </ShareNetwork>
+          <br />
+          <br />
+          <ShareNetwork
+            network="facebook"
+            :url="placeURL(place.id)"
+            :title="place.name"
+            description="This is an awesome event !"
+          >
+            <button class="btn btn-primary" style="margin-left: 10px">
+              <span><font-awesome-icon icon="fa-brands fa-facebook" class="text" /></span>
+            </button>
+          </ShareNetwork>
+          <br />
+          <br />
+          <ShareNetwork
+            network="whatsapp"
+            :url="placeURL(place.id)"
+            :title="place.name"
+            description="This is an awesome event !"
+          >
+            <button class="btn btn-primary" style="margin-left: 10px">
+              <span><font-awesome-icon icon="fa-brands fa-whatsapp" /></span>
+            </button>
+          </ShareNetwork>
         </div>
       </div>
-      <button>
-        <font-awesome-icon icon="fa-brands fa-twitter" />
-        <ShareNetwork
-          network="twitter"
-          :url="placeURL(place.id)"
-          :title="place.name"
-          description="Check out this place!"
-          twitter-user="qarbon"
-        >
-          <span>Share on Twitter</span>
-        </ShareNetwork>
-      </button>
-      <br />
-      <button>
-        <font-awesome-icon icon="fa-brands fa-facebook" />
-        <ShareNetwork
-          network="facebook"
-          :url="placeURL(place.id)"
-          :title="place.name"
-          description="This is an awesome event !"
-        >
-          <span>Share on Facebook</span>
-        </ShareNetwork>
-      </button>
-      <br />
-      <button>
-        <font-awesome-icon icon="fa-brands fa-whatsapp" />
-        <ShareNetwork
-          network="whatsapp"
-          :url="placeURL(place.id)"
-          :title="place.name"
-          description="This is an awesome event !"
-        >
-          <span>Share on WhatsApp</span>
-        </ShareNetwork>
-      </button>
     </div>
   </div>
 </template>
@@ -57,6 +56,13 @@ import authService from "../services/authService"
 // import api from "../services/api"
 import axios from "axios"
 import { ShareNetwork } from "vue-social-sharing"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
+import { faTwitter } from "@fortawesome/free-brands-svg-icons"
+import { faFacebook } from "@fortawesome/free-brands-svg-icons"
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons"
+library.add(faUserSecret, faTwitter, faFacebook, faWhatsapp)
 
 export default {
   data() {
@@ -89,12 +95,17 @@ export default {
     }
   },
   components: {
-    ShareNetwork
+    ShareNetwork,
+    FontAwesomeIcon
   }
 }
 </script>
 
 <style>
+.text {
+  color: #ffffff;
+}
+
 .col-md-4 {
   padding-left: 15px;
   padding-right: 15px;
@@ -131,6 +142,7 @@ export default {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
+  padding: 10px;
 }
 
 .w-100 {

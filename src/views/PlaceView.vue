@@ -33,14 +33,7 @@
 import authService from "../services/authService"
 // import api from "../services/api"
 import axios from "axios"
-import { ShareNetwork } from "vue-social-sharing"
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { library } from "@fortawesome/fontawesome-svg-core"
-import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
-import { faTwitter } from "@fortawesome/free-brands-svg-icons"
-import { faFacebook } from "@fortawesome/free-brands-svg-icons"
-import { faWhatsapp } from "@fortawesome/free-brands-svg-icons"
-library.add(faUserSecret, faTwitter, faFacebook, faWhatsapp)
+
 
 export default {
   data() {
