@@ -116,8 +116,7 @@
               </ul>
               <!-- Vous pouvez afficher plus d'informations sur l'événement ici -->
 
-              <button>
-                <font-awesome-icon icon="fa-brands fa-twitter" />
+              <div class="d-flex justify-content-evenly">
                 <ShareNetwork
                   network="twitter"
                   :url="eventUrl(event.id)"
@@ -125,33 +124,27 @@
                   description="This is an awesome event !"
                   twitter-user="qarbonEvent"
                 >
-                  <span>Share on Twitter</span>
+                  <font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color" />
                 </ShareNetwork>
-              </button>
-              <br />
-              <button>
-                <font-awesome-icon icon="fa-brands fa-facebook" />
+
                 <ShareNetwork
                   network="facebook"
                   :url="eventUrl(event.id)"
                   :title="eventUrlTitle(event)"
                   description="This is an awesome event !"
                 >
-                  <span>Share on Facebook</span>
+                  <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
                 </ShareNetwork>
-              </button>
-              <br />
-              <button>
-                <font-awesome-icon icon="fa-brands fa-whatsapp" />
+
                 <ShareNetwork
                   network="whatsapp"
                   :url="eventUrl(event.id)"
                   :title="eventUrlTitle(event)"
                   description="This is an awesome event !"
                 >
-                  <span>Share on WhatsApp</span>
+                  <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
                 </ShareNetwork>
-              </button>
+              </div>
             </div>
           </div>
         </div>
@@ -309,5 +302,8 @@ export default {
 
 .card-text {
   font-size: 16px;
+}
+.main-color {
+  color: var(--main-color);
 }
 </style>
