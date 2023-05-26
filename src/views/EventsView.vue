@@ -98,7 +98,10 @@
                   <br />
 
                   <div v-if="user">
-                    <button v-if="!isUserRegistered(event) && !isEventFull(event)" @click="registerForEvent(event.id)">
+                    <button
+                      v-if="!isUserRegistered(event) && !isEventFull(event)"
+                      @click="registerForEvent(event.id)"
+                    >
                       Register
                     </button>
                     <p v-else-if="isUserRegistered(event)">You are already registered</p>

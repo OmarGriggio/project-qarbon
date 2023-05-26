@@ -55,7 +55,6 @@
                     class="form-control"
                     placeholder="0"
                   />
-
                 </div>
                 <div class="mb-3">
                   <label for="place" class="form-label">Place:</label>
@@ -92,7 +91,7 @@ export default {
         price: 0,
         date: "",
         place: 0,
-        capacity: 0,
+        capacity: 0
       },
       places: [],
       newPlace: {
@@ -130,7 +129,7 @@ export default {
           date: "",
           image: null,
           place: "",
-          capacity: 0,
+          capacity: 0
         }
       } catch (error) {
         console.error(error.response.data)

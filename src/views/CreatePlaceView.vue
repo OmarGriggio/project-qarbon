@@ -4,17 +4,22 @@
       <form>
         <h1>Ajouter un nouvel endroit</h1>
         <label class="lbl">Nom du lieu</label>
-        <input class="inpt" type="text" placeholder="Nom" v-model="place.name" /><br/>
+        <input class="inpt" type="text" placeholder="Nom" v-model="place.name" /><br />
         <label class="lbl">Rue</label>
-        <input class="inpt" type="text" placeholder="Rue" v-model="place.street" /><br/>
+        <input class="inpt" type="text" placeholder="Rue" v-model="place.street" /><br />
         <label class="lbl">n°</label>
 
-        <input class="inpt" type="number" placeholder="Numero" v-model="place.number" /><br/>
+        <input class="inpt" type="number" placeholder="Numero" v-model="place.number" /><br />
         <label class="lbl">Code postal</label>
 
-        <input class="inpt" type="number" placeholder="Code Postal" v-model="place.postal_code" /><br/>
+        <input
+          class="inpt"
+          type="number"
+          placeholder="Code Postal"
+          v-model="place.postal_code"
+        /><br />
         <label class="lbl">Localité</label>
-        <input class="inpt" type="text" placeholder="Localité" v-model="place.locality" /><br/>
+        <input class="inpt" type="text" placeholder="Localité" v-model="place.locality" /><br />
 
         <button type="submit" @click="submitForm">Create</button>
       </form>
@@ -62,7 +67,7 @@ export default {
           postal_code: 0,
           locality: ""
         }
-        await this.fetchPlaces();
+        await this.fetchPlaces()
       } catch (error) {
         console.error(error.response.data)
       }
@@ -74,12 +79,12 @@ export default {
       } catch (error) {
         console.error(error)
       }
-    },
+    }
   },
 
   async mounted() {
-    await this.fetchPlaces();
-    await this.fetchEvents();
+    await this.fetchPlaces()
+    await this.fetchEvents()
   }
 }
 </script>

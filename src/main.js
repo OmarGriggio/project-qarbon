@@ -8,6 +8,3 @@ import "bootstrap/dist/js/bootstrap.min.js"
 const app = createApp(App)
 app.use(router)
 app.mount("#app")
-
-
-
