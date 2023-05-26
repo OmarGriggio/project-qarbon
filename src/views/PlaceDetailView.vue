@@ -12,6 +12,42 @@
           <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
         </div>
       </div>
+      <button>
+        <font-awesome-icon icon="fa-brands fa-twitter" />
+        <ShareNetwork
+          network="twitter"
+          :url="placeURL(place.id)"
+          :title="place.name"
+          description="Check out this place!"
+          twitter-user="qarbon"
+        >
+          <span>Share on Twitter</span>
+        </ShareNetwork>
+      </button>
+      <br />
+      <button>
+        <font-awesome-icon icon="fa-brands fa-facebook" />
+        <ShareNetwork
+          network="facebook"
+          :url="placeURL(place.id)"
+          :title="place.name"
+          description="This is an awesome event !"
+        >
+          <span>Share on Facebook</span>
+        </ShareNetwork>
+      </button>
+      <br />
+      <button>
+        <font-awesome-icon icon="fa-brands fa-whatsapp" />
+        <ShareNetwork
+          network="whatsapp"
+          :url="placeURL(place.id)"
+          :title="place.name"
+          description="This is an awesome event !"
+        >
+          <span>Share on WhatsApp</span>
+        </ShareNetwork>
+      </button>
     </div>
   </div>
 </template>
@@ -20,6 +56,7 @@
 import authService from "../services/authService"
 // import api from "../services/api"
 import axios from "axios"
+import { ShareNetwork } from "vue-social-sharing"
 
 export default {
   data() {
@@ -47,12 +84,12 @@ export default {
     logout() {
       authService.logout()
     },
-    url() {
-      return "http://localhost:8000/#/place-detail" + this.places.pk
-    },
-    title() {
-      return this.places.name
+    placeURL(id) {
+      return "http://localhost:8000/#/place-detail/" + id
     }
+  },
+  components: {
+    ShareNetwork
   }
 }
 </script>

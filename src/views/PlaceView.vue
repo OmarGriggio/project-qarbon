@@ -17,11 +17,11 @@
               </p>
               <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
             </div>
-          </div>
-          <div>
-            <RouterLink :to="'/place-detail/' + place.id">
-              <button class="btn btn-primary" @click="storePlace(place)">See more</button>
-            </RouterLink>
+            <div>
+              <RouterLink :to="'/place-detail/' + place.id">
+                <button class="btn btn-primary" @click="storePlace(place)">See more</button>
+              </RouterLink>
+            </div>
           </div>
         </div>
       </div>
@@ -33,6 +33,14 @@
 import authService from "../services/authService"
 // import api from "../services/api"
 import axios from "axios"
+import { ShareNetwork } from "vue-social-sharing"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
+import { faTwitter } from "@fortawesome/free-brands-svg-icons"
+import { faFacebook } from "@fortawesome/free-brands-svg-icons"
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons"
+library.add(faUserSecret, faTwitter, faFacebook, faWhatsapp)
 
 export default {
   data() {
@@ -61,8 +69,11 @@ export default {
     },
     storeEvent(event) {
       sessionStorage.setItem("place", JSON.stringify(event))
+    },
+    components: {
+      ShareNetwork,
+      FontAwesomeIcon
     }
-
   }
 }
 </script>
