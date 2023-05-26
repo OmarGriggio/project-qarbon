@@ -48,6 +48,12 @@ const routes = [
     name: "place-list",
     component: () => import("../views/PlaceView.vue"),
     meta: { requiresAuth: false }
+  },
+  {
+    path: "/place-detail/:id",
+    name: "place-detail",
+    component: () => import("../views/PlaceDetailView.vue"),
+    meta: { requiresAuth: false }
   }
 ]
 

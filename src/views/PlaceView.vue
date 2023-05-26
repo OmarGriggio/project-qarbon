@@ -9,6 +9,7 @@
         <div v-for="place in places" :key="place.id" class="col-md-6">
           <div class="card" style="width: auto">
             <div class="card-body">
+              <p>ID de la place : {{ place.id }}</p>
               <h5 class="card-title">{{ place.name }}</h5>
               <p class="card-text">
                 {{ place.street }} {{ place.number }} <br />
@@ -16,6 +17,11 @@
               </p>
               <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
             </div>
+          </div>
+          <div>
+            <RouterLink :to="'/place-detail/' + place.id">
+              <button class="btn btn-primary" @click="storePlace(place)">See more</button>
+            </RouterLink>
           </div>
         </div>
       </div>
@@ -25,7 +31,7 @@
 
 <script>
 import authService from "../services/authService"
-import api from "../services/api"
+// import api from "../services/api"
 import axios from "axios"
 
 export default {
@@ -37,7 +43,9 @@ export default {
   },
   async mounted() {
     try {
-      this.places = await axios.get('http://localhost:8000/api/places/').then((response) => response.data)
+      this.places = await axios
+        .get("http://localhost:8000/api/places/")
+        .then((response) => response.data)
     } catch (err) {
       this.error = err.response.data
     }
@@ -50,7 +58,11 @@ export default {
   methods: {
     logout() {
       authService.logout()
+    },
+    storeEvent(event) {
+      sessionStorage.setItem("place", JSON.stringify(event))
     }
+
   }
 }
 </script>
@@ -101,5 +113,5 @@ export default {
 
 .card-text {
   font-size: 16px;
-  }
+}
 </style>
