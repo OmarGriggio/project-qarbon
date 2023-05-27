@@ -3,11 +3,11 @@ from django.views.decorators.cache import never_cache
 from rest_framework import viewsets, permissions
 from .models import Message
 from django.views.generic import TemplateView
-from .serializers import UserSerializer, GroupSerializer, MessageSerializer
+from .serializers import UserSerializer, GroupSerializer, MessageSerializer, CommentSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
-from .models import Event, Place
-from .serializers import EventSerializer, PlaceSerializer
+from .models import Event, Place, Comment, Rating
+from .serializers import EventSerializer, PlaceSerializer, CommentSerializer, RatingSerializer
 from .filters import EventFilter, PlaceFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -74,6 +74,21 @@ class EventViewSet(viewsets.ModelViewSet):
         event.save()
         return Response({'status': 'User registered for the event'})
 
+class CommentViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows comments to be viewed or edited.
+    """
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
+
+class RatingViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows ratings to be viewed or edited.
+    """
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+    # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
 
 @api_view(['GET'])
 def is_authenticated(request):

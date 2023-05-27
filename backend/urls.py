@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers 
-from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet, is_authenticated
+from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet, is_authenticated, CommentViewSet, RatingViewSet
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -27,6 +27,8 @@ router.register('users', UserViewSet)
 router.register('groups', GroupViewSet)
 router.register('events', EventViewSet)
 router.register('places', PlaceViewSet)
+router.register('comments', CommentViewSet)
+router.register('ratings', RatingViewSet)
 
 urlpatterns = [
     

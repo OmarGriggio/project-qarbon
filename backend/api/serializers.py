@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from django.db.models import Avg
-from .models import Message, Place, Event, Profile, Rating
+from .models import Message, Place, Event, Profile, Rating, Comment
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -75,6 +75,7 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
         model = Message
         fields = ('url', 'subject', 'body', 'pk')
 
+# Cela affiche le username qui a crée l'event
 class UserStringSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -103,3 +104,8 @@ class EventSerializer(serializers.ModelSerializer):
         # On récupère l'utilisateur authentifié donc pas besoin de faire un POST avec la pk.
         # Utilisateur automatiquement associé avec le token JWT dans le requête
         read_only_fields = ('user',)
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'event', 'text', 'created_at']

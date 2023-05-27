@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
-from .models import Message, Event, Place 
+from .models import Message, Event, Place, Comment, Rating
 
 @admin.register(Message)
 class ModelAdmin(admin.ModelAdmin):
@@ -27,3 +27,13 @@ admin.site.unregister(User)
 class UserAdmin(DefaultUserAdmin):
     list_display = ('pk', 'username', 'email')
     search_fields = ('username', 'email')
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'event', 'user', 'text', 'created_at', 'updated_at')
+    search_fields = ('text', 'user', 'created_at', 'updated_at')
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'user', 'rated_by', 'rating')
+    search_fields = ('user', 'rated_by', 'rating')
