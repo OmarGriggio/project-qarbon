@@ -9,6 +9,18 @@
             {{ place.street }} {{ place.number }} <br />
             {{ place.postal_code }} {{ place.locality }}
           </p>
+          <h2>Poster un commentaire</h2>
+          <form @submit.prevent="postComment">
+            <textarea v-model="newComment" required></textarea>
+            <button type="submit">Envoyer</button>
+          </form>
+
+          <!-- Formulaire d'évaluation -->
+          <h2>Donnez une note</h2>
+          <form @submit.prevent="postRating">
+            <input type="number" min="1" max="5" v-model="newRating" required />
+            <button type="submit">Evaluer</button>
+          </form>
           <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
           <ShareNetwork
             network="twitter"
@@ -53,8 +65,8 @@
 
 <script>
 import authService from "../services/authService"
+import placeService from "../services/placeService"
 // import api from "../services/api"
-import axios from "axios"
 import { ShareNetwork } from "vue-social-sharing"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
@@ -73,13 +85,8 @@ export default {
     }
   },
   async mounted() {
-    const placeId = this.$route.params.id 
-    try {
-      const response = await axios.get(`http://localhost:8000/api/places/${placeId}/`)
-      this.place = response.data
-    } catch (err) {
-      this.error = err.response.data
-    }
+    const placeId = this.$route.params.id
+    this.fetchPlace(placeId)
   },
   computed: {
     user() {
@@ -92,6 +99,10 @@ export default {
     },
     placeURL(id) {
       return "http://localhost:8000/#/place-detail/" + id
+    },
+    async fetchPlace(id){
+      const response = await placeService.fetchPlaceDetail(id)
+      this.place = response.data
     }
   },
   components: {
