@@ -35,7 +35,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     #     fields = ['username', 'email', 'groups', 'password', 'profile', 'average_rating']
     #     extra_kwargs = {'password': {'write_only': True}}
 class UserSerializer(serializers.ModelSerializer):
-    average_rating = serializers.SerializerMethodField()
+    
+    #average_rating = serializers.SerializerMethodField()
     
     class Meta:
         model = User
@@ -60,7 +61,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'groups', 'password', 'profile', 'average_rating']
+        fields = ['username', 'email', 'groups', 'password', 'profile']
         extra_kwargs = {'password': {'write_only': True}}
 
 
