@@ -15,12 +15,16 @@
             <h2>Comment on this post</h2>
             <form>
               <textarea v-model="newComment"></textarea>
+              <br />
               <button @click="postComment()">Envoyer</button>
             </form>
 
             <ul>
               <li v-for="comment in comments" :key="comment.id">
-                {{ comment.text }}
+                "{{ comment.text }}" Posted by : {{ comment.user.username }}
+                <br />
+                {{ formatDate(comment.created_at) }}
+                {{ formatTime(comment.created_at) }}
               </li>
             </ul>
           </div>
@@ -95,7 +99,8 @@ export default {
       placeId: "",
       userId: "",
       token: "",
-      comments: []
+      comments: [],
+      postedby: ""
     }
   },
   async mounted() {
@@ -125,6 +130,19 @@ export default {
       await placeService.postCommentOnPlace(this.placeId, this.newComment, this.token)
       this.newComment = ""
       this.comments = await commmentService.fetchCommentsByPlaceId(this.placeId)
+    },
+    formatDate(date) {
+      return new Date(date).toLocaleDateString("fr-CH", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      })
+    },
+    formatTime(date) {
+      return new Date(date).toLocaleTimeString("fr-CH", {
+        hour: "numeric",
+        minute: "numeric"
+      })
     }
   },
   components: {
