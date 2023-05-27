@@ -9,25 +9,26 @@
             {{ place.street }} {{ place.number }} <br />
             {{ place.postal_code }} {{ place.locality }}
           </p>
-          <p>{{ this.user.pk }}</p>
-          <h2>Poster un commentaire</h2>
-          <form>
-            <textarea v-model="newComment"></textarea>
-            <button @click="postComment()">Envoyer</button>
-          </form>
+          <div v-if="user">
+            <p>Vous êtes connecté en tant que {{ user.username }}</p>
+            <p>{{ this.user.pk }}</p>
+            <h2>Comment on this post</h2>
+            <form>
+              <textarea v-model="newComment"></textarea>
+              <button @click="postComment()">Envoyer</button>
+            </form>
 
-          <ul>
-            <li v-for="comment in comments" :key="comment.id">
-              {{ comment.text }}
-            </li>
-          </ul>
-
+            <ul>
+              <li v-for="comment in comments" :key="comment.id">
+                {{ comment.text }}
+              </li>
+            </ul>
+          </div>
+          <div v-else>
+            <p>Need to be logged to post a comment</p>
+          </div>
           <!-- Formulaire d'évaluation -->
-          <h2>Donnez une note</h2>
-          <form @submit.prevent="postRating">
-            <input type="number" min="1" max="5" v-model="newRating" required />
-            <button type="submit">Evaluer</button>
-          </form>
+
           <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
           <ShareNetwork
             network="twitter"
@@ -89,7 +90,7 @@ export default {
     return {
       error: null,
       places: [],
-      place: [],
+      place: "",
       newComment: "",
       placeId: "",
       userId: "",
@@ -123,7 +124,6 @@ export default {
     async postComment() {
       await placeService.postCommentOnPlace(this.placeId, this.newComment, this.token)
       this.newComment = ""
-      
       this.comments = await commmentService.fetchCommentsByPlaceId(this.placeId)
     }
   },
