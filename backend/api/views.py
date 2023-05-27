@@ -3,11 +3,11 @@ from django.views.decorators.cache import never_cache
 from rest_framework import viewsets, permissions
 from .models import Message
 from django.views.generic import TemplateView
-from .serializers import UserSerializer, GroupSerializer, MessageSerializer, CommentSerializer
+from .serializers import UserSerializer, GroupSerializer, MessageSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
-from .models import Event, Place, Comment, Rating
-from .serializers import EventSerializer, PlaceSerializer, CommentSerializer, RatingSerializer
+from .models import Event, Place, Rating, Comment
+from .serializers import EventSerializer, PlaceSerializer,  RatingSerializer, CommentSerializer
 from .filters import EventFilter, PlaceFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -74,6 +74,7 @@ class EventViewSet(viewsets.ModelViewSet):
         event.save()
         return Response({'status': 'User registered for the event'})
 
+
 class CommentViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows comments to be viewed or edited.
@@ -82,6 +83,26 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
 
+    @action(detail=True, methods=['post'])
+    def add_comment(self, request, pk=None):
+        place = Place.objects.get(pk=pk)
+        user = request.user
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=user, place=place)
+            return Response(serializer.data, status=200)
+        else:
+            return Response(serializer.errors, status=400)
+        
+    @action(detail=True, methods=['get'])
+    def commentPlace(self, request, pk=None):
+        place = self.get_object()
+        comments = place.comments.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+
+
 class RatingViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows ratings to be viewed or edited.
@@ -89,6 +110,26 @@ class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
+
+    @action(detail=True, methods=['post'])
+    def add_rating(self, request, pk=None):
+        place = Place.objects.get(pk=pk)
+        user = request.user
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(rated_by=user, place=place)
+            return Response(serializer.data, status=200)
+        else:
+            return Response(serializer.errors, status=400)
+
+    @action(detail=True, methods=['get'])
+    def ratingPlace(self, request, pk=None):
+        place = self.get_object()
+        ratings = place.ratings.all()
+        serializer = RatingSerializer(ratings, many=True)
+        return Response(serializer.data)
+
+
 
 @api_view(['GET'])
 def is_authenticated(request):

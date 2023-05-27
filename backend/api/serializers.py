@@ -4,10 +4,7 @@ from django.db.models import Avg
 from .models import Message, Place, Event, Profile, Rating, Comment
 
 
-class RatingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Rating
-        fields = ['user', 'rated_by', 'rating']
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,6 +35,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     #     fields = ['username', 'email', 'groups', 'password', 'profile', 'average_rating']
     #     extra_kwargs = {'password': {'write_only': True}}
 class UserSerializer(serializers.ModelSerializer):
+    average_rating = serializers.SerializerMethodField()
+    
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password']
@@ -92,6 +91,22 @@ class PlaceSerializer(serializers.ModelSerializer):
         model = Place
         fields = '__all__'
 
+class RatingSerializer(serializers.ModelSerializer):
+
+    rated_by = UserSerializer(read_only=True)
+    place = PlaceSerializer(read_only=True)
+
+    class Meta:
+        model = Rating
+        fields = ['id', 'place', 'rated_by', 'rating']
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    place = PlaceSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ['user', 'place', 'text', 'created_at', 'updated_at']
 
 class EventSerializer(serializers.ModelSerializer):
     user = UserStringSerializer(read_only=True)
@@ -105,7 +120,3 @@ class EventSerializer(serializers.ModelSerializer):
         # Utilisateur automatiquement associé avec le token JWT dans le requête
         read_only_fields = ('user',)
 
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = ['id', 'user', 'event', 'text', 'created_at']

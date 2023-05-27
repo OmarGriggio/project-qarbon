@@ -30,10 +30,10 @@ class UserAdmin(DefaultUserAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'event', 'user', 'text', 'created_at', 'updated_at')
-    search_fields = ('text', 'user', 'created_at', 'updated_at')
+    list_display = ('pk', 'text', 'user', 'place')
+    search_fields = ('text', 'user', 'place')
 
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'user', 'rated_by', 'rating')
-    search_fields = ('user', 'rated_by', 'rating')
+    list_display = ('pk', 'rating', 'place', 'rated_by')
+    search_fields = ('rating', 'place', 'rated_by')

@@ -43,11 +43,12 @@ class Event(models.Model):
         return self.name 
 
 class Comment(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='comments')
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -56,9 +57,9 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
 
 class Rating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings_received')
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='ratings', null=True, blank=True)
     rated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings_given')
     rating = models.FloatField()
 
     def __str__(self):
-        return f'{self.rated_by.username} rated {self.user.username} {self.rating}'
+        return f'{self.rated_by.username} rated {self.place.name} {self.rating}'
