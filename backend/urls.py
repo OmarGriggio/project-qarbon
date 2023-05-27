@@ -35,6 +35,7 @@ urlpatterns = [
     path('', index_view, name='index'),
     path('api/', include(router.urls)),
     path('api/events/<int:pk>/register/', EventViewSet.register, name='register_event'),
+    path('api/places/<int:pk>/add_comment/', PlaceViewSet.add_comment, name='add_comments'),
     # path('dj-rest-auth/login/', CustomLoginView.as_view(), name='account_login'),
     # path('dj-rest-auth/token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
     path('api/explorer/', include('rest_framework.urls', namespace='rest_framework')),

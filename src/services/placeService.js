@@ -4,7 +4,7 @@ export default {
   async postCommentOnPlace(id, comment, token) {
     const headers = { Authorization: `Bearer ${token}` }
     try {
-      await api.post(`/places/${id}/comments/`, { text: comment }, { headers })
+      await api.post(`places/${id}/add_comment/`, { text: comment }, { headers })
     } catch (err) {
       throw err.response.data
     }

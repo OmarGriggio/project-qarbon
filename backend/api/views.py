@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
 from .models import Event, Place, Rating, Comment
 from .serializers import EventSerializer, PlaceSerializer,  RatingSerializer, CommentSerializer
-from .filters import EventFilter, PlaceFilter
+from .filters import EventFilter, PlaceFilter, CommentFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
@@ -48,7 +48,16 @@ class PlaceViewSet(viewsets.ModelViewSet):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
     filterset_class = PlaceFilter
-    # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
+    
+    @action(detail=True, methods=['post'])
+    def add_comment(self, request, pk=None):
+        user = request.user
+        place = self.get_object()  # Utiliser la méthode get_object() pour obtenir l'objet place
+        serializer = CommentSerializer(data=request.data)  # Utiliser le serializer pour valider les données
+        if serializer.is_valid():
+            serializer.save(user=user, place=place)  # Enregistrer le commentaire si les données sont valides
+            return Response({'status': 'Comment added successfully'})
+        return Response({'status': 'Comment could not be added'})
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -81,25 +90,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
-
-    @action(detail=True, methods=['post'])
-    def add_comment(self, request, pk=None):
-        place = Place.objects.get(pk=pk)
-        user = request.user
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=user, place=place)
-            return Response(serializer.data, status=200)
-        else:
-            return Response(serializer.errors, status=400)
-        
-    @action(detail=True, methods=['get'])
-    def commentPlace(self, request, pk=None):
-        place = self.get_object()
-        comments = place.comments.all()
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
+    filterset_class = CommentFilter
 
 
 
@@ -110,26 +101,6 @@ class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
-
-    @action(detail=True, methods=['post'])
-    def add_rating(self, request, pk=None):
-        place = Place.objects.get(pk=pk)
-        user = request.user
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(rated_by=user, place=place)
-            return Response(serializer.data, status=200)
-        else:
-            return Response(serializer.errors, status=400)
-
-    @action(detail=True, methods=['get'])
-    def ratingPlace(self, request, pk=None):
-        place = self.get_object()
-        ratings = place.ratings.all()
-        serializer = RatingSerializer(ratings, many=True)
-        return Response(serializer.data)
-
-
 
 @api_view(['GET'])
 def is_authenticated(request):

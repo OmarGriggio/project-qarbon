@@ -102,12 +102,13 @@ class RatingSerializer(serializers.ModelSerializer):
         fields = ['id', 'place', 'rated_by', 'rating']
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserStringSerializer(read_only=True)
     place = PlaceSerializer(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['user', 'place', 'text', 'created_at', 'updated_at']
+        fields = ['id','user', 'place', 'text', 'created_at', 'updated_at']
+        read_only_fields = ('user',)
 
 class EventSerializer(serializers.ModelSerializer):
     user = UserStringSerializer(read_only=True)

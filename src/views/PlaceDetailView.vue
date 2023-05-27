@@ -9,11 +9,18 @@
             {{ place.street }} {{ place.number }} <br />
             {{ place.postal_code }} {{ place.locality }}
           </p>
+          <p>{{ this.user.pk }}</p>
           <h2>Poster un commentaire</h2>
-          <form @submit.prevent="postComment">
-            <textarea v-model="newComment" required></textarea>
-            <button type="submit">Envoyer</button>
+          <form>
+            <textarea v-model="newComment"></textarea>
+            <button @click="postComment()">Envoyer</button>
           </form>
+
+          <ul>
+            <li v-for="comment in comments" :key="comment.id">
+              {{ comment.text }}
+            </li>
+          </ul>
 
           <!-- Formulaire d'évaluation -->
           <h2>Donnez une note</h2>
@@ -66,6 +73,7 @@
 <script>
 import authService from "../services/authService"
 import placeService from "../services/placeService"
+import commmentService from "../services/commentService"
 // import api from "../services/api"
 import { ShareNetwork } from "vue-social-sharing"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
@@ -81,12 +89,20 @@ export default {
     return {
       error: null,
       places: [],
-      place: []
+      place: [],
+      newComment: "",
+      placeId: "",
+      userId: "",
+      token: "",
+      comments: []
     }
   },
   async mounted() {
-    const placeId = this.$route.params.id
-    this.fetchPlace(placeId)
+    this.placeId = this.$route.params.id
+    this.fetchPlace(this.placeId)
+    this.userId = this.user.pk
+    this.token = localStorage.getItem("access_token")
+    this.comments = await commmentService.fetchCommentsByPlaceId(this.placeId)
   },
   computed: {
     user() {
@@ -100,9 +116,15 @@ export default {
     placeURL(id) {
       return "http://localhost:8000/#/place-detail/" + id
     },
-    async fetchPlace(id){
+    async fetchPlace(id) {
       const response = await placeService.fetchPlaceDetail(id)
       this.place = response.data
+    },
+    async postComment() {
+      await placeService.postCommentOnPlace(this.placeId, this.newComment, this.token)
+      this.newComment = ""
+      
+      this.comments = await commmentService.fetchCommentsByPlaceId(this.placeId)
     }
   },
   components: {
