@@ -3,18 +3,17 @@
     <div class="col-md-6">
       <div class="card" style="width: auto">
         <div class="card-body">
-          <p>ID de la place : {{ place.id }}</p>
-          <h5 class="card-title">{{ place.name }}</h5>
+          <p>ID de la event : {{ event.id }}</p>
+          <h5 class="card-title">{{ event.name }}</h5>
           <p class="card-text">
-            {{ place.street }} {{ place.number }} <br />
-            {{ place.postal_code }} {{ place.locality }}
+            
           </p>
           <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
           <ShareNetwork
             network="twitter"
-            :url="placeURL(place.id)"
-            :title="place.name"
-            description="Check out this place!"
+            :url="placeURL(event.id)"
+            :title="event.name"
+            description="Check out this event!"
             twitter-user="qarbon"
           >
             <button class="btn btn-primary" style="margin-left: 10px">
@@ -25,8 +24,8 @@
           <br />
           <ShareNetwork
             network="facebook"
-            :url="placeURL(place.id)"
-            :title="place.name"
+            :url="placeURL(event.id)"
+            :title="event.name"
             description="This is an awesome event !"
           >
             <button class="btn btn-primary" style="margin-left: 10px">
@@ -37,8 +36,8 @@
           <br />
           <ShareNetwork
             network="whatsapp"
-            :url="placeURL(place.id)"
-            :title="place.name"
+            :url="placeURL(event.id)"
+            :title="event.name"
             description="This is an awesome event !"
           >
             <button class="btn btn-primary" style="margin-left: 10px">
@@ -68,15 +67,15 @@ export default {
   data() {
     return {
       error: null,
-      places: [],
-      place: []
+      events: [],
+      event: []
     }
   },
   async mounted() {
-    const placeId = this.$route.params.id 
+    const eventId = this.$route.params.id // Supposons que vous récupérez l'ID de la place à partir des paramètres d'URL
     try {
-      const response = await axios.get(`http://localhost:8000/api/places/${placeId}/`)
-      this.place = response.data
+      const response = await axios.get(`http://localhost:8000/api/events/${eventId}/`)
+      this.event = response.data
     } catch (err) {
       this.error = err.response.data
     }
@@ -91,7 +90,7 @@ export default {
       authService.logout()
     },
     placeURL(id) {
-      return "http://localhost:8000/#/place-detail/" + id
+      return "http://localhost:8000/#/event-detail/" + id
     }
   },
   components: {

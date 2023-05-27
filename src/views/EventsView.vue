@@ -110,6 +110,11 @@
                   <div v-else>
                     <p>You need to be logged in to register</p>
                   </div>
+                  <div>
+                    <RouterLink :to="'/event-detail/' + event.id">
+                      <button class="btn btn-primary">See more</button>
+                    </RouterLink>
+                  </div>
                 </li>
                 <p>Posted by {{ event.user.username }}</p>
                 <br />
