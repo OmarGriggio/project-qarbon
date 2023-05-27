@@ -311,4 +311,9 @@ export default {
 .main-color {
   color: var(--main-color);
 }
+
+.icon {
+  font-size: 30px;
+  margin: 10px;
+}
 </style>

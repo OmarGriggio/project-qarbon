@@ -41,5 +41,8 @@ export default {
       }
     }
     return false
+  },
+  eventDetail(eventId) {
+    return api.get(`/events/${eventId}/`)
   }
 }
