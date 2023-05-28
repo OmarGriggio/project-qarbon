@@ -4,7 +4,7 @@
       <p>Une erreur est survenue: {{ error }}</p>
     </div>
     <div v-else>
-      <h2 style="margin-bottom: 30px; padding-top: 30px">EVENTS</h2>
+      <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color);">Events</h2>
       <input
         v-model="searchEvent"
         placeholder="Search events by name"

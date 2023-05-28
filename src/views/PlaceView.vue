@@ -4,7 +4,7 @@
       <p>Une erreur est survenue: {{ error }}</p>
     </div>
     <div v-else>
-      <h2 style="padding-bottom: 30px;">PLACES</h2>
+      <h2 style="padding-bottom: 30px; color:var(--main-color)">Places</h2>
       <div class="container row-lg-4">
         <div class="card-display">
           <div v-for="place in places" :key="place.id">

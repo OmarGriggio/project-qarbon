@@ -4,18 +4,23 @@
       <form @submit.prevent="submitForm">
         <h1>Ajouter un nouvel endroit</h1>
         <div class="col-lg-6">
-          <input class="form-control" type="text" placeholder="Nom du lieu" v-model="place.name" />
+          <input class="form-control" type="text" placeholder="Place name" v-model="place.name" />
           <span class="input-group">
-            <input class="form-control" type="text" placeholder="Rue" v-model="place.street" />
-            <input class="form-control" type="number" placeholder="N° rue" v-model="place.number" />
+            <input class="form-control" type="text" placeholder="Street" v-model="place.street" />
+            <input
+              class="form-control"
+              type="number"
+              placeholder="Street number"
+              v-model="place.number"
+            />
           </span>
           <input
             class="form-control"
             type="number"
-            placeholder="Code Postal"
+            placeholder="Zip code"
             v-model="place.postal_code"
           />
-          <input class="form-control" type="text" placeholder="Localité" v-model="place.locality" />
+          <input class="form-control" type="text" placeholder="Locality" v-model="place.locality" />
         </div>
         <button type="submit" id="CreateButton" @click="submitForm">Create</button>
       </form>
