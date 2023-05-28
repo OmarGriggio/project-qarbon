@@ -26,7 +26,7 @@
             </li>
             <li class="nav-item">
               <router-link class="nav-link" :to="{ name: 'event-create' }"
-                >Add an event</router-link
+                >Create an event</router-link
               >
             </li>
           </ul>

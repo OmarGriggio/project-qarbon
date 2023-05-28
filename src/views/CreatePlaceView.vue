@@ -1,29 +1,48 @@
 <template>
   <div id="content">
     <div class="create-place">
-      <form @submit.prevent="submitForm">
-        <h2 class="mb-4 text-center" style="color: var(--main-color)">Create a new event</h2>
-        <div class="col-lg-6">
-          <input class="form-control" type="text" placeholder="Place name" v-model="place.name" />
-          <span class="input-group">
-            <input class="form-control" type="text" placeholder="Street" v-model="place.street" />
-            <input
-              class="form-control"
-              type="number"
-              placeholder="Street number"
-              v-model="place.number"
-            />
-          </span>
-          <input
-            class="form-control"
-            type="number"
-            placeholder="Zip code"
-            v-model="place.postal_code"
-          />
-          <input class="form-control" type="text" placeholder="Locality" v-model="place.locality" />
+      <div class="card shadow-lg bg-white rounded">
+        <div class="card-body">
+          <form @submit.prevent="submitForm" class="event-form">
+            <h2 class="mb-4 text-center" style="color: var(--main-color)">Create a new place</h2>
+            <div class="col-lg-6">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Place name"
+                v-model="place.name"
+              />
+              <span class="input-group">
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Street"
+                  v-model="place.street"
+                />
+                <input
+                  class="form-control"
+                  type="number"
+                  placeholder="Street number"
+                  v-model="place.number"
+                />
+              </span>
+              <input
+                class="form-control"
+                type="number"
+                placeholder="Zip code"
+                v-model="place.postal_code"
+              />
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Locality"
+                v-model="place.locality"
+              />
+            </div>
+            <button type="submit" id="CreateButton" @click="submitForm">Create</button>
+          </form>
         </div>
-        <button type="submit" id="CreateButton" @click="submitForm">Create</button>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -89,6 +108,11 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  width: 70%;  /* Adjust this value to suit your design */
+  margin: auto; /* This centers the card if it has a width less than 100% */
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -131,12 +155,27 @@ h1 {
 
 h2 {
   color: #050d15;
-  font-weight:500;
+  font-weight: 500;
 }
 .form-control {
   margin: 5px;
 }
 .create-place {
   padding-top: 130px;
+}
+.event-form .form-label {
+  color: #34495e;
+  font-weight: 500;
+}
+
+.event-form .form-control {
+  border-color: #34495e;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.event-form .form-control:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
 }
 </style>

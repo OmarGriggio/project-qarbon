@@ -114,7 +114,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     user = UserStringSerializer(read_only=True)
     participants = UserRegisterSerializer(many=True, read_only=True)
-    place = PlaceSerializer(read_only=True)
+    # place = PlaceSerializer(read_only=True)
 
     class Meta:
         model = Event

@@ -61,14 +61,13 @@
                 <br />
                 <li class="list-group-item">
                   <h5 class="card-subtitle">
-                    {{ event.place.name }}
+                    {{ getPlace(event.place).name }}
                   </h5>
                   <p class="subtitle-text">
-                    {{ event.place.street }} 
-                    {{ event.place.number }},
-                    {{ event.place.postal_code }}
-                    {{ event.place.locality }}
-                    <br>
+                    {{ getPlace(event.place).address }}
+                    {{ getPlace(event.place).postal_code }}
+                    {{ getPlace(event.place).locality }},
+                    <br />
                     Number of participants : {{ event.participants.length }}
                   </p>
                 </li>
@@ -94,6 +93,7 @@
 <script>
 import authService from "../services/authService"
 import eventService from "../services/eventService"
+import placeService from "../services/placeService"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
 import { faTwitter } from "@fortawesome/free-brands-svg-icons"
@@ -116,7 +116,9 @@ export default {
     }
   },
   async mounted() {
-    // authService.getUser()
+
+    const response = await placeService.fetchPlaces()
+    this.places = response.data
     this.filterEvents()
   },
   computed: {
@@ -125,6 +127,9 @@ export default {
     }
   },
   methods: {
+    getPlace(placeId) {
+      return this.places.find((place) => place.id === placeId) || {}
+    },
     isEventFull(event) {
       return event.participants.length >= event.capacity
     },
@@ -172,8 +177,7 @@ export default {
       }
     }
   },
-  components: {
-  }
+  components: {}
 }
 </script>
 
@@ -183,7 +187,7 @@ export default {
 }
 
 .card-img-top {
-  transition: transform .2s; /* Animation */
+  transition: transform 0.2s; /* Animation */
 }
 
 .card-img-top {
@@ -268,19 +272,19 @@ export default {
   font-weight: 500;
   color: #000;
   background-color: #fff;
-  border: none;
+  border: 0.5px solid gray;
   border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 8px 5px rgba(0, 0, 0, 0.1); */
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
 }
 
 .buttonSee:hover {
-  background-color: #23c483;
+  background-color: var(--main-color);
   box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
   color: #fff;
-  transform: translateY(-7px);
+  transform: translateY(-2px);
 }
 
 .buttonSee:active {

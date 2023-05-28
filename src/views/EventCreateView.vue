@@ -85,7 +85,9 @@
                     @change="handleFileUpload($event)"
                   />
                 </div>
-                <button type="submit" id="CreateButton"  class="btn btn-success btn-lg btn-block">Create Event</button>
+                <button type="submit" id="CreateButton" class="btn btn-success btn-lg btn-block">
+                  Create Event
+                </button>
               </form>
             </div>
           </div>
@@ -140,13 +142,13 @@ export default {
           price: 0,
           date: "",
           image: null,
-          place: "",
+          place: 0,
           capacity: 0
         }
       } catch (error) {
         console.error(error)
       }
-      this.$router.push({ name: "event-list" }) 
+      this.$router.push({ name: "event-list" })
     }
   },
   async created() {

@@ -1,4 +1,4 @@
-import api from "./api"
+import api, { apiImage } from "./api"
 
 export default {
   async createEvent(event, token) {
@@ -8,7 +8,7 @@ export default {
       formData.append(key, event[key])
     }
     try {
-      await api.post("/events/", formData, { headers })
+      await apiImage.post("/events/", formData, { headers })
     } catch (err) {
       throw err.response.data
     }
