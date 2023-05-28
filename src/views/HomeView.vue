@@ -27,7 +27,7 @@
             </p> -->
           </div>
         </div>
-        <div class="col-lg-5 border border-success border-5 border-dark p-0">
+        <div class="col-lg-5 border border-success p-0">
           <div
             id="carouselExampleCaptions"
             class="carousel slide carousel-fade"
@@ -110,6 +110,11 @@ export default {
 </script>
 
 <style scoped>
+.carousel {
+  box-shadow: 0 0 15px 3px rgba(0, 0, 0, 0.7);
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); */
+}
+
 .carousel-caption {
   background-color: rgba(0, 0, 0, 0.6);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);

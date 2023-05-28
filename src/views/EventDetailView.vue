@@ -32,7 +32,6 @@
           <div v-else>
             <p>You need to be logged in to register</p>
           </div>
-
           <div class="d-flex justify-content-evenly">
             <ShareNetwork
               network="twitter"

@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div id="content">
     <div v-if="error">
       <p>Une erreur est survenue: {{ error }}</p>
     </div>
     <div v-else>
-      <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color);">Events</h2>
+      <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color)">Events</h2>
       <input
         v-model="searchEvent"
         placeholder="Search events by name"
@@ -51,105 +51,36 @@
 
       <div class="row justify-content-center">
         <div v-for="event in events" :key="event.id" class="col-md-4">
-          <div class="card" style="width: auto">
+          <div class="card">
+            <img :src="event.image" alt="event image" class="card-img-top" />
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                  <p v-if="user">User connect id : {{ user.pk }}</p>
-                  <p v-for="part in event.participants" :key="part.id">
-                    User ID registered to the events : {{ part.id }}
-                  </p>
-                  <p>{{ event.participants }}</p>
-                  <p>Capacity : {{ event.capacity }}</p>
-                  <p>Available place : {{ event.participants.length }} / {{ event.capacity }}</p>
-                  <div v-if="event.participants.length">
-                    <p>Participants inscrits :</p>
-                    <select v-model="selectedParticipantId">
-                      <option
-                        v-for="participant in event.participants"
-                        :key="participant.id"
-                        :value="participant.id"
-                      >
-                        {{ participant.username }}
-                      </option>
-                    </select>
-                  </div>
-                  <div v-else>
-                    <p>Aucun participant inscrit</p>
-                  </div>
-
-                  <h5 class="card-title">{{ event.name }}</h5>
-                  <p class="card-text">{{ event.description }}</p>
+                  <h5 class="card-title" style="color: var(--main-color)">{{ event.name }}</h5>
                 </li>
+                <br />
                 <li class="list-group-item">
-                  <br />
                   <h5 class="card-subtitle">
                     {{ event.place.name }}
                   </h5>
                   <p class="subtitle-text">
-                    {{ event.place.street }}
-                    {{ event.place.number }}
-                    <br />
+                    {{ event.place.street }} 
+                    {{ event.place.number }},
                     {{ event.place.postal_code }}
                     {{ event.place.locality }}
+                    <br>
+                    Number of participants : {{ event.participants.length }}
                   </p>
-                  <img :src="event.image" alt="event image" style="width: 50%; height: 50%" />
-                  <br />
-                  <br />
-
-                  <div v-if="user">
-                    <button
-                      v-if="!isUserRegistered(event) && !isEventFull(event)"
-                      @click="registerForEvent(event.id)"
-                    >
-                      Register
-                    </button>
-                    <p v-else-if="isUserRegistered(event)">You are already registered</p>
-                    <p v-else>The event is full</p>
-                  </div>
-                  <div v-else>
-                    <p>You need to be logged in to register</p>
-                  </div>
+                </li>
+                <li class="list-group-item">
                   <div>
                     <RouterLink :to="'/event-detail/' + event.id">
                       <button class="btn btn-success">See more</button>
                     </RouterLink>
                   </div>
                 </li>
-                <p>Posted by {{ event.user.username }}</p>
-                <br />
               </ul>
               <!-- Vous pouvez afficher plus d'informations sur l'événement ici -->
-
-              <div class="d-flex justify-content-evenly">
-                <ShareNetwork
-                  network="twitter"
-                  :url="eventUrl(event.id)"
-                  :title="eventUrlTitle(event)"
-                  description="This is an awesome event !"
-                  twitter-user="qarbonEvent"
-                >
-                  <font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color" />
-                </ShareNetwork>
-
-                <ShareNetwork
-                  network="facebook"
-                  :url="eventUrl(event.id)"
-                  :title="eventUrlTitle(event)"
-                  description="This is an awesome event !"
-                >
-                  <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
-                </ShareNetwork>
-
-                <ShareNetwork
-                  network="whatsapp"
-                  :url="eventUrl(event.id)"
-                  :title="eventUrlTitle(event)"
-                  description="This is an awesome event !"
-                >
-                  <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
-                </ShareNetwork>
-              </div>
             </div>
           </div>
         </div>
@@ -163,8 +94,6 @@
 <script>
 import authService from "../services/authService"
 import eventService from "../services/eventService"
-import { ShareNetwork } from "vue-social-sharing"
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
 import { faTwitter } from "@fortawesome/free-brands-svg-icons"
@@ -244,13 +173,25 @@ export default {
     }
   },
   components: {
-    ShareNetwork,
-    FontAwesomeIcon
   }
 }
 </script>
 
 <style scoped>
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  transition: transform .2s; /* Animation */
+}
+
+.card-img-top {
+  max-height: 250px;
+  max-width: 100%;
+  object-fit: cover;
+}
+
 .col-md-4 {
   padding-left: 15px;
   padding-right: 15px;
@@ -260,13 +201,11 @@ export default {
 .col-md-6 {
   padding-left: 15px;
   padding-right: 15px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 }
 
 .card {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
+  overflow: hidden;
   justify-content: space-between;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -286,19 +225,23 @@ export default {
 .card-title {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .card-subtitle {
   font-size: 17px;
   font-weight: bold;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   text-align: left;
 }
 
 .subtitle-text {
   text-align: left;
 }
+/* .no-padding {
+  padding: 0 !important;
+  margin: 0 !important;
+} */
 
 .w-100 {
   align-items: end;
