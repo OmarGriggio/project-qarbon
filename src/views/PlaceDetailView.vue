@@ -152,7 +152,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .text {
   color: #ffffff;
 }
