@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Event, Place, Comment
+from .models import Event, Place, Comment, Rating
 
 class EventFilter(filters.FilterSet):
     name = filters.CharFilter(lookup_expr='icontains')
@@ -22,9 +22,19 @@ class PlaceFilter(filters.FilterSet):
         fields = ['name', 'street', 'locality']
 
 class CommentFilter(filters.FilterSet):
+    
     place = filters.CharFilter(field_name='place__id', lookup_expr='icontains')
 
     class Meta:
         model = Comment
         fields = ['place']
+
+class RatingFilter(filters.FilterSet):
+
+    place = filters.CharFilter(field_name='place__id', lookup_expr='icontains')
+    rated_by = filters.CharFilter(field_name='rated_by__id', lookup_expr='icontains')
+    
+    class Meta:
+        model = Rating
+        fields = ['place', 'rated_by']
 

@@ -100,6 +100,7 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ['id', 'place', 'rated_by', 'rating']
+        read_only_fields = ('rated_by',)
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserStringSerializer(read_only=True)

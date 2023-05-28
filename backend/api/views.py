@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
 from .models import Event, Place, Rating, Comment
 from .serializers import EventSerializer, PlaceSerializer,  RatingSerializer, CommentSerializer
-from .filters import EventFilter, PlaceFilter, CommentFilter
+from .filters import EventFilter, PlaceFilter, CommentFilter, RatingFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
@@ -114,6 +114,7 @@ class RatingViewSet(viewsets.ModelViewSet):
     """
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
+    filterser_class = RatingFilter
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
 
 

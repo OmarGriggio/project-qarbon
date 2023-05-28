@@ -58,7 +58,7 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
 
 class Rating(models.Model):
-    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='ratings', null=True, blank=True)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='ratings')
     rated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings_given')
     rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)])
 
