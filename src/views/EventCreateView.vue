@@ -6,7 +6,7 @@
           <div class="card shadow-lg p-3 mb-5 bg-white rounded">
             <div class="card-body">
               <form @submit.prevent="submitForm" class="event-form">
-                <h2 class="mb-4 text-center">Create Event</h2>
+                <h2 class="mb-4 text-center" style="color: --main-color;">Create a new event</h2>
                 <div class="mb-3">
                   <label for="name" class="form-label">Event Name:</label>
                   <input
@@ -69,7 +69,7 @@
                   <label for="image" class="form-label">Image for the event:</label>
                   <input type="file" id="image" @change="handleFileUpload($event)" />
                 </div>
-                <button type="submit" class="btn btn-submit btn-lg btn-block">Create Event</button>
+                <button type="submit" class="btn btn-success btn-lg btn-block">Create Event</button>
               </form>
               <!-- Place Modal -->
               <!-- <place-modal v-if="showPlaceModal" @close="showPlaceModal = false"></place-modal> -->
@@ -170,7 +170,7 @@ h2 {
   box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
 }
 
-.btn-submit {
+/* .btn-submit {
   background: linear-gradient(90deg, #3498db, #9b59b6);
   border: none;
   color: white;
@@ -180,7 +180,7 @@ h2 {
 
 .btn-submit:hover {
   background: linear-gradient(90deg, #9b59b6, #3498db);
-}
+} */
 
 .card {
   border-radius: 10px;
