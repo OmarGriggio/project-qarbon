@@ -1,74 +1,76 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card" style="width: auto">
-        <div class="card-body">
-          <p>ID de la place : {{ place.id }}</p>
-          <h5 class="card-title">{{ place.name }}</h5>
-          <p class="card-text">
-            {{ place.street }} {{ place.number }} <br />
-            {{ place.postal_code }} {{ place.locality }}
-          </p>
-          <div v-if="user">
-            <p>Vous êtes connecté en tant que {{ user.username }}</p>
-            <p>{{ this.user.pk }}</p>
-            <h2>Comment on this post</h2>
-            <form>
-              <textarea v-model="newComment"></textarea>
-              <br />
-              <button @click="postComment()">Envoyer</button>
-            </form>
-
-            <ul>
-              <li v-for="comment in comments" :key="comment.id">
-                "{{ comment.text }}" Posted by : {{ comment.user.username }}
+  <div class="PlaceDetailView">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card" style="width: auto">
+          <div class="card-body">
+            <p>ID de la place : {{ place.id }}</p>
+            <h5 class="card-title">{{ place.name }}</h5>
+            <p class="card-text">
+              {{ place.street }} {{ place.number }} <br />
+              {{ place.postal_code }} {{ place.locality }}
+            </p>
+            <div v-if="user">
+              <p>Vous êtes connecté en tant que {{ user.username }}</p>
+              <p>{{ this.user.pk }}</p>
+              <h2>Comment on this post</h2>
+              <form>
+                <textarea v-model="newComment"></textarea>
                 <br />
-                {{ formatDate(comment.created_at) }}
-                {{ formatTime(comment.created_at) }}
-              </li>
-            </ul>
-          </div>
-          <div v-else>
-            <p>Need to be logged to post a comment</p>
-          </div>
-          <!-- Formulaire d'évaluation -->
+                <button @click="postComment()">Envoyer</button>
+              </form>
 
-          <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
-          <ShareNetwork
-            network="twitter"
-            :url="placeURL(place.id)"
-            :title="place.name"
-            description="Check out this place!"
-            twitter-user="qarbon"
-          >
-            <button class="btn btn-primary" style="margin-left: 10px">
-              <span><font-awesome-icon icon="fa-brands fa-twitter" /></span>
-            </button>
-          </ShareNetwork>
-          <br />
-          <br />
-          <ShareNetwork
-            network="facebook"
-            :url="placeURL(place.id)"
-            :title="place.name"
-            description="This is an awesome event !"
-          >
-            <button class="btn btn-primary" style="margin-left: 10px">
-              <span><font-awesome-icon icon="fa-brands fa-facebook" class="text" /></span>
-            </button>
-          </ShareNetwork>
-          <br />
-          <br />
-          <ShareNetwork
-            network="whatsapp"
-            :url="placeURL(place.id)"
-            :title="place.name"
-            description="This is an awesome event !"
-          >
-            <button class="btn btn-primary" style="margin-left: 10px">
-              <span><font-awesome-icon icon="fa-brands fa-whatsapp" /></span>
-            </button>
-          </ShareNetwork>
+              <ul>
+                <li v-for="comment in comments" :key="comment.id">
+                  "{{ comment.text }}" Posted by : {{ comment.user.username }}
+                  <br />
+                  {{ formatDate(comment.created_at) }}
+                  {{ formatTime(comment.created_at) }}
+                </li>
+              </ul>
+            </div>
+            <div v-else>
+              <p>Need to be logged to post a comment</p>
+            </div>
+            <!-- Formulaire d'évaluation -->
+
+            <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
+            <ShareNetwork
+              network="twitter"
+              :url="placeURL(place.id)"
+              :title="place.name"
+              description="Check out this place!"
+              twitter-user="qarbon"
+            >
+              <button class="btn btn-primary" style="margin-left: 10px">
+                <span><font-awesome-icon icon="fa-brands fa-twitter" /></span>
+              </button>
+            </ShareNetwork>
+            <br />
+            <br />
+            <ShareNetwork
+              network="facebook"
+              :url="placeURL(place.id)"
+              :title="place.name"
+              description="This is an awesome event !"
+            >
+              <button class="btn btn-primary" style="margin-left: 10px">
+                <span><font-awesome-icon icon="fa-brands fa-facebook" class="text" /></span>
+              </button>
+            </ShareNetwork>
+            <br />
+            <br />
+            <ShareNetwork
+              network="whatsapp"
+              :url="placeURL(place.id)"
+              :title="place.name"
+              description="This is an awesome event !"
+            >
+              <button class="btn btn-primary" style="margin-left: 10px">
+                <span><font-awesome-icon icon="fa-brands fa-whatsapp" /></span>
+              </button>
+            </ShareNetwork>
+          </div>
         </div>
       </div>
     </div>
@@ -204,4 +206,8 @@ export default {
 .card-text {
   font-size: 16px;
 }
-</style>
+
+.PlaceDetailView
+{
+  padding-top: 110px;
+}</style>
