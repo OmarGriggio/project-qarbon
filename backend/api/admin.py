@@ -36,4 +36,4 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
     list_display = ('pk', 'rating', 'place', 'rated_by')
-    search_fields = ('rating', 'place', 'rated_by')
+    search_fields = ('id','rating', 'place', 'rated_by')

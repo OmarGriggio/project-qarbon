@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Message(models.Model):
     subject = models.CharField(max_length=200)
@@ -59,7 +60,7 @@ class Profile(models.Model):
 class Rating(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='ratings', null=True, blank=True)
     rated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings_given')
-    rating = models.FloatField()
+    rating = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)])
 
     def __str__(self):
         return f'{self.rated_by.username} rated {self.place.name} {self.rating}'

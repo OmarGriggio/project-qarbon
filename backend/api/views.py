@@ -59,6 +59,20 @@ class PlaceViewSet(viewsets.ModelViewSet):
             return Response({'status': 'Comment added successfully'})
         return Response({'status': 'Comment could not be added'})
 
+    @action(detail=True, methods=['post'])
+    def add_rating(self, request, pk=None):
+        user = request.user
+        place = self.get_object()
+        serializer = RatingSerializer(data=request.data)
+        if serializer.is_valid():
+            # Assurez-vous que l'utilisateur n'a pas déjà noté cette place
+            if not Rating.objects.filter(place=place, rated_by=user).exists():
+                serializer.save(rated_by=user, place=place)  # Enregistrer la notation si les données sont valides
+                return Response({'status': 'Rating added successfully'})
+            else:
+                return Response({'status': 'User has already rated this place'})
+        return Response({'status': 'Rating could not be added'})
+        
 
 class EventViewSet(viewsets.ModelViewSet):
     """
@@ -101,6 +115,9 @@ class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
+
+
+
 
 @api_view(['GET'])
 def is_authenticated(request):

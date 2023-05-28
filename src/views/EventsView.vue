@@ -75,7 +75,7 @@
                 <li class="list-group-item">
                   <div>
                     <RouterLink :to="'/event-detail/' + event.id">
-                      <button class="btn btn-success">See more</button>
+                      <button class="buttonSee">See more</button>
                     </RouterLink>
                   </div>
                 </li>
@@ -258,5 +258,32 @@ export default {
 .icon {
   font-size: 30px;
   margin: 10px;
+}
+
+.buttonSee {
+  padding: 0.9em 1em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.buttonSee:hover {
+  background-color: #23c483;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.buttonSee:active {
+  transform: translateY(-1px);
 }
 </style>
