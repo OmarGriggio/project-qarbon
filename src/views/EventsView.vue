@@ -112,7 +112,7 @@
                   </div>
                   <div>
                     <RouterLink :to="'/event-detail/' + event.id">
-                      <button class="btn btn-primary">See more</button>
+                      <button class="btn btn-success">See more</button>
                     </RouterLink>
                   </div>
                 </li>

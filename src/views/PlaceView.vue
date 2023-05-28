@@ -19,7 +19,7 @@
             </div>
             <div>
               <RouterLink :to="'/place-detail/' + place.id">
-                <button class="btn btn-primary">See more</button>
+                <button class="btn btn-success">See more</button>
               </RouterLink>
             </div>
           </div>
