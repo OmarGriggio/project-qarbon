@@ -1,17 +1,15 @@
 <template>
   <div id="content">
     <div class="create-place">
-      <form>
+      <form @submit.prevent="submitForm">
         <h1>Ajouter un nouvel endroit</h1>
         <label class="lbl">Nom du lieu</label>
         <input class="inpt" type="text" placeholder="Nom" v-model="place.name" /><br />
         <label class="lbl">Rue</label>
         <input class="inpt" type="text" placeholder="Rue" v-model="place.street" /><br />
         <label class="lbl">n°</label>
-
         <input class="inpt" type="number" placeholder="Numero" v-model="place.number" /><br />
         <label class="lbl">Code postal</label>
-
         <input
           class="inpt"
           type="number"
@@ -20,20 +18,16 @@
         /><br />
         <label class="lbl">Localité</label>
         <input class="inpt" type="text" placeholder="Localité" v-model="place.locality" /><br />
-
-        <button type="submit" @click="submitForm">Create</button>
+        <button type="submit">Create</button>
       </form>
     </div>
   </div>
-
-  <div>
-    <!--div v-for="place in places" :key="place.id" :value="place.id">
-      {{ place }}
-    </div-->
-  </div>
 </template>
+
 <script>
 import axios from "axios"
+import { useRouter } from "vue-router"
+
 export default {
   data() {
     return {
@@ -68,6 +62,9 @@ export default {
           locality: ""
         }
         await this.fetchPlaces()
+
+        // Navigate to PlaceView
+        this.$router.push({ name: "place-list" }) // change made here
       } catch (error) {
         console.error(error.response.data)
       }
@@ -81,13 +78,12 @@ export default {
       }
     }
   },
-
   async mounted() {
     await this.fetchPlaces()
-    await this.fetchEvents()
   }
 }
 </script>
+
 <style scoped>
 form {
   display: flex;
