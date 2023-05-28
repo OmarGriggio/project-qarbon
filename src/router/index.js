@@ -29,7 +29,8 @@ const routes = [
   {
     path: "/create-place",
     name: "create-place",
-    component: () => import("../views/CreatePlaceView.vue")
+    component: () => import("../views/CreatePlaceView.vue"),
+    meta: { requiresAuth: true }
   },
   {
     path: "/event-create",
