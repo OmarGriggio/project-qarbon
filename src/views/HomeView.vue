@@ -14,7 +14,11 @@
                 "
                 >seconds!</span
               >
-              <button class="btn btn-success ms-4 mb-2" style="font-size: 20px; font-weight: bold">
+              <button
+                @click="redirectRegister"
+                class="btn btn-success ms-4 mb-2"
+                style="font-size: 20px; font-weight: bold"
+              >
                 Get started
               </button>
             </h1>
@@ -95,6 +99,11 @@ export default {
       console.log(this.events)
     } catch (error) {
       console.error(error)
+    }
+  },
+  methods: {
+    redirectRegister() {
+      this.$router.push("/register")
     }
   }
 }

@@ -14,6 +14,12 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
+              <router-link class="nav-link" :to="{ name: 'event-list' }">See events</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :to="{ name: 'place-list' }">See places</router-link>
+            </li>
+            <li class="nav-item">
               <router-link class="nav-link" :to="{ name: 'create-place' }"
                 >Create a place</router-link
               >
@@ -22,12 +28,6 @@
               <router-link class="nav-link" :to="{ name: 'event-create' }"
                 >Add an event</router-link
               >
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'event-list' }">See events</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'place-list' }">See places</router-link>
             </li>
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -111,6 +111,15 @@ export default {
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+.nav-link {
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+  transform: scale(1.1);
+  color: #42b983;
 }
 
 #nav a {

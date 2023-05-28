@@ -2,7 +2,7 @@
   <div class="register">
     <div class="container">
       <form class="register-form">
-        <h2>Page d'inscription</h2>
+        <h2 style="color: var(--main-color)">Sign up</h2>
         <br />
         <div>
           <div>
@@ -11,7 +11,7 @@
                 type="text"
                 id="firstName"
                 class="form-control"
-                placeholder="Nom d'utilisateur"
+                placeholder="Username"
                 aria-label="default input example"
                 v-model="username"
               />
@@ -24,7 +24,7 @@
                 id="password"
                 class="form-control"
                 aria-label="default input example"
-                placeholder="Mot de passe"
+                placeholder="Password"
                 v-model="password"
               />
             </div>
@@ -36,25 +36,26 @@
                 id="confirmPassword"
                 class="form-control"
                 aria-label="default input example"
-                placeholder="Confirmer le mot de passe"
+                placeholder="Confirm password"
                 v-model="confirmPassword"
               />
             </div>
           </div>
           <div>
             <button
-              class="btn btn-primary col-lg-1"
+              class="btn btn-success col-lg-1"
               v-if="!user"
               @click="register"
               :disabled="passwordMismatch"
             >
-              S'inscrire
+              Sign up
             </button>
           </div>
           <p v-if="passwordMismatch">Password do not match</p>
           <p v-if="loginError">{{ loginError }}</p>
           <p v-if="!user">
-            Vous avez déjà un compte ? <router-link to="/login">Se connecter</router-link>
+            Already have an account ?
+            <router-link to="/login" style="color: var(--main-color)">Sign in</router-link>
           </p>
         </div>
       </form>
