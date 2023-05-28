@@ -118,7 +118,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .register .btn {
   margin: 1.5rem;
 }

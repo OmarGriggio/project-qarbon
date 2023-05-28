@@ -3,7 +3,12 @@
   }
   
   body {
-    background-color: var(--main-color);
+    /* background-color: var(--main-color);  */
+    /* background-image: url('assets/party.png') !important; */
+    background-image: url('assets/party4.png') ;
+    background-repeat: no-repeat;
+    background-attachment: fixed;  
+    background-size: cover;
   }
   
   a {

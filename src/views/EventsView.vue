@@ -250,7 +250,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .col-md-4 {
   padding-left: 15px;
   padding-right: 15px;

@@ -8,14 +8,14 @@
           <input
             class="form-control"
             type="text"
-            placeholder="Nom d'utilisateur"
+            placeholder="Username"
             aria-label="default input example"
             v-model="username"
           />
           <input
             class="form-control"
             type="password"
-            placeholder="Mot de passe"
+            placeholder="Password"
             aria-label="default input example"
             v-model="password"
           />
