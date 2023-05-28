@@ -64,7 +64,7 @@ export default {
         await this.fetchPlaces()
 
         // Navigate to PlaceView
-        this.$router.push({ name: "place-list" }) // change made here
+        this.$router.push({ name: "place-list" })
       } catch (error) {
         console.error(error.response.data)
       }

@@ -149,6 +149,7 @@ export default {
       } catch (error) {
         console.error(error.response.data)
       }
+      this.$router.push({ name: "event-list" }) // change made here
     }
   },
   async created() {
@@ -184,18 +185,6 @@ h2 {
   border-color: #3498db;
   box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
 }
-
-/* .btn-submit {
-  background: linear-gradient(90deg, #3498db, #9b59b6);
-  border: none;
-  color: white;
-  border-radius: 10px;
-  transition: all 0.3s ease-in-out;
-}
-
-.btn-submit:hover {
-  background: linear-gradient(90deg, #9b59b6, #3498db);
-} */
 
 .card {
   border-radius: 10px;
