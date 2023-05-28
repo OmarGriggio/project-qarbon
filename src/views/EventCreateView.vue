@@ -85,7 +85,7 @@
                     @change="handleFileUpload($event)"
                   />
                 </div>
-                <button type="submit" class="btn btn-success btn-lg btn-block">Create Event</button>
+                <button type="submit" id="CreateButton"  class="btn btn-success btn-lg btn-block">Create Event</button>
               </form>
             </div>
           </div>
@@ -160,9 +160,38 @@ export default {
 }
 </script>
 <style scoped>
+
+#CreateButton {
+  padding: 1.3em 3em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  margin: 15px;
+}
+
+#CreateButton:hover {
+  background-color: #23c483;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+#CreateButton:active {
+  transform: translateY(-1px);
+}
+
 h2 {
   color: #050d15;
-  font-weight: 700;
+  font-weight:500;
 }
 
 .event-form .form-label {
