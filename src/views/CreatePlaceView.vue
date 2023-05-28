@@ -2,7 +2,7 @@
   <div id="content">
     <div class="create-place">
       <form @submit.prevent="submitForm">
-        <h1>Ajouter un nouvel endroit</h1>
+        <h2 class="mb-4 text-center" style="color: var(--main-color)">Create a new event</h2>
         <div class="col-lg-6">
           <input class="form-control" type="text" placeholder="Place name" v-model="place.name" />
           <span class="input-group">
@@ -127,6 +127,11 @@ h1 {
 
 #CreateButton:active {
   transform: translateY(-1px);
+}
+
+h2 {
+  color: #050d15;
+  font-weight:500;
 }
 .form-control {
   margin: 5px;

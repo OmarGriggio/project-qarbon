@@ -8,4 +8,3 @@ export default {
     return api.get(`comments/?place=${placeId}`).then((response) => response.data)
   }
 }
-
