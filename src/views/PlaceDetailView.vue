@@ -28,6 +28,13 @@
                   {{ formatTime(comment.created_at) }}
                 </li>
               </ul>
+
+              <h2>Rate this place</h2>
+              <form>
+                <input type="number" v-model="rating" min="0" max="5" step="0.1" />
+                <br />
+                <button @click="postRating()" :disabled="alreadyRated">Submit rating</button>
+              </form>
             </div>
             <div v-else>
               <p>Need to be logged to post a comment</p>
@@ -102,7 +109,9 @@ export default {
       userId: "",
       token: "",
       comments: [],
-      postedby: ""
+      postedby: "",
+      rating: "",
+      alreadyRated: false
     }
   },
   async mounted() {
@@ -145,7 +154,7 @@ export default {
         hour: "numeric",
         minute: "numeric"
       })
-    }
+    },
   },
   components: {
     ShareNetwork,
@@ -207,7 +216,7 @@ export default {
   font-size: 16px;
 }
 
-.PlaceDetailView
-{
+.PlaceDetailView {
   padding-top: 110px;
-}</style>
+}
+</style>
