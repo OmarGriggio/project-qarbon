@@ -1,6 +1,19 @@
 import api from "./api"
 
 export default {
+  async createEvent(event, token) {
+    const headers = { Authorization: `Bearer ${token}` }
+    const formData = new FormData()
+    for (let key in event) {
+      formData.append(key, event[key])
+    }
+    try {
+      await api.post("/events/", formData, { headers })
+    } catch (err) {
+      throw err.response.data
+    }
+  },
+
   async filterEvents(filters) {
     let url = "/events/?"
     if (filters.name) {

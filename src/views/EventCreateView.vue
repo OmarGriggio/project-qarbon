@@ -96,7 +96,9 @@
 </template>
 
 <script>
-import axios from "axios"
+import eventService from "../services/eventService"
+import placeService from "../services/placeService"
+
 export default {
   data() {
     return {
@@ -128,15 +130,10 @@ export default {
     async submitForm() {
       try {
         const token = localStorage.getItem("access_token")
-        const headers = { Authorization: `Bearer ${token}` }
+        // const headers = { Authorization: `Bearer ${token}` }
 
-        const formData = new FormData()
-        for (let key in this.event) {
-          formData.append(key, this.event[key])
-        }
+        await eventService.createEvent(this.event, token)
 
-        console.log(this.event)
-        await axios.post("http://127.0.0.1:8000/api/events/", formData, { headers })
         this.event = {
           name: "",
           description: "",
@@ -147,16 +144,14 @@ export default {
           capacity: 0
         }
       } catch (error) {
-        console.error(error.response.data)
+        console.error(error)
       }
-      this.$router.push({ name: "event-list" }) // change made here
+      this.$router.push({ name: "event-list" }) 
     }
   },
   async created() {
     try {
-      // this.user = await authService.getUser()
-      // this.event.user = this.user.pk
-      const response = await axios.get("http://127.0.0.1:8000/api/places/")
+      const response = await placeService.fetchPlaces()
       this.places = response.data
     } catch (error) {
       console.error(error)
@@ -166,7 +161,7 @@ export default {
 </script>
 <style scoped>
 h2 {
-  color: #34495e;
+  color: #050d15;
   font-weight: 700;
 }
 
