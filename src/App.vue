@@ -32,10 +32,10 @@
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item" v-if="!user">
-              <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
+              <router-link class="nav-link" :to="{ name: 'login' }">Sign in</router-link>
             </li>
             <li class="nav-item" v-else>
-              <span class="navbar-text mr-3">Logged in as {{ user.username }}</span>
+              <span class="navbar-text mr-3 me-2">Signed in as {{ user.username }}</span>
               <button class="btn btn-outline-success" @click="logout">Sign out</button>
             </li>
           </ul>
@@ -60,8 +60,15 @@ export default {
     }
   },
   methods: {
-    logout() {
-      authService.logout()
+    async logout() {
+      console.log("Logging out...")
+      try {
+        await authService.logout()
+        console.log("Logged out")
+        this.$router.push("/")
+      } catch (err) {
+        console.error("Logout failed:", err)
+      }
     }
   },
   async mounted() {

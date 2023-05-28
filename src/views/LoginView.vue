@@ -27,13 +27,12 @@
     <br />
     <p v-if="!user">
       No account ?
-      <router-link style="color: var(--main-color)" to="/register"> register</router-link>
+      <router-link style="color: var(--main-color)" to="/register">Sign up</router-link>
     </p>
   </div>
   <div v-if="user">
     Logged in user data:
     <pre>{{ user }}</pre>
-    <input type="submit" value="Logout" @click="logout" /> <br />
   </div>
 </template>
 
@@ -56,9 +55,9 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
       this.loginError = ""
-      authService
+      await authService
         .login({
           username: this.username,
           password: this.password
@@ -67,12 +66,7 @@ export default {
           this.loginError = err.response && err.response.data ? err.response.data : err
           console.error(this.loginError)
         })
-
-      this.username = ""
-      this.password = ""
-    },
-    logout() {
-      authService.logout()
+      this.$router.push("/event-list")
     }
   },
   async mounted() {
