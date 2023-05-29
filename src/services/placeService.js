@@ -1,4 +1,4 @@
-import api from "@/services/api"
+import api, { apiImage } from "./api"
 
 export default {
   async postCommentOnPlace(id, comment, token) {
@@ -14,5 +14,18 @@ export default {
   },
   fetchPlaceDetail(id) {
     return api.get(`/places/${id}/`)
-  }
+  },
+
+  async createPlace(place, token) {
+    const headers = { Authorization: `Bearer ${token}` }
+    const formData = new FormData()
+    for (let key in place) {
+      formData.append(key, place[key])
+    }
+    try {
+      await apiImage.post("/places/", formData, { headers })
+    } catch (err) {
+      throw err.response.data
+    }
+  },
 }
