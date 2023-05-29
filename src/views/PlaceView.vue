@@ -1,25 +1,32 @@
 <template>
-  <div class="PlaceView">
+  <div id="content">
     <div v-if="error">
       <p>Une erreur est survenue: {{ error }}</p>
     </div>
     <div v-else>
-      <h2 style="padding-bottom: 30px; color:var(--main-color)">Places</h2>
-      <div class="container row-lg-4">
-        <div class="card-display">
-          <div v-for="place in places" :key="place.id">
-            <div class="card" style="width: 18rem">
-              <!-- <img src="..." class="card-img-top" alt="..." />-->
-              <div class="card-body">
-                <h5 class="card-title">{{ place.name }}</h5>
-                <p class="card-text">
-                  {{ place.street }} {{ place.number }} <br />
-                  {{ place.postal_code }} {{ place.locality }}
-                </p>
-                <RouterLink :to="'/place-detail/' + place.id">
-                  <button class="buttonSee">See more</button>
-                </RouterLink>
-              </div>
+      <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color)">Places</h2>
+
+      <div class="row justify-content-center">
+        <div v-for="place in places" :key="place.id" class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <h5 class="card-title" style="color: var(--main-color)">{{ place.name }}</h5>
+                </li>
+                <br />
+                <li class="list-group-item">
+                  <h5 class="card-subtitle">{{ place.street }} {{ place.number }}</h5>
+                  <p class="subtitle-text">{{ place.postal_code }} {{ place.locality }}</p>
+                </li>
+                <li class="list-group-item">
+                  <div>
+                    <RouterLink :to="'/place-detail/' + place.id">
+                      <button class="buttonSee">See more</button>
+                    </RouterLink>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -65,6 +72,11 @@ export default {
 </script>
 
 <style scoped>
+.col-md-4 {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+}
 .card-title {
   font-size: 20px;
   font-weight: bold;
@@ -76,10 +88,11 @@ export default {
   align-content: center;
   gap: 25px;
 }
-.PlaceView{
+.PlaceView {
   padding-top: 120px;
 }
 .buttonSee {
+  margin-top: 10px;
   padding: 0.9em 1em;
   font-size: 12px;
   text-transform: uppercase;
@@ -87,19 +100,19 @@ export default {
   font-weight: 500;
   color: #000;
   background-color: #fff;
-  border: none;
+  border: 0.5px solid gray;
   border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 8px 5px rgba(0, 0, 0, 0.1); */
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
 }
 
 .buttonSee:hover {
-  background-color: #23c483;
+  background-color: var(--main-color);
   box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
   color: #fff;
-  transform: translateY(-7px);
+  transform: translateY(-2px);
 }
 
 .buttonSee:active {
