@@ -27,6 +27,13 @@ class Place(models.Model):
             img.thumbnail(output_size)
             img.save(self.image.path)
 
+    def average_rating(self):
+        avg_rating = self.rating_set.all().aggregate(models.Avg('rating')).get('rating__avg')
+        if avg_rating is None:
+            return "No ratings yet"
+        else:
+            return round(avg_rating, 2)
+
     def __str__(self):
         return self.name
     

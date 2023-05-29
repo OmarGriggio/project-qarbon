@@ -43,7 +43,7 @@
           </div>
           <div>
             <button
-              class="btn btn-success col-lg-1"
+              class="btn btn-success col-lg-2"
               v-if="!user"
               @click="register"
               :disabled="passwordMismatch"
