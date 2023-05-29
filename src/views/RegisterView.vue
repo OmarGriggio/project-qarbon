@@ -51,8 +51,8 @@
               Sign up
             </button>
           </div>
-          <p v-if="passwordMismatch">Password do not match</p>
-          <p v-if="loginError">{{ loginError }}</p>
+          <p class="error" v-if="passwordMismatch">Password do not match</p>
+          <p class="error" v-if="loginError">{{ loginError.username[0] }}</p>
           <p v-if="!user">
             Already have an account ?
             <router-link to="/login" style="color: var(--main-color)">Sign in</router-link>
@@ -127,5 +127,10 @@ export default {
 }
 .register {
   padding-top: 70px;
+}
+
+.error {
+  color: red;
+  font-size: 20px;
 }
 </style>

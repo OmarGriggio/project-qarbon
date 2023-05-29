@@ -33,33 +33,18 @@
             <p>You need to be logged in to register</p>
           </div>
           <div class="d-flex justify-content-evenly">
-            <ShareNetwork
-              network="twitter"
-              :url="eventUrl(event.id)"
-              :title="eventUrlTitle(event)"
-              description="This is an awesome event !"
-              twitter-user="qarbonEvent"
-            >
-              <font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color" />
-            </ShareNetwork>
 
-            <ShareNetwork
-              network="facebook"
-              :url="eventUrl(event.id)"
-              :title="eventUrlTitle(event)"
-              description="This is an awesome event !"
-            >
+            <button class="transparent-button" @click="shareOnTwitter">
+              <span><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"/></span>
+            </button>
+
+            <button class="transparent-button" @click="shareOnFacebook">
               <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
-            </ShareNetwork>
+            </button>
 
-            <ShareNetwork
-              network="whatsapp"
-              :url="eventUrl(event.id)"
-              :title="eventUrlTitle(event)"
-              description="This is an awesome event !"
-            >
+            <button class="transparent-button" style="margin-left: 10px" @click="shareOnWhatsapp">
               <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
-            </ShareNetwork>
+            </button>
           </div>
         </div>
       </div>
@@ -71,7 +56,6 @@
 import authService from "../services/authService"
 import eventService from "../services/eventService"
 // import api from "../services/api"
-import { ShareNetwork } from "vue-social-sharing"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
@@ -148,16 +132,46 @@ export default {
       this.place = response.data.place
       this.userPublisher = response.data.user.username
       this.participants = response.data.participants
+    },
+    shareOnWhatsapp() {
+      let message = `Check out this awesome place: ${this.event.name} - ${this.eventUrl(
+        this.event.id
+      )}`
+      let whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
+      window.location.href = whatsappUrl
+    },
+    shareOnFacebook() {
+      let url = this.eventUrl(this.event.id)
+      let facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
+      window.location.href = facebookUrl
+    },
+    shareOnTwitter() {
+      let url = this.eventUrl(this.event.id)
+      let text = `${this.event.name} - Check out this place!`
+      let twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+        url
+      )}&text=${encodeURIComponent(text)}&via=qarbon`
+      window.location.href = twitterUrl
     }
   },
   components: {
-    ShareNetwork,
     FontAwesomeIcon
   }
 }
 </script>
 
 <style scoped>
+
+.transparent-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.transparent-button:focus {
+  outline: none;
+}
 .col-md-4 {
   padding-left: 15px;
   padding-right: 15px;

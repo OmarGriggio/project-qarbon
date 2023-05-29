@@ -42,41 +42,21 @@
             <!-- Formulaire d'évaluation -->
 
             <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
-            <ShareNetwork
-              network="twitter"
-              :url="placeURL(place.id)"
-              :title="place.name"
-              description="Check out this place!"
-              twitter-user="qarbon"
-            >
-              <button class="btn btn-primary" style="margin-left: 10px">
-                <span><font-awesome-icon icon="fa-brands fa-twitter" /></span>
-              </button>
-            </ShareNetwork>
+            <button class="transparent-button" style="margin-left: 10px" @click="shareOnTwitter">
+              <span><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"/></span>
+            </button>
+
             <br />
             <br />
-            <ShareNetwork
-              network="facebook"
-              :url="placeURL(place.id)"
-              :title="place.name"
-              description="This is an awesome event !"
-            >
-              <button class="btn btn-primary" style="margin-left: 10px">
-                <span><font-awesome-icon icon="fa-brands fa-facebook" class="text" /></span>
-              </button>
-            </ShareNetwork>
+            <button class="transparent-button" style="margin-left: 10px" @click="shareOnFacebook">
+              <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
+            </button>
+
             <br />
             <br />
-            <ShareNetwork
-              network="whatsapp"
-              :url="placeURL(place.id)"
-              :title="place.name"
-              description="This is an awesome event !"
-            >
-              <button class="btn btn-primary" style="margin-left: 10px">
-                <span><font-awesome-icon icon="fa-brands fa-whatsapp" /></span>
-              </button>
-            </ShareNetwork>
+            <button class="transparent-button" style="margin-left: 10px" @click="shareOnWhatsapp">
+              <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
+            </button>
           </div>
         </div>
       </div>
@@ -89,7 +69,6 @@ import authService from "../services/authService"
 import placeService from "../services/placeService"
 import commmentService from "../services/commentService"
 // import api from "../services/api"
-import { ShareNetwork } from "vue-social-sharing"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
@@ -155,15 +134,45 @@ export default {
         minute: "numeric"
       })
     },
+    shareOnWhatsapp() {
+      let message = `Check out this awesome place: ${this.place.name} - ${this.placeURL(
+        this.place.id
+      )}`
+      let whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
+      window.location.href = whatsappUrl
+    },
+    shareOnFacebook() {
+      let url = this.placeURL(this.place.id)
+      let facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
+      window.location.href = facebookUrl
+    },
+    shareOnTwitter() {
+      let url = this.placeURL(this.place.id)
+      let text = `${this.place.name} - Check out this place!`
+      let twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+        url
+      )}&text=${encodeURIComponent(text)}&via=qarbon`
+      window.location.href = twitterUrl
+    }
   },
   components: {
-    ShareNetwork,
     FontAwesomeIcon
   }
 }
 </script>
 
 <style scoped>
+.transparent-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.transparent-button:focus {
+  outline: none;
+}
+
 .text {
   color: #ffffff;
 }
@@ -218,5 +227,14 @@ export default {
 
 .PlaceDetailView {
   padding-top: 110px;
+}
+
+.main-color {
+  color: var(--main-color);
+}
+
+.icon {
+  font-size: 30px;
+  margin: 10px;
 }
 </style>
