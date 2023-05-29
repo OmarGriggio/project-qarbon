@@ -43,6 +43,12 @@
         "
       />
 
+      <select v-model="filterStatus" @change="filterEvents">
+        <option value="all">All</option>
+        <option value="registered">Registered</option>
+        <option value="unregistered">Unregistered</option>
+      </select>
+
       <button class="btn btn-success" style="margin-left: 10px" @click="filterEvents">
         FILTER
       </button>
@@ -69,6 +75,10 @@
                     {{ getPlace(event.place).locality }},
                     <br />
                     Number of participants : {{ event.participants.length }}
+                  </p>
+
+                  <p v-if="isUserRegistered(event)" class="subtitle-text">
+                    You are registered for this event
                   </p>
                 </li>
                 <li class="list-group-item">
@@ -112,11 +122,11 @@ export default {
       userFind: null,
       events: [],
       places: [],
-      users: []
+      users: [],
+      filterStatus: "all"
     }
   },
   async mounted() {
-
     const response = await placeService.fetchPlaces()
     this.places = response.data
     this.filterEvents()
@@ -143,6 +153,12 @@ export default {
           place_name: this.searchPlace,
           user: this.searchUser
         })
+
+        if (this.filterStatus === "registered") {
+          this.events = this.events.filter((event) => this.isUserRegistered(event))
+        } else if (this.filterStatus === "unregistered") {
+          this.events = this.events.filter((event) => !this.isUserRegistered(event))
+        }
       } catch (err) {
         this.error = err
       }
@@ -169,12 +185,7 @@ export default {
       }
     },
     isUserRegistered(event) {
-      for (let participant of event.participants) {
-        if (participant.id === this.user.pk) {
-          return true
-        }
-        return false
-      }
+      return event.participants.some((participant) => participant.id === this.user.pk)
     }
   },
   components: {}
