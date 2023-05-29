@@ -7,6 +7,7 @@
       <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color)">Events</h2>
       <input
         v-model="searchEvent"
+        @input="filterEventsDebounced"
         placeholder="Search events by name"
         style="
           margin-right: 10px;
@@ -19,6 +20,7 @@
       />
       <input
         v-model="searchPlace"
+        @input="filterEventsDebounced"
         placeholder="Search events by place name"
         style="
           margin-right: 10px;
@@ -32,6 +34,7 @@
 
       <input
         v-model="searchUser"
+        @input="filterEventsDebounced"
         placeholder="Search events by username"
         style="
           margin-right: 10px;
@@ -42,16 +45,15 @@
           text-emphasis-color: white;
         "
       />
-
       <select v-model="filterStatus" @change="filterEvents">
         <option value="all">All</option>
         <option value="registered">Registered</option>
         <option value="unregistered">Unregistered</option>
       </select>
 
-      <button class="btn btn-success" style="margin-left: 10px" @click="filterEvents">
+      <!-- <button class="btn btn-success" style="margin-left: 10px" @click="filterEvents">
         FILTER
-      </button>
+      </button> -->
 
       <button class="btn btn-success" style="margin-left: 10px" @click="resetFilters">RESET</button>
 
@@ -100,6 +102,7 @@
 import authService from "../services/authService"
 import eventService from "../services/eventService"
 import placeService from "../services/placeService"
+import _ from "lodash"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
 import { faTwitter } from "@fortawesome/free-brands-svg-icons"
@@ -133,6 +136,10 @@ export default {
     }
   },
   methods: {
+    filterEventsDebounced: _.debounce(function () {
+      this.filterEvents()
+    }, 300),
+
     getPlace(placeId) {
       return this.places.find((place) => place.id === placeId) || {}
     },
