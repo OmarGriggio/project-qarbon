@@ -30,7 +30,7 @@
 
 <script>
 import authService from "../services/authService"
-import axios from "axios"
+import placeService from "../services/placeService"
 
 export default {
   data() {
@@ -41,9 +41,8 @@ export default {
   },
   async mounted() {
     try {
-      this.places = await axios
-        .get("http://localhost:8000/api/places/")
-        .then((response) => response.data)
+      const response = await placeService.fetchPlaces()
+      this.places = response.data
     } catch (err) {
       this.error = err.response.data
     }

@@ -38,8 +38,14 @@
                 placeholder="Locality"
                 v-model="place.locality"
               />
+              <input
+                type="file"
+                id="image"
+                class="form-control"
+                @change="handleFileUpload($event)"
+              />
             </div>
-            <button type="submit" id="CreateButton" @click="submitForm">Create</button>
+            <button type="submit" id="CreateButton">Create</button>
           </form>
         </div>
       </div>
@@ -48,8 +54,9 @@
 </template>
 
 <script>
-import axios from "axios"
-import { useRouter } from "vue-router"
+import "../services/placeService"
+// import { useRouter } from "vue-router"
+import placeService from "../services/placeService"
 
 export default {
   data() {
@@ -65,51 +72,48 @@ export default {
     }
   },
   methods: {
+    handleFileUpload(event) {
+      this.place.image = event.target.files[0]
+    },
     async submitForm() {
       try {
         const token = localStorage.getItem("access_token")
-        const headers = { Authorization: `Bearer ${token}` }
+        // const headers = { Authorization: `Bearer ${token}` }
 
-        const formData = new FormData()
-        for (let key in this.place) {
-          formData.append(key, this.place[key])
-        }
+        // const formData = new FormData()
+        // for (let key in this.place) {
+        //   formData.append(key, this.place[key])
+        // }
 
         console.log(this.place)
-        await axios.post("http://127.0.0.1:8000/api/places/", formData, { headers })
+        await placeService.createPlace(this.place, token)
+        // await axios.post("http://127.0.0.1:8000/api/places/", formData, { headers })
         this.place = {
           name: "",
           street: "",
           number: 0,
           postal_code: 0,
-          locality: ""
+          locality: "",
+          image: null
         }
-        await this.fetchPlaces()
+        // await this.fetchPlaces()
 
         // Navigate to PlaceView
         this.$router.push({ name: "place-list" })
       } catch (error) {
-        console.error(error.response.data)
+        console.error(error.response)
       }
     },
-    async fetchPlaces() {
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/api/places/")
-        this.places = response.data
-      } catch (error) {
-        console.error(error)
-      }
-    }
   },
   async mounted() {
-    await this.fetchPlaces()
+    await placeService.fetchPlaces()
   }
 }
 </script>
 
 <style scoped>
 .card {
-  width: 70%;  /* Adjust this value to suit your design */
+  width: 70%; /* Adjust this value to suit your design */
   margin: auto; /* This centers the card if it has a width less than 100% */
 }
 
