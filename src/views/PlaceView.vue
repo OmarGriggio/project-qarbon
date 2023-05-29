@@ -5,6 +5,50 @@
     </div>
     <div v-else>
       <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color)">Places</h2>
+      
+      <input
+        v-model="searchByName"
+        placeholder="name"
+        style="
+          margin-right: 10px;
+          width: 20%;
+          margin-bottom: 30px;
+          text-align: center;
+          border-radius: 9px;
+          text-emphasis-color: white;
+        "
+      />
+      <input
+        v-model="searchByStreet"
+        placeholder="Street"
+        style="
+          margin-right: 10px;
+          width: 10%;
+          margin-bottom: 30px;
+          text-align: center;
+          border-radius: 9px;
+          text-emphasis-color: white;
+        "
+      />
+      <input
+        v-model="searchByLocality"
+        placeholder="Locality"
+        style="
+          margin-right: 10px;
+          width: 20%;
+          margin-bottom: 30px;
+          text-align: center;
+          border-radius: 9px;
+          text-emphasis-color: white;
+        "
+      />
+
+      <button class="btn btn-success" style="margin-left: 10px" @click="filterPlaces">
+        FILTER
+      </button>
+
+      <button class="btn btn-success" style="margin-left: 10px" @click="resetFilters">RESET</button>
+
 
       <div class="row justify-content-center">
         <div v-for="place in places" :key="place.id" class="col-md-4">
@@ -43,7 +87,10 @@ export default {
   data() {
     return {
       error: null,
-      places: []
+      places: [],
+      searchByName: "",
+      searchByLocality: "",
+      searchByStreet: "",
     }
   },
   async mounted() {
@@ -66,7 +113,25 @@ export default {
     storeEvent(event) {
       sessionStorage.setItem("place", JSON.stringify(event))
     },
-    components: {}
+    async filterPlaces() {
+      try {
+        this.places = await placeService.filterPlaces({
+          name: this.searchByName,
+          locality: this.searchByLocality,
+          street: this.searchByStreet
+        })
+      } catch (error) {
+        this.error = error.response.data
+      }
+    },
+    resetFilters() {
+      this.searchByName = ""
+      this.searchByLocality = ""
+      this.searchByStreet = ""
+      this.filterPlaces()
+    },
+    components: {
+    }
   }
 }
 </script>
