@@ -76,10 +76,6 @@
                     <br />
                     Number of participants : {{ event.participants.length }}
                   </p>
-
-                  <p v-if="isUserRegistered(event)" class="subtitle-text">
-                    You are registered for this event
-                  </p>
                 </li>
                 <li class="list-group-item">
                   <div>
