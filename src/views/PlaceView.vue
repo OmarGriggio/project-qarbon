@@ -72,6 +72,28 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  overflow: hidden;
+  justify-content: space-between;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  transition: box-shadow 0.5s;
+  width: auto;
+}
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  transition: transform 0.2s; /* Animation */
+}
+
+.card-img-top {
+  max-height: 250px;
+  max-width: 100%;
+  object-fit: cover;
+}
 .col-md-4 {
   padding-left: 10px;
   padding-right: 10px;
