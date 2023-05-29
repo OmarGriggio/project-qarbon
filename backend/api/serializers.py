@@ -90,7 +90,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class PlaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Place
-        fields = '__all__'
+        # fields = '__all__'
+        fields = ['id', 'name', 'street', 'number', 'postal_code', 'locality', 'image']
 
 class RatingSerializer(serializers.ModelSerializer):
 

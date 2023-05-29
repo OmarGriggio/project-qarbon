@@ -17,7 +17,7 @@ class ModelAdmin(admin.ModelAdmin):
 
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'locality')
+    list_display = ('pk', 'name', 'street', 'number', 'postal_code', 'locality', 'image')
     search_fields = ('name', 'locality')
 
 # Unregister the default User admin
