@@ -1,7 +1,7 @@
 <template>
   <div class="Picture">
     <img :src="src" alt="Picture" class="img-fluid" />
-    <button class="btn btn-primary" @click="browse()">Photo</button>
+    <button type="button" class="btn btn-primary" @click="browse()">Photo</button>
     <input type="file" accept="image/*" class="invisible" ref="file" @change="change" />
   </div>
 </template>
