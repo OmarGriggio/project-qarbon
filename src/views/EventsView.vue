@@ -138,7 +138,7 @@ export default {
   methods: {
     filterEventsDebounced: _.debounce(function () {
       this.filterEvents()
-    }, 300),
+    }, 250),
 
     getPlace(placeId) {
       return this.places.find((place) => place.id === placeId) || {}
