@@ -151,7 +151,7 @@ export default {
       let text = `${this.place.name} - Check out this place!`
       let twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
         url
-      )}&text=${encodeURIComponent(text)}&via=qarbon`
+      )}&text=via=qar${encodeURIComponent(text)}&bon`
       window.location.href = twitterUrl
     }
   },

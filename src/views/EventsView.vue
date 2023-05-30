@@ -45,11 +45,13 @@
           text-emphasis-color: white;
         "
       />
-      <select v-model="filterStatus" @change="filterEvents">
-        <option value="all">All</option>
-        <option value="registered">Registered</option>
-        <option value="unregistered">Unregistered</option>
-      </select>
+      <div v-if="user">
+        <select v-model="filterStatus" @change="filterEvents">
+          <option value="all">All</option>
+          <option value="registered">Registered</option>
+          <option value="unregistered">Unregistered</option>
+        </select>
+      </div>
 
       <!-- <button class="btn btn-success" style="margin-left: 10px" @click="filterEvents">
         FILTER
