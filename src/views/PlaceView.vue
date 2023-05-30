@@ -55,6 +55,7 @@
       <div class="row justify-content-center">
         <div v-for="place in places" :key="place.id" class="col-md-4">
           <div class="card">
+            <img :src="place.image" alt="place image" class="card-img-top" />
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">

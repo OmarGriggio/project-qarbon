@@ -113,8 +113,8 @@ export default {
 
 <style scoped>
 .card {
-  width: 70%; /* Adjust this value to suit your design */
-  margin: auto; /* This centers the card if it has a width less than 100% */
+  width: 70%;
+  margin: auto;
 }
 
 form {

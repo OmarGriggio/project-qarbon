@@ -1,64 +1,68 @@
 <template>
   <div class="register">
     <div class="container">
-      <form class="register-form">
-        <h2 style="color: var(--main-color)">Sign up</h2>
-        <br />
-        <div>
-          <div>
-            <div class="container col-lg-3">
-              <input
-                type="text"
-                id="firstName"
-                class="form-control"
-                placeholder="Username"
-                aria-label="default input example"
-                v-model="username"
-              />
+      <div class="card custom-card shadow-lg bg-white rounded">
+        <div class="card-body">
+          <form class="register-form">
+            <h1  style="color: var(--main-color)">Sign up</h1>
+            <br />
+            <div>
+              <div>
+                <div class="container col-lg-8">
+                  <input
+                    type="text"
+                    id="firstName"
+                    class="form-control"
+                    placeholder="Username"
+                    aria-label="default input example"
+                    v-model="username"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="container col-lg-8">
+                  <input
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    aria-label="default input example"
+                    placeholder="Password"
+                    v-model="password"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="container col-lg-8">
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    class="form-control"
+                    aria-label="default input example"
+                    placeholder="Confirm password"
+                    v-model="confirmPassword"
+                  />
+                </div>
+              </div>
+              <div>
+                <button
+                  class="btn btn-success col-lg-2"
+                  v-if="!user"
+                  @click="register"
+                  :disabled="passwordMismatch"
+                >
+                  Sign up
+                </button>
+              </div>
+              <p class="error" v-if="passwordMismatch">Password do not match</p>
+              <p class="error" v-if="loginError">{{ loginError.username[0] }}</p>
+              <p v-if="!user">
+                Already have an account ?
+                <router-link to="/login" style="color: var(--main-color)">Sign in</router-link>
+              </p>
             </div>
-          </div>
-          <div>
-            <div class="container col-lg-3">
-              <input
-                type="password"
-                id="password"
-                class="form-control"
-                aria-label="default input example"
-                placeholder="Password"
-                v-model="password"
-              />
-            </div>
-          </div>
-          <div>
-            <div class="container col-lg-3">
-              <input
-                type="password"
-                id="confirmPassword"
-                class="form-control"
-                aria-label="default input example"
-                placeholder="Confirm password"
-                v-model="confirmPassword"
-              />
-            </div>
-          </div>
-          <div>
-            <button
-              class="btn btn-success col-lg-2"
-              v-if="!user"
-              @click="register"
-              :disabled="passwordMismatch"
-            >
-              Sign up
-            </button>
-          </div>
-          <p class="error" v-if="passwordMismatch">Password do not match</p>
-          <p class="error" v-if="loginError">{{ loginError.username[0] }}</p>
-          <p v-if="!user">
-            Already have an account ?
-            <router-link to="/login" style="color: var(--main-color)">Sign in</router-link>
-          </p>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -119,6 +123,11 @@ export default {
 }
 </script>
 <style scoped>
+.card {
+  padding-top: 30px;
+  width: 40%;
+  margin: auto;
+}
 .register .btn {
   margin: 1.5rem;
 }

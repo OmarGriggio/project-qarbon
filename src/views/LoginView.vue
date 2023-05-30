@@ -1,34 +1,38 @@
 <template>
   <div class="Login">
     <div class="container text-center col-lg-4">
-      <h1 style="color: var(--main-color)">Welcome back</h1>
-      <br />
-      <div class="container col-lg-8">
-        <div class="container row-1">
-          <input
-            class="form-control"
-            type="text"
-            placeholder="Username"
-            aria-label="default input example"
-            v-model="username"
-          />
-          <input
-            class="form-control"
-            type="password"
-            placeholder="Password"
-            aria-label="default input example"
-            v-model="password"
-          />
+      <div class="card shadow-lg bg-white rounded">
+        <div class="card-body">
+          <h1 style="color: var(--main-color)">Welcome back</h1>
+          <br />
+          <div class="container col-lg-8">
+            <div class="container row-1">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Username"
+                aria-label="default input example"
+                v-model="username"
+              />
+              <input
+                class="form-control"
+                type="password"
+                placeholder="Password"
+                aria-label="default input example"
+                v-model="password"
+              />
+            </div>
+          </div>
+          <br />
+          <button type="button" class="btn btn-success col-lg" @click="login">Sign in</button>
         </div>
+        <br />
+        <p style="padding-bottom: 30px;" v-if="!user">
+          No account ?
+          <router-link style="color: var(--main-color)" to="/register">Sign up</router-link>
+        </p>
       </div>
-      <br />
-      <button type="button" class="btn btn-success col-lg" @click="login">Sign in</button>
     </div>
-    <br />
-    <p v-if="!user">
-      No account ?
-      <router-link style="color: var(--main-color)" to="/register">Sign up</router-link>
-    </p>
   </div>
   <div v-if="user">
     Logged in user data:
@@ -83,12 +87,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.card {
+  padding-top: 30px;
+  /* height: 600px;  */
+  overflow: auto;
+}
 .form-control {
   margin: 5px;
 }
 .Login {
-  padding-top: 130px;
+  padding-top: 70px;
 }
 
 #nav a.router-link-exact-active {
