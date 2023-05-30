@@ -1,63 +1,67 @@
 <template>
-  <div class="PlaceDetailView">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card" style="width: auto">
-          <div class="card-body">
-            <p>ID de la place : {{ place.id }}</p>
-            <h5 class="card-title">{{ place.name }}</h5>
-            <p class="card-text">
-              {{ place.street }} {{ place.number }} <br />
-              {{ place.postal_code }} {{ place.locality }}
-            </p>
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card">
+        <img :src="place.image" alt="place image" class="card-img-top" />
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <h5 class="card-title" style="color: var(--main-color)">{{ place.name }}</h5>
+            </li>
+            <br />
+            <li class="list-group-item">
+              <h5 class="card-subtitle">{{ place.street }} {{ place.number }}</h5>
+              <p class="subtitle-text">{{ place.postal_code }} {{ place.locality }}</p>
+            </li>
             <div v-if="user">
-              <p>Vous êtes connecté en tant que {{ user.username }}</p>
-              <p>{{ this.user.pk }}</p>
-              <h2>Comment on this post</h2>
-              <form>
-                <textarea v-model="newComment"></textarea>
-                <br />
-                <button @click="postComment()">Envoyer</button>
-              </form>
-
-              <ul>
-                <li v-for="comment in comments" :key="comment.id">
-                  "{{ comment.text }}" Posted by : {{ comment.user.username }}
-                  <br />
-                  {{ formatDate(comment.created_at) }}
-                  {{ formatTime(comment.created_at) }}
-                </li>
-              </ul>
-
-              <h2>Rate this place</h2>
-              <form>
-                <input type="number" v-model="rating" min="0" max="5" step="0.1" />
-                <br />
-                <button @click="postRating()" :disabled="alreadyRated">Submit rating</button>
-              </form>
+              <button @click="showComments = !showComments" class="buttonSee">
+                See comments
+                <font-awesome-icon :icon="['fas', showComments ? 'arrow-up' : 'arrow-down']" />
+              </button>
+              <div v-if="showComments">
+                <div class="comment-section">
+                  <p v-for="comment in comments" :key="comment.id">
+                    {{ comment.text }}
+                  </p>
+                </div>
+              </div>
+              <div class="card-body">
+                <div>
+                  <div class="col-6 justify-content-center">
+                    <textarea
+                      type="text"
+                      class="input"
+                      placeholder="Write a comment"
+                      v-model="newComment"
+                      @keyup.enter="postComment()"
+                    ></textarea>
+                    <button @click="postComment()" class="buttonSee move" type="submit">
+                      Add comment
+                    </button>
+                  </div>
+                  <!-- col-6 -->
+                </div>
+              </div>
             </div>
             <div v-else>
-              <p>Need to be logged to post a comment</p>
+              <p>You need to be logged in to comment. <br /></p>
             </div>
-            <!-- Formulaire d'évaluation -->
+            <div class="d-flex justify-content-evenly">
+              <button class="transparent-button" @click="shareOnTwitter">
+                <span
+                  ><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"
+                /></span>
+              </button>
 
-            <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
-            <button class="transparent-button" style="margin-left: 10px" @click="shareOnTwitter">
-              <span><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"/></span>
-            </button>
+              <button class="transparent-button" @click="shareOnFacebook">
+                <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
+              </button>
 
-            <br />
-            <br />
-            <button class="transparent-button" style="margin-left: 10px" @click="shareOnFacebook">
-              <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
-            </button>
-
-            <br />
-            <br />
-            <button class="transparent-button" style="margin-left: 10px" @click="shareOnWhatsapp">
-              <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
-            </button>
-          </div>
+              <button class="transparent-button" style="margin-left: 10px" @click="shareOnWhatsapp">
+                <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
+              </button>
+            </div>
+          </ul>
         </div>
       </div>
     </div>
@@ -90,7 +94,8 @@ export default {
       comments: [],
       postedby: "",
       rating: "",
-      alreadyRated: false
+      alreadyRated: false,
+      showComments: false
     }
   },
   async mounted() {
@@ -162,73 +167,6 @@ export default {
 </script>
 
 <style scoped>
-.transparent-button {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-}
-
-.transparent-button:focus {
-  outline: none;
-}
-
-.text {
-  color: #ffffff;
-}
-
-.col-md-4 {
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-bottom: 30px;
-}
-
-.col-md-6 {
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-bottom: 30px;
-}
-
-.card {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  transition: box-shadow 0.5s;
-  width: auto;
-}
-
-.card:hover {
-  box-shadow: 0 4px 8px grey;
-}
-
-.card-body {
-  flex-grow: 1;
-}
-
-.card-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  padding: 10px;
-}
-
-.w-100 {
-  align-items: end;
-  align-content: center;
-}
-
-.card-text {
-  font-size: 16px;
-}
-
-.PlaceDetailView {
-  padding-top: 110px;
-}
-
 .main-color {
   color: var(--main-color);
 }
@@ -236,5 +174,99 @@ export default {
 .icon {
   font-size: 30px;
   margin: 10px;
+}
+
+.transparent-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.move{
+  margin-left: 100px;
+}
+.comment-section {
+  max-height: 25vh;
+  max-width: 90%;
+  background-color: #ffffff;
+}
+
+textarea {
+  width: 200%;
+  border: none;
+  background: #e8e8e8;
+  height: 40%;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: 4px solid var(--main-color);
+  transition: all 0.5s;
+}
+.card {
+  overflow: hidden;
+  justify-content: space-between;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  transition: box-shadow 0.5s;
+  width: auto;
+}
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  transition: transform 0.2s; /* Animation */
+}
+
+.card-img-top {
+  max-height: 250px;
+  max-width: 100%;
+  object-fit: cover;
+}
+.col-md-4 {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+}
+.card-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.card-display {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 25px;
+}
+.PlaceView {
+  padding-top: 120px;
+}
+.buttonSee {
+  margin-top: 10px;
+  padding: 0.9em 1em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: 0.5px solid gray;
+  border-radius: 45px;
+  /* box-shadow: 0px 8px 5px rgba(0, 0, 0, 0.1); */
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.buttonSee:hover {
+  background-color: var(--main-color);
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.buttonSee:active {
+  transform: translateY(-1px);
 }
 </style>

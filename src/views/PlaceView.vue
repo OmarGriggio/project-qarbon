@@ -44,13 +44,12 @@
           text-emphasis-color: white;
         "
       />
-<!-- 
+      <!-- 
       <button class="btn btn-success" style="margin-left: 10px" @click="filterPlaces">
         FILTER
       </button> -->
 
       <button class="btn btn-success" style="margin-left: 10px" @click="resetFilters">RESET</button>
-
 
       <div class="row justify-content-center">
         <div v-for="place in places" :key="place.id" class="col-md-4">
@@ -94,7 +93,7 @@ export default {
       places: [],
       searchByName: "",
       searchByLocality: "",
-      searchByStreet: "",
+      searchByStreet: ""
     }
   },
   async mounted() {
@@ -137,13 +136,20 @@ export default {
       this.searchByStreet = ""
       this.filterPlaces()
     },
-    components: {
-    }
+    components: {}
   }
 }
 </script>
 
 <style scoped>
+
+.transparent-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
 .card {
   overflow: hidden;
   justify-content: space-between;
