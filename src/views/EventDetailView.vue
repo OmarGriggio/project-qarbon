@@ -8,10 +8,8 @@
           <p class="card-text"></p>
           <img :src="event.image" alt="event image" style="width: 50%; height: 50%" />
           <p>{{ event.description }}</p>
-          <p>
-            Place : {{ place.number }} {{ place.street }}, {{ place.postal_code }}
-            {{ place.locality }}
-          </p>
+          <p>Place : {{ event.place }}</p>
+          <p>{{ getPlace(event.place).name }}</p>
           <p>Price : CHF {{ event.price }}.-</p>
           <p>Date of the event : {{ formatDate(event.date) }}</p>
           <p>Hour of event : {{ formatTime(event.date) }} h</p>
@@ -23,6 +21,7 @@
             <button
               v-if="!isUserRegistered(participants) && !isEventFull(event, participants)"
               @click="registerForEvent(event.id)"
+              class="buttonSee"
             >
               Register
             </button>
@@ -33,9 +32,8 @@
             <p>You need to be logged in to register</p>
           </div>
           <div class="d-flex justify-content-evenly">
-
             <button class="transparent-button" @click="shareOnTwitter">
-              <span><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"/></span>
+              <span><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color" /></span>
             </button>
 
             <button class="transparent-button" @click="shareOnFacebook">
@@ -55,6 +53,7 @@
 <script>
 import authService from "../services/authService"
 import eventService from "../services/eventService"
+import placeService from "../services/placeService"
 // import api from "../services/api"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
@@ -69,7 +68,8 @@ export default {
     return {
       error: null,
       event: [],
-      place: [],
+      //place: [],
+      places: [],
       userPublisher: "",
       userCo: "",
       participants: []
@@ -78,6 +78,8 @@ export default {
   async mounted() {
     const eventId = this.$route.params.id
     this.fetchEvent(eventId)
+    const resp = await placeService.fetchPlaces()
+    this.places = resp.data
   },
   computed: {
     user() {
@@ -129,9 +131,12 @@ export default {
     async fetchEvent(eventId) {
       const response = await eventService.eventDetail(eventId)
       this.event = response.data
-      this.place = response.data.place
+      //this.place = response.data.place
       this.userPublisher = response.data.user.username
       this.participants = response.data.participants
+    },
+    getPlace(placeId) {
+      return this.places.find((place) => place.id === placeId) || {}
     },
     shareOnWhatsapp() {
       let message = `Check out this awesome place: ${this.event.name} - ${this.eventUrl(
@@ -161,6 +166,33 @@ export default {
 </script>
 
 <style scoped>
+.buttonSee {
+  margin-top: 10px;
+  padding: 0.9em 1em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: 0.5px solid gray;
+  border-radius: 45px;
+  /* box-shadow: 0px 8px 5px rgba(0, 0, 0, 0.1); */
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.buttonSee:hover {
+  background-color: var(--main-color);
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.buttonSee:active {
+  transform: translateY(-1px);
+}
 
 .transparent-button {
   background: none;
