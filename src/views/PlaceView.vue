@@ -5,9 +5,9 @@
     </div>
     <div v-else>
       <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color)">Places</h2>
-      
       <input
         v-model="searchByName"
+        @input="filterPlacesDebounced"
         placeholder="name"
         style="
           margin-right: 10px;
@@ -20,6 +20,7 @@
       />
       <input
         v-model="searchByStreet"
+        @input="filterPlacesDebounced"
         placeholder="Street"
         style="
           margin-right: 10px;
@@ -32,6 +33,7 @@
       />
       <input
         v-model="searchByLocality"
+        @input="filterPlacesDebounced"
         placeholder="Locality"
         style="
           margin-right: 10px;
@@ -42,10 +44,10 @@
           text-emphasis-color: white;
         "
       />
-
+<!-- 
       <button class="btn btn-success" style="margin-left: 10px" @click="filterPlaces">
         FILTER
-      </button>
+      </button> -->
 
       <button class="btn btn-success" style="margin-left: 10px" @click="resetFilters">RESET</button>
 
@@ -82,6 +84,7 @@
 <script>
 import authService from "../services/authService"
 import placeService from "../services/placeService"
+import _ from "lodash"
 
 export default {
   data() {
@@ -107,6 +110,9 @@ export default {
     }
   },
   methods: {
+    filterPlacesDebounced: _.debounce(function () {
+      this.filterPlaces()
+    }, 250),
     logout() {
       authService.logout()
     },
