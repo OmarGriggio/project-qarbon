@@ -5,9 +5,9 @@
     </div>
     <div v-else>
       <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color)">Places</h2>
-      
       <input
         v-model="searchByName"
+        @input="filterPlacesDebounced"
         placeholder="name"
         style="
           margin-right: 10px;
@@ -20,6 +20,7 @@
       />
       <input
         v-model="searchByStreet"
+        @input="filterPlacesDebounced"
         placeholder="Street"
         style="
           margin-right: 10px;
@@ -32,6 +33,7 @@
       />
       <input
         v-model="searchByLocality"
+        @input="filterPlacesDebounced"
         placeholder="Locality"
         style="
           margin-right: 10px;
@@ -42,10 +44,10 @@
           text-emphasis-color: white;
         "
       />
-
+<!-- 
       <button class="btn btn-success" style="margin-left: 10px" @click="filterPlaces">
         FILTER
-      </button>
+      </button> -->
 
       <button class="btn btn-success" style="margin-left: 10px" @click="resetFilters">RESET</button>
 
@@ -53,6 +55,7 @@
       <div class="row justify-content-center">
         <div v-for="place in places" :key="place.id" class="col-md-4">
           <div class="card">
+            <img :src="place.image" alt="place image" class="card-img-top" />
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -82,6 +85,7 @@
 <script>
 import authService from "../services/authService"
 import placeService from "../services/placeService"
+import _ from "lodash"
 
 export default {
   data() {
@@ -107,6 +111,9 @@ export default {
     }
   },
   methods: {
+    filterPlacesDebounced: _.debounce(function () {
+      this.filterPlaces()
+    }, 250),
     logout() {
       authService.logout()
     },

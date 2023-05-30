@@ -2,8 +2,8 @@
   <div id="content">
     <div class="container">
       <div class="row align-items-center mt-5">
-        <div class="col-lg-6">
-          <div class="welcome-text">
+        <div class="col-lg-6 mb-5">
+          <div>
             <h1 style="color: black; text-align: left; font-weight: bold; font-size: 50px">
               Find your favorite student events in
               <span
@@ -27,7 +27,7 @@
             </p> -->
           </div>
         </div>
-        <div class="col-lg-5 border border-success p-0">
+        <div class="col-lg-5 p-0">
           <div
             id="carouselExampleCaptions"
             class="carousel slide carousel-fade"
@@ -110,9 +110,17 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  padding-bottom: 170px !important;
+}
 .carousel {
-  box-shadow: 0 0 15px 3px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 13px 2px rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+
   /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); */
+}
+.carousel .carousel-item img {
+  border-radius: 10px;
 }
 
 .carousel-caption {
