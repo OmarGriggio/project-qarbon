@@ -1,49 +1,85 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card" style="width: auto">
+    <div class="col-md-4">
+      <div class="card">
+        <img :src="event.image" alt="event image" class="card-img-top" />
         <div class="card-body">
-          <p>ID de la event : {{ event.id }}</p>
-          <h5 class="card-title">{{ event.name }}</h5>
-          <p class="card-text"></p>
-          <img :src="event.image" alt="event image" style="width: 50%; height: 50%" />
-          <p>{{ event.description }}</p>
-          <p>Place : {{ event.place }}</p>
-          <p>{{ getPlace(event.place).name }}</p>
-          <p>Price : CHF {{ event.price }}.-</p>
-          <p>Date of the event : {{ formatDate(event.date) }}</p>
-          <p>Hour of event : {{ formatTime(event.date) }} h</p>
-          <hr />
-          <p>Created by : {{ userPublisher }}</p>
-          <!-- Vous pouvez afficher plus d'informations sur l'endroit ici -->
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <h5 class="card-title" style="color: var(--main-color)">
+                {{ event.name }}
+              </h5>
+            </li>
+            <br />
+            <li class="list-group-item">
+              <h5 class="card-subtitle">
+                {{ event.description }}
+              </h5>
+              <br />
+              <p class="subtitle-text"></p>
+            </li>
+            <li class="list-group-item" style="margin-top: 10px">
+              <h5 class="card-subtitle">
+                {{ getPlace(event.place).name }}
+              </h5>
+              <p class="subtitle-text">
+                {{ getPlace(event.place).street }}, {{ getPlace(event.place).number }}
+              </p>
+              <p class="subtitle-text" style="margin-top: -15px">
+                {{ getPlace(event.place).postal_code }}
+                {{ getPlace(event.place).locality }}
+              </p>
+              <p class="subtitle-text" style="margin-top: 0px">
+                {{ formatDate(event.date) }} -
+                {{ formatTime(event.date) }}
+              </p>
+            </li>
+            <li class="list-group-item" style="margin-top: 10px">
+              <p class="card-subtitle">
+                Number of participants : 
+                {{ participants.length }} / 
+                {{ event.capacity }}
+              </p>
+            </li>
+            <div v-if="user">
+              <li class="list-group-item" style="margin-top: 10px">
+                <button
+                  v-if="!isUserRegistered(participants) && !isEventFull(event, participants)"
+                  @click="registerForEvent(event.id)"
+                  class="buttonSee"
+                >
+                  Register
+                </button>
+                <p v-else-if="isUserRegistered(participants)" class="text">You are already registered</p>
+                <p v-else class="text">The event is full</p>
+              </li>
+            </div>
+            <div v-else class="text">
+              <p>You need to be logged in to register</p>
+            </div>
+            <li class="list-group-item" style="margin-top: 10px">
+              <div class="d-flex justify-content-evenly">
+                <button class="transparent-button" @click="shareOnTwitter">
+                  <span
+                    ><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"
+                  /></span>
+                </button>
 
-          <div v-if="user">
-            <button
-              v-if="!isUserRegistered(participants) && !isEventFull(event, participants)"
-              @click="registerForEvent(event.id)"
-              class="buttonSee"
-            >
-              Register
-            </button>
-            <p v-else-if="isUserRegistered(participants)">You are already registered</p>
-            <p v-else>The event is full</p>
-          </div>
-          <div v-else>
-            <p>You need to be logged in to register</p>
-          </div>
-          <div class="d-flex justify-content-evenly">
-            <button class="transparent-button" @click="shareOnTwitter">
-              <span><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color" /></span>
-            </button>
+                <button class="transparent-button" @click="shareOnFacebook">
+                  <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
+                </button>
 
-            <button class="transparent-button" @click="shareOnFacebook">
-              <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
-            </button>
-
-            <button class="transparent-button" style="margin-left: 10px" @click="shareOnWhatsapp">
-              <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
-            </button>
-          </div>
+                <button
+                  class="transparent-button"
+                  style="margin-left: 10px"
+                  @click="shareOnWhatsapp"
+                >
+                  <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
+                </button>
+              </div>
+            </li>
+          </ul>
+          <!-- Vous pouvez afficher plus d'informations sur l'événement ici -->
         </div>
       </div>
     </div>
@@ -167,10 +203,106 @@ export default {
 
 <style scoped>
 
+.text{
+  margin-top: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
 
+}
+
+.transparent-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  transition: transform 0.2s; /* Animation */
+}
+
+.card-img-top {
+  max-height: 250px;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.col-md-4 {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 30px;
+}
+
+.col-md-6 {
+  padding-left: 15px;
+  padding-right: 15px;
+  /* margin-bottom: 30px; */
+}
+
+.card {
+  overflow: hidden;
+  justify-content: space-between;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  transition: box-shadow 0.5s;
+  width: auto;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px grey;
+}
+
+.card-body {
+  flex-grow: 1;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: bold;
+  /* margin-bottom: 10px; */
+}
+
+.card-subtitle {
+  font-size: 17px;
+  font-weight: bold;
+  /* margin-bottom: 10px; */
+  text-align: left;
+}
+
+.subtitle-text {
+  text-align: left;
+}
+/* .no-padding {
+  padding: 0 !important;
+  margin: 0 !important;
+} */
+
+.w-100 {
+  align-items: end;
+  align-content: center;
+}
+
+.card-text {
+  font-size: 16px;
+}
+.main-color {
+  color: var(--main-color);
+}
+
+.icon {
+  font-size: 30px;
+  margin: 10px;
+}
 
 .buttonSee {
-  margin-top: 10px;
   padding: 0.9em 1em;
   font-size: 12px;
   text-transform: uppercase;
@@ -195,81 +327,5 @@ export default {
 
 .buttonSee:active {
   transform: translateY(-1px);
-}
-
-.transparent-button {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-}
-
-.transparent-button:focus {
-  outline: none;
-}
-.col-md-4 {
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-bottom: 30px;
-}
-
-.col-md-6 {
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-bottom: 30px;
-}
-
-.card {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  transition: box-shadow 0.5s;
-  width: auto;
-}
-
-.card:hover {
-  box-shadow: 0 4px 8px grey;
-}
-
-.card-body {
-  flex-grow: 1;
-}
-
-.card-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.card-subtitle {
-  font-size: 17px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: left;
-}
-
-.subtitle-text {
-  text-align: left;
-}
-
-.w-100 {
-  align-items: end;
-  align-content: center;
-}
-
-.card-text {
-  font-size: 16px;
-}
-.main-color {
-  color: var(--main-color);
-}
-
-.icon {
-  font-size: 30px;
-  margin: 10px;
 }
 </style>
