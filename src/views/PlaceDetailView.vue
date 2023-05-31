@@ -241,6 +241,10 @@ export default {
   overflow-y: scroll;
 }
 
+.comment-section::-webkit-scrollbar {
+  display: none;
+}
+
 .oneComment {
   margin: 10px;
   padding: 10px;
