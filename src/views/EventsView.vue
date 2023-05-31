@@ -4,7 +4,7 @@
       <p>Une erreur est survenue: {{ error }}</p>
     </div>
     <div v-else>
-      <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color)">Events</h2>
+      <h1>Events</h1>
       <div class="filterBar">
         <div class="inputFilter">
           <input
@@ -64,9 +64,8 @@
                     Number of participants : {{ event.participants.length }}
                   </p>
                   <p class="subtitle-text">
-                    Date : {{ formatDate(event.date) }}
-                    <br />
-                    Hour : {{ formatTime(event.date) }}
+                    {{ formatDate(event.date) }} - 
+                    {{ formatTime(event.date) }}
                   </p>
                 </li>
                 <li class="list-group-item">
@@ -152,6 +151,7 @@ export default {
         } else if (this.filterStatus === "unregistered") {
           this.events = this.events.filter((event) => !this.isUserRegistered(event))
         }
+        this.events.sort((a, b) => new Date(b.date) - new Date(a.date));
       } catch (err) {
         this.error = err
       }
@@ -199,6 +199,18 @@ export default {
 </script>
 
 <style scoped>
+
+h1 {
+  font-size: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 20px;
+  color: #000;
+  margin-bottom: 30px; 
+  padding-top: 30px; 
+  color: var(--main-color);
+}
+
 select option {
   color: black;
   background-color: white;
