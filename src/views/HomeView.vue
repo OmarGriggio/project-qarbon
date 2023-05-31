@@ -84,7 +84,8 @@
 </template>
 
 <script>
-import axios from "axios"
+// import axios from "axios"
+import eventService from "../services/eventService"
 
 export default {
   data() {
@@ -94,8 +95,10 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/events/")
+      const response = await eventService.fetchEvents()
       this.events = response.data
+      // const response = await axios.get("http://127.0.0.1:8000/api/events/")
+      // this.events = response.data
       console.log(this.events)
     } catch (error) {
       console.error(error)
