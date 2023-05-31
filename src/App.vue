@@ -36,7 +36,7 @@
             </li>
             <li class="nav-item" v-else>
               <span class="navbar-text mr-3 me-2">Signed in as {{ user.username }}</span>
-              <button class="btn btn-outline-success" @click="logout">Sign out</button>
+              <button class="btn btn-outline-success " @click="logout">Sign out</button>
             </li>
           </ul>
         </div>

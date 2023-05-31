@@ -51,7 +51,8 @@
               </div>
             </div>
             <div v-else>
-              <p>You need to be logged in to comment. <br /></p>
+              <p class="text">You need to be logged in to comment. <br /></p>
+              <router-link to="/login" class="buttonSee router">Login</router-link>
             </div>
             <div class="d-flex justify-content-evenly">
               <button class="transparent-button" @click="shareOnTwitter">
@@ -180,6 +181,17 @@ export default {
 </script>
 
 <style scoped>
+
+
+.text{
+  font-size: 15px;
+  padding-top: 20px;
+}
+.router {
+  text-decoration: none;
+  color: #000;
+}
+
 .CommentText {
   margin-left: 10px;
   margin-top: 10px;
@@ -340,5 +352,9 @@ textarea {
 
 .buttonSee:active {
   transform: translateY(-1px);
+}
+
+.d-flex{
+  margin-top: 20px;
 }
 </style>
