@@ -5,59 +5,42 @@
     </div>
     <div v-else>
       <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color)">Events</h2>
-      <input
-        v-model="searchEvent"
-        @input="filterEventsDebounced"
-        placeholder="Search events by name"
-        style="
-          margin-right: 10px;
-          width: 20%;
-          margin-bottom: 30px;
-          text-align: center;
-          border-radius: 9px;
-          text-emphasis-color: white;
-        "
-      />
-      <input
-        v-model="searchPlace"
-        @input="filterEventsDebounced"
-        placeholder="Search events by place name"
-        style="
-          margin-right: 10px;
-          width: 20%;
-          margin-bottom: 30px;
-          text-align: center;
-          border-radius: 9px;
-          text-emphasis-color: white;
-        "
-      />
+      <div class="filterBar">
+        <div class="inputFilter">
+          <input
+            v-model="searchEvent"
+            @input="filterEventsDebounced"
+            placeholder="Filter by event name"
+          />
+          <input
+            v-model="searchPlace"
+            @input="filterEventsDebounced"
+            placeholder="Filter by place name"
+          />
 
-      <input
-        v-model="searchUser"
-        @input="filterEventsDebounced"
-        placeholder="Search events by username"
-        style="
-          margin-right: 10px;
-          width: 10%;
-          margin-bottom: 30px;
-          text-align: center;
-          border-radius: 9px;
-          text-emphasis-color: white;
-        "
-      />
-      <div v-if="user">
-        <select v-model="filterStatus" @change="filterEvents">
-          <option value="all">All</option>
-          <option value="registered">Registered</option>
-          <option value="unregistered">Unregistered</option>
-        </select>
-      </div>
+          <input
+            v-model="searchUser"
+            @input="filterEventsDebounced"
+            placeholder="Filter by username"
+          />
+        </div>
+        <div class="registerOption">
+          <div v-if="user">
+            <select class="buttonSee" v-model="filterStatus" @change="filterEvents">
+              <option value="all">All</option>
+              <option value="registered">Registered</option>
+              <option value="unregistered">Unregistered</option>
+            </select>
+          </div>
+        </div>
 
-      <!-- <button class="btn btn-success" style="margin-left: 10px" @click="filterEvents">
+        <!-- <button class="btn btn-success" style="margin-left: 10px" @click="filterEvents">
         FILTER
       </button> -->
-
-      <button class="btn btn-success" style="margin-left: 10px" @click="resetFilters">RESET</button>
+        <div class="resetButton">
+          <button class="buttonSee" style="margin-left: 10px" @click="resetFilters">RESET</button>
+        </div>
+      </div>
 
       <div class="row justify-content-center">
         <div v-for="event in events" :key="event.id" class="col-md-4">
@@ -79,6 +62,11 @@
                     {{ getPlace(event.place).locality }},
                     <br />
                     Number of participants : {{ event.participants.length }}
+                  </p>
+                  <p class="subtitle-text">
+                    Date : {{ formatDate(event.date) }}
+                    <br />
+                    Hour : {{ formatTime(event.date) }}
                   </p>
                 </li>
                 <li class="list-group-item">
@@ -191,6 +179,19 @@ export default {
     },
     isUserRegistered(event) {
       return event.participants.some((participant) => participant.id === this.user.pk)
+    },
+    formatDate(date) {
+      return new Date(date).toLocaleDateString("fr-CH", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      })
+    },
+    formatTime(date) {
+      return new Date(date).toLocaleTimeString("fr-CH", {
+        hour: "numeric",
+        minute: "numeric"
+      })
     }
   },
   components: {}
@@ -198,6 +199,48 @@ export default {
 </script>
 
 <style scoped>
+select option {
+  color: black;
+  background-color: white;
+  text-emphasis-color: white;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  white-space: pre;
+  min-height: 20px;
+  border-radius: 20px;
+}
+
+input {
+  margin-right: 10px;
+  height: 34px;
+  width: 200px;
+  margin-bottom: 30px;
+  text-align: center;
+  border-radius: 9px;
+  text-emphasis-color: white;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+}
+
+.inputFilter {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+.filterBar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 .card:hover .card-img-top {
   transform: scale(1.05);
 }
@@ -281,7 +324,6 @@ export default {
 }
 
 .buttonSee {
-  margin-top: 10px;
   padding: 0.9em 1em;
   font-size: 12px;
   text-transform: uppercase;
