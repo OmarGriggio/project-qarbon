@@ -14,6 +14,9 @@ export default {
     }
   },
 
+  async fetchEvents() {
+    return api.get(`events/`)
+  },
   async filterEvents(filters) {
     let url = "/events/?"
     if (filters.name) {
