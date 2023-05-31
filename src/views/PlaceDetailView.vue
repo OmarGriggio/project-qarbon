@@ -20,9 +20,16 @@
               </button>
               <div v-if="showComments">
                 <div class="comment-section">
-                  <p v-for="comment in comments" :key="comment.id">
-                    {{ comment.text }}
-                  </p>
+                  <div class="oneComment" v-for="comment in comments" :key="comment.id">
+                    <div class="CommentText">
+                      {{ comment.text }}
+                    </div>
+                    <div class="commentDate">
+                      {{ formatDate(comment.created_at) }}, 
+                      {{ formatTime(comment.created_at) }}
+                    </div>
+                    <div class="postedCommentBy">Posted by {{ comment.user.username }}</div>
+                  </div>
                 </div>
               </div>
               <div class="card-body">
@@ -35,11 +42,11 @@
                       v-model="newComment"
                       @keyup.enter="postComment()"
                     ></textarea>
-                    <button @click="postComment()" class="buttonSee move" type="submit">
-                      Add comment
-                    </button>
                   </div>
                   <!-- col-6 -->
+                  <button @click="postComment()" class="buttonSee move" type="submit">
+                    Add comment
+                  </button>
                 </div>
               </div>
             </div>
@@ -167,6 +174,40 @@ export default {
 </script>
 
 <style scoped>
+.CommentText {
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.5;
+  text-align: left;
+  width: auto;
+  background-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #000;
+  font-size: 12px;
+}
+
+.postedCommentBy {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+  float: right;
+  width: auto;
+}
+
+.commentDate {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+  float: left;
+  width: auto;
+}
+
 .main-color {
   color: var(--main-color);
 }
@@ -183,13 +224,33 @@ export default {
   outline: none;
 }
 
-.move{
-  margin-left: 100px;
-}
+
 .comment-section {
   max-height: 25vh;
   max-width: 90%;
   background-color: #ffffff;
+  width: auto;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.5s;
+  overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 35px;
+  align-items: center;
+  overflow-y: scroll;
+}
+
+.oneComment {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.5s;
+  overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  align-items: center;
 }
 
 textarea {
@@ -197,9 +258,11 @@ textarea {
   border: none;
   background: #e8e8e8;
   height: 40%;
-  border-radius: 5px 5px 0px 0px;
   border-bottom: 4px solid var(--main-color);
   transition: all 0.5s;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
 }
 .card {
   overflow: hidden;
