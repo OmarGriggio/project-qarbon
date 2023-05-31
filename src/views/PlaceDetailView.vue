@@ -25,7 +25,7 @@
                       {{ comment.text }}
                     </div>
                     <div class="commentDate">
-                      {{ formatDate(comment.created_at) }}, 
+                      {{ formatDate(comment.created_at) }},
                       {{ formatTime(comment.created_at) }}
                     </div>
                     <div class="postedCommentBy">Posted by {{ comment.user.username }}</div>
@@ -110,7 +110,8 @@ export default {
     this.fetchPlace(this.placeId)
     this.userId = this.user.pk
     this.token = localStorage.getItem("access_token")
-    this.comments = await commmentService.fetchCommentsByPlaceId(this.placeId)
+    // this.comments = await commmentService.fetchCommentsByPlaceId(this.placeId)
+    await this.filterComments()
   },
   computed: {
     user() {
@@ -145,6 +146,11 @@ export default {
         hour: "numeric",
         minute: "numeric"
       })
+    },
+    async filterComments() {
+      this.comments = (await commmentService.fetchCommentsByPlaceId(this.placeId)).sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      )
     },
     shareOnWhatsapp() {
       let message = `Check out this awesome place: ${this.place.name} - ${this.placeURL(
@@ -223,7 +229,6 @@ export default {
   cursor: pointer;
   outline: none;
 }
-
 
 .comment-section {
   max-height: 25vh;
