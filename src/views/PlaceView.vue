@@ -5,21 +5,9 @@
     </div>
     <div v-else>
       <h1>Places</h1>
-      <input
-        v-model="searchByName"
-        @input="filterPlacesDebounced"
-        placeholder="name"
-      />
-      <input
-        v-model="searchByStreet"
-        @input="filterPlacesDebounced"
-        placeholder="Street"
-      />
-      <input
-        v-model="searchByLocality"
-        @input="filterPlacesDebounced"
-        placeholder="Locality"
-      />
+      <input v-model="searchByName" @input="filterPlacesDebounced" placeholder="name" />
+      <input v-model="searchByStreet" @input="filterPlacesDebounced" placeholder="Street" />
+      <input v-model="searchByLocality" @input="filterPlacesDebounced" placeholder="Locality" />
       <!-- 
       <button class="btn btn-success" style="margin-left: 10px" @click="filterPlaces">
         FILTER
@@ -118,7 +106,6 @@ export default {
 </script>
 
 <style scoped>
-
 input {
   margin-right: 10px;
   height: 34px;
@@ -140,8 +127,8 @@ h1 {
   letter-spacing: 2.5px;
   font-weight: 20px;
   color: #000;
-  margin-bottom: 30px; 
-  padding-top: 30px; 
+  margin-bottom: 30px;
+  padding-top: 30px;
   color: var(--main-color);
 }
 .transparent-button {
