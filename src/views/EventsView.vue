@@ -200,6 +200,8 @@ export default {
 
 <style scoped>
 
+
+
 h1 {
   font-size: 30px;
   text-transform: uppercase;
@@ -240,7 +242,7 @@ input {
 }
 
 .inputFilter {
-  width: 100%;
+  width: auto;
   height: 40px;
   border-radius: 5px;
   padding-left: 10px;
@@ -251,6 +253,7 @@ input {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  width: auto;
 }
 
 .card:hover .card-img-top {

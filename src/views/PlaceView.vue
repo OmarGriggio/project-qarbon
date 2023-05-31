@@ -4,52 +4,28 @@
       <p>Une erreur est survenue: {{ error }}</p>
     </div>
     <div v-else>
-      <h2 style="margin-bottom: 30px; padding-top: 30px; color: var(--main-color)">Places</h2>
+      <h1>Places</h1>
       <input
         v-model="searchByName"
         @input="filterPlacesDebounced"
         placeholder="name"
-        style="
-          margin-right: 10px;
-          width: 20%;
-          margin-bottom: 30px;
-          text-align: center;
-          border-radius: 9px;
-          text-emphasis-color: white;
-        "
       />
       <input
         v-model="searchByStreet"
         @input="filterPlacesDebounced"
         placeholder="Street"
-        style="
-          margin-right: 10px;
-          width: 10%;
-          margin-bottom: 30px;
-          text-align: center;
-          border-radius: 9px;
-          text-emphasis-color: white;
-        "
       />
       <input
         v-model="searchByLocality"
         @input="filterPlacesDebounced"
         placeholder="Locality"
-        style="
-          margin-right: 10px;
-          width: 20%;
-          margin-bottom: 30px;
-          text-align: center;
-          border-radius: 9px;
-          text-emphasis-color: white;
-        "
       />
       <!-- 
       <button class="btn btn-success" style="margin-left: 10px" @click="filterPlaces">
         FILTER
       </button> -->
 
-      <button class="btn btn-success" style="margin-left: 10px" @click="resetFilters">RESET</button>
+      <button class="buttonSee" @click="resetFilters">RESET</button>
 
       <div class="row justify-content-center">
         <div v-for="place in places" :key="place.id" class="col-md-4">
@@ -143,11 +119,63 @@ export default {
 
 <style scoped>
 
+input {
+  margin-right: 10px;
+  height: 34px;
+  width: 200px;
+  margin-bottom: 30px;
+  text-align: center;
+  border-radius: 9px;
+  text-emphasis-color: white;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+}
+
+h1 {
+  font-size: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 20px;
+  color: #000;
+  margin-bottom: 30px; 
+  padding-top: 30px; 
+  color: var(--main-color);
+}
 .transparent-button {
   background-color: transparent;
   border: none;
   cursor: pointer;
   outline: none;
+}
+
+.buttonSee {
+  padding: 0.9em 1em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: 0.5px solid gray;
+  border-radius: 45px;
+  /* box-shadow: 0px 8px 5px rgba(0, 0, 0, 0.1); */
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.buttonSee:hover {
+  background-color: var(--main-color);
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.buttonSee:active {
+  transform: translateY(-1px);
 }
 
 .card {

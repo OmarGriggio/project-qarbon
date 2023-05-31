@@ -129,4 +129,32 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.buttonSee {
+  margin-top: 10px;
+  padding: 0.9em 1em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: 0.5px solid gray;
+  border-radius: 45px;
+  /* box-shadow: 0px 8px 5px rgba(0, 0, 0, 0.1); */
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.buttonSee:hover {
+  background-color: var(--main-color);
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.buttonSee:active {
+  transform: translateY(-1px);
+}
 </style>
