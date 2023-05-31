@@ -166,6 +166,9 @@ export default {
 </script>
 
 <style scoped>
+
+
+
 .buttonSee {
   margin-top: 10px;
   padding: 0.9em 1em;
