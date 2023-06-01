@@ -8,10 +8,6 @@
       <input v-model="searchByName" @input="filterPlacesDebounced" placeholder="name" />
       <input v-model="searchByStreet" @input="filterPlacesDebounced" placeholder="Street" />
       <input v-model="searchByLocality" @input="filterPlacesDebounced" placeholder="Locality" />
-      <!-- 
-      <button class="btn btn-success" style="margin-left: 10px" @click="filterPlaces">
-        FILTER
-      </button> -->
 
       <button class="buttonSee" @click="resetFilters">RESET</button>
 
@@ -148,7 +144,6 @@ h1 {
   background-color: #fff;
   border: 0.5px solid gray;
   border-radius: 45px;
-  /* box-shadow: 0px 8px 5px rgba(0, 0, 0, 0.1); */
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;

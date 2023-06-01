@@ -7,39 +7,22 @@
       <h1>Events</h1>
       <div class="filterBar">
         <div class="inputFilter">
-          <input
-            v-model="searchEvent"
-            @input="filterEventsDebounced"
-            placeholder="Filter by event name"
-          />
-          <input
-            v-model="searchPlace"
-            @input="filterEventsDebounced"
-            placeholder="Filter by place name"
-          />
-
-          <input
-            v-model="searchUser"
-            @input="filterEventsDebounced"
-            placeholder="Filter by username"
-          />
+          <input v-model="searchEvent" @input="filterEventsDebounced" placeholder="Event name" />
+          <input v-model="searchPlace" @input="filterEventsDebounced" placeholder="Place name" />
+          <input v-model="searchUser" @input="filterEventsDebounced" placeholder="Username" />
+          <button class="buttonSee" @click="resetFilters">RESET</button>
         </div>
-        <div class="registerOption">
-          <div v-if="user">
-            <select class="buttonSee" v-model="filterStatus" @change="filterEvents">
+        <div v-if="user">
+            <select class="buttonSee ms-3" v-model="filterStatus" @change="filterEvents">
               <option value="all">All</option>
               <option value="registered">Registered</option>
               <option value="unregistered">Unregistered</option>
             </select>
           </div>
-        </div>
 
         <!-- <button class="btn btn-success" style="margin-left: 10px" @click="filterEvents">
         FILTER
       </button> -->
-        <div class="resetButton">
-          <button class="buttonSee" style="margin-left: 10px" @click="resetFilters">RESET</button>
-        </div>
       </div>
 
       <div class="row justify-content-center">
@@ -64,7 +47,7 @@
                     Number of participants : {{ event.participants.length }}
                   </p>
                   <p class="subtitle-text">
-                    {{ formatDate(event.date) }} - 
+                    {{ formatDate(event.date) }} -
                     {{ formatTime(event.date) }}
                   </p>
                 </li>
@@ -151,7 +134,7 @@ export default {
         } else if (this.filterStatus === "unregistered") {
           this.events = this.events.filter((event) => !this.isUserRegistered(event))
         }
-        this.events.sort((a, b) => new Date(b.date) - new Date(a.date));
+        this.events.sort((a, b) => new Date(b.date) - new Date(a.date))
       } catch (err) {
         this.error = err
       }
@@ -199,17 +182,14 @@ export default {
 </script>
 
 <style scoped>
-
-
-
 h1 {
   font-size: 30px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 20px;
   color: #000;
-  margin-bottom: 30px; 
-  padding-top: 30px; 
+  margin-bottom: 30px;
+  padding-top: 30px;
   color: var(--main-color);
 }
 
@@ -338,30 +318,4 @@ input {
   margin: 10px;
 }
 
-.buttonSee {
-  padding: 0.9em 1em;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 500;
-  color: #000;
-  background-color: #fff;
-  border: 0.5px solid gray;
-  border-radius: 45px;
-  /* box-shadow: 0px 8px 5px rgba(0, 0, 0, 0.1); */
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-}
-
-.buttonSee:hover {
-  background-color: var(--main-color);
-  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-.buttonSee:active {
-  transform: translateY(-1px);
-}
 </style>
