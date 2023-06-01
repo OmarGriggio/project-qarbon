@@ -157,6 +157,7 @@ export default {
       const token = localStorage.getItem("access_token")
       try {
         await eventService.registerForEvent(id, this.place, token)
+        this.$router.push("/event-list")
       } catch (err) {
         this.error = err
       }
