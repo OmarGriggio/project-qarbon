@@ -35,8 +35,23 @@
               <router-link class="nav-link" :to="{ name: 'login' }">Sign in</router-link>
             </li>
             <li class="nav-item" v-else>
-              <span class="navbar-text mr-3 me-2">Signed in as {{ user.username }}</span>
-              <button class="btn btn-outline-success " @click="logout">Sign out</button>
+              <div class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span class="me-2">Signed in as {{ user.username }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <a class="dropdown-item" @click="$router.push('/my-events')">My Events</a>
+                  <a class="dropdown-item">Edit Profile</a>
+                  <div class="dropdown-divder"></div>
+                  <a class="dropdown-item" @click="logout">Sign out</a>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
@@ -45,6 +60,7 @@
   </div>
   <router-view />
 </template>
+
 
 <script>
 import authService from "../src/services/authService"
@@ -86,6 +102,16 @@ export default {
 }
 </script>
 <style>
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #42b983 !important;
+  color: #fff !important;
+}
+
+.dropdown-divider {
+  border-top-color: #42b983;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
