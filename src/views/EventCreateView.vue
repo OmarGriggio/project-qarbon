@@ -78,12 +78,11 @@
                 </div>
                 <div class="mb-3">
                   <label for="image" class="form-label">Image for the event</label>
-                  <input
-                    type="file"
-                    id="image"
-                    class="form-control"
+                  <picture-input
+                    v-model="form.picture"
+                    @src="this.src = $event"
                     @change="handleFileUpload($event)"
-                  />
+                  ></picture-input>
                 </div>
                 <button type="submit" id="CreateButton" class="btn btn-success btn-lg btn-block">
                   Create Event
@@ -100,10 +99,18 @@
 <script>
 import eventService from "../services/eventService"
 import placeService from "../services/placeService"
+import PictureInput from "../components/PictureInput.vue"
 
 export default {
+  components: {
+    "picture-input": PictureInput
+  },
   data() {
     return {
+      form: {
+        picture: null
+      },
+      src: "",
       event: {
         name: "",
         description: "",
