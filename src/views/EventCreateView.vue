@@ -10,7 +10,6 @@
                   Create a new event
                 </h2>
                 <div class="mb-3">
-                  <label for="name" class="form-label">Event Name</label>
                   <input
                     type="text"
                     id="name"
@@ -20,7 +19,6 @@
                   />
                 </div>
                 <div class="mb-3">
-                  <label for="description" class="form-label">Description</label>
                   <textarea
                     id="description"
                     v-model="event.description"

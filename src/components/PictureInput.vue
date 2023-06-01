@@ -1,7 +1,12 @@
 <template>
-  <div class="Picture">
+  <div>
     <img :src="src" alt="Picture" class="img-fluid" />
-    <button type="button" class="btn btn-primary" @click="browse()">Photo</button>
+    <br />
+    <div class="col-lg-12">
+      <button type="button" id="btn-pic-inp" class="btn btn-primary col-lg-2" @click="browse()">
+        Photo
+      </button>
+    </div>
     <input type="file" accept="image/*" class="invisible" ref="file" @change="change" />
   </div>
 </template>
@@ -37,5 +42,6 @@ export default {
 <style>
 .img-fluid {
   max-width: 20%;
+  margin: 2rem;
 }
 </style>
