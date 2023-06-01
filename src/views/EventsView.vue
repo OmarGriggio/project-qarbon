@@ -13,12 +13,12 @@
           <button class="buttonSee" @click="resetFilters">RESET</button>
         </div>
         <div v-if="user">
-            <select class="buttonSee ms-3" v-model="filterStatus" @change="filterEvents">
-              <option value="all">All</option>
-              <option value="registered">Registered</option>
-              <option value="unregistered">Unregistered</option>
-            </select>
-          </div>
+          <select class="buttonSee ms-3" v-model="filterStatus" @change="filterEvents">
+            <option value="all">All</option>
+            <option value="registered">Registered</option>
+            <option value="unregistered">Unregistered</option>
+          </select>
+        </div>
 
         <!-- <button class="btn btn-success" style="margin-left: 10px" @click="filterEvents">
         FILTER
@@ -317,5 +317,4 @@ input {
   font-size: 30px;
   margin: 10px;
 }
-
 </style>
