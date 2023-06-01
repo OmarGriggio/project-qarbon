@@ -49,6 +49,10 @@ export default {
       throw err.response.data
     }
   },
+  async fetchMyevents(token) {
+    const headers = { Authorization: `Bearer ${token}` }
+    return api.get(`/myevents`, { headers })
+  },
 
   checkUserRegistered(event, userId) {
     for (let participant of event.participants) {

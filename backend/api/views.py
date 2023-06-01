@@ -98,6 +98,15 @@ class EventViewSet(viewsets.ModelViewSet):
         return Response({'status': 'User registered for the event'})
 
 
+class MyEventsViewSet(viewsets.ModelViewSet):
+    serializer_class = EventSerializer
+    permission_classes = [permissions.IsAuthenticated]  
+
+    def get_queryset(self):
+        user = self.request.user  
+        return Event.objects.filter(user=user) 
+
+
 class CommentViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows comments to be viewed or edited.
