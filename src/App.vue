@@ -43,7 +43,7 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span class="me-2">Signed in as {{ user.username }}</span>
+                  <span class="me-2">Signed in as {{ capitalizeFirstLetter(user.username) }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                   <a class="dropdown-item" @click="$router.push('/my-events')">My Events</a>
@@ -76,6 +76,9 @@ export default {
     }
   },
   methods: {
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
+  },
     async logout() {
       console.log("Logging out...")
       try {
