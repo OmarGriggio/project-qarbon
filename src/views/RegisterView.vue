@@ -4,7 +4,7 @@
       <div class="card custom-card shadow-lg bg-white rounded">
         <div class="card-body">
           <form class="register-form">
-            <h1  style="color: var(--main-color)">Sign up</h1>
+            <h1 style="color: var(--main-color)">Sign up</h1>
             <br />
             <div>
               <div>
@@ -18,6 +18,16 @@
                     v-model="username"
                   />
                 </div>
+              </div>
+              <div class="container col-lg-8">
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Email"
+                  aria-label="default input example"
+                  v-model="email"
+                />
               </div>
               <div>
                 <div class="container col-lg-8">
@@ -43,6 +53,7 @@
                   />
                 </div>
               </div>
+
               <div>
                 <button
                   class="btn btn-success col-lg-2"
@@ -54,7 +65,12 @@
                 </button>
               </div>
               <p class="error" v-if="passwordMismatch">Password do not match</p>
-              <p class="error" v-if="loginError">{{ loginError.username[0] }}</p>
+              <p
+                class="error"
+                v-if="loginError && loginError.username && loginError.username.length > 0"
+              >
+                {{ loginError.username[0] }}
+              </p>
               <p v-if="!user">
                 Already have an account ?
                 <router-link to="/login" style="color: var(--main-color)">Sign in</router-link>
@@ -77,6 +93,7 @@ export default {
       password: "",
       confirmPassword: "",
       passwordMismatch: false,
+      email: "",
       loginError: ""
     }
   },
@@ -94,7 +111,8 @@ export default {
         .register({
           username: this.username,
           password1: this.password,
-          password2: this.password
+          password2: this.password,
+          email: this.email
         })
         .then(() => {
           this.$router.push({ name: "home" })

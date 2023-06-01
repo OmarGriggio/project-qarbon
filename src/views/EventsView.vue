@@ -46,7 +46,7 @@
                     <br />
                     Number of participants : {{ event.participants.length }}
                   </p>
-                  <p class="subtitle-text">
+                  <p style="font-weight: bold;" class="subtitle-text">
                     {{ formatDate(event.date) }} -
                     {{ formatTime(event.date) }}
                   </p>

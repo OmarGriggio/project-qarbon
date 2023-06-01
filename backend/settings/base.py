@@ -19,6 +19,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 MEDIA_URL = 'api/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# EMAIL SETTINGS
+ACCOUNT_EMAIL_VERIFICATION = None
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'fadf01fe0555e0'
+EMAIL_HOST_PASSWORD = 'd3e544ad84f58e'
+EMAIL_PORT = 2525
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 

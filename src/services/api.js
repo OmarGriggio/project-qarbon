@@ -6,7 +6,6 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json"
   }
-  // withCredentials: true
 })
 
 const apiImage = axios.create({
@@ -15,7 +14,6 @@ const apiImage = axios.create({
   headers: {
     "Content-Type": "multipart/form-data"
   }
-  // withCredentials: true
 })
 
 export { apiImage }
