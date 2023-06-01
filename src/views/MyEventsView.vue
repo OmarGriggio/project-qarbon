@@ -1,10 +1,13 @@
 <template>
   <div id="content">
-    <h1>My Events</h1>
     <div v-if="error">
       <p>An error occurred: {{ error }}</p>
     </div>
+    <div v-if="!events || events.length === 0">
+      <h2>You didn't create any events</h2>
+    </div>
     <div v-else>
+      <h1>My Events</h1>
       <div class="row justify-content-center">
         <div v-for="event in events" :key="event.id" class="col-md-4">
           <div class="card mb-3">
@@ -94,6 +97,15 @@ export default {
 
 <style scoped>
 h1 {
+  font-size: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: var(--main-color);
+}
+
+h2 {
   font-size: 30px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
