@@ -86,7 +86,7 @@ export default {
     },
     register() {
       if (this.password !== this.confirmPassword) {
-        this.loginError = "Les mots de passe ne correspondent pas"
+        this.loginError = "The passwords do not match"
         return
       }
 
