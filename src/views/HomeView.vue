@@ -86,6 +86,7 @@
 <script>
 // import axios from "axios"
 import eventService from "../services/eventService"
+import authService from "../services/authService"
 
 export default {
   data() {
@@ -104,9 +105,18 @@ export default {
       console.error(error)
     }
   },
+  computed: {
+    user() {
+      return authService.user.value ? authService.user.value : null
+    }
+  },
   methods: {
     redirectRegister() {
-      this.$router.push("/register")
+      if (this.user) {
+        this.$router.push("/event-list")
+      } else {
+        this.$router.push("/register")
+      }
     }
   }
 }
@@ -119,8 +129,6 @@ h1 {
 .carousel {
   box-shadow: 0 0 13px 2px rgba(0, 0, 0, 0.7);
   border-radius: 10px;
-
-  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); */
 }
 .carousel .carousel-item img {
   border-radius: 10px;
