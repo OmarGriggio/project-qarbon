@@ -58,9 +58,7 @@
                   <br />
                   You are already registered
                 </p>
-                <p v-else-if="isUserOnWaitingList" class="text">
-                  You are on the waiting list
-                </p>
+                <p v-else-if="isUserOnWaitingList" class="text">You are on the waiting list</p>
                 <p v-else class="text">
                   <button class="buttonSee" @click="registerForEvent(event.id)">WaitingList</button>
                   <br />
@@ -74,24 +72,41 @@
             </div>
             <li class="list-group-item" style="margin-top: 10px">
               <div class="d-flex justify-content-evenly">
-                <button class="transparent-button" @click="shareOnTwitter">
-                  <span
-                    ><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"
-                  /></span>
-                </button>
-
-                <button class="transparent-button" @click="shareOnFacebook">
-                  <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
-                </button>
-
-                <button
-                  class="transparent-button"
-                  style="margin-left: 10px"
-                  @click="shareOnWhatsapp"
+                <ShareNetwork
+                  network="twitter"
+                  :url="eventUrl(event.id)"
+                  :title="eventUrlTitle(event)"
+                  :description="eventDesc(event)"
+                  twitter-user="qarbon"
                 >
-                  <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
-                </button>
-                <p>{{ isUserOnWaitingList }}</p>
+                  <button class="transparent-button">
+                    <span
+                      ><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"
+                    /></span>
+                  </button>
+                </ShareNetwork>
+
+                <ShareNetwork
+                  network="facebook"
+                  :url="eventUrl(event.id)"
+                  :title="eventUrlTitle(event)"
+                  :description="eventDesc(event)"
+                >
+                  <button class="transparent-button">
+                    <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
+                  </button>
+                </ShareNetwork>
+
+                <ShareNetwork
+                  network="whatsapp"
+                  :url="eventUrl(event.id)"
+                  :title="eventUrlTitle(event)"
+                  :description="eventDesc(event)"
+                >
+                  <button class="transparent-button">
+                    <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
+                  </button>
+                </ShareNetwork>
               </div>
             </li>
           </ul>
@@ -107,6 +122,7 @@ import authService from "../services/authService"
 import eventService from "../services/eventService"
 import placeService from "../services/placeService"
 // import api from "../services/api"
+import { ShareNetwork } from "vue-social-sharing"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
@@ -150,10 +166,13 @@ export default {
       authService.logout()
     },
     eventUrl(id) {
-      return "http://localhost:8000/#/event-detail/" + id
+      return window.location.href + id
     },
     eventUrlTitle(event) {
       return "Event : " + event.name
+    },
+    eventDesc(event) {
+      return "Description : " + event.description
     },
     formatDate(date) {
       return new Date(date).toLocaleDateString("fr-CH", {
@@ -229,7 +248,8 @@ export default {
     }
   },
   components: {
-    FontAwesomeIcon
+    FontAwesomeIcon,
+    ShareNetwork
   }
 }
 </script>

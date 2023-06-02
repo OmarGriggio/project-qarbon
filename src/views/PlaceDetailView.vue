@@ -176,26 +176,6 @@ export default {
       this.comments = (await commmentService.fetchCommentsByPlaceId(this.placeId)).sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
       )
-    },
-    shareOnWhatsapp() {
-      let message = `Check out this awesome place: ${this.place.name} - ${this.placeURL(
-        this.place.id
-      )}`
-      let whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
-      window.location.href = whatsappUrl
-    },
-    shareOnFacebook() {
-      let url = this.placeURL(this.place.id)
-      let facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
-      window.location.href = facebookUrl
-    },
-    shareOnTwitter() {
-      let url = this.placeURL(this.place.id)
-      let text = `${this.place.name} - Check out this place!`
-      let twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-        url
-      )}&text=via=qar${encodeURIComponent(text)}&bon`
-      window.location.href = twitterUrl
     }
   },
   components: {
