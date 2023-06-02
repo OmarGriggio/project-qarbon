@@ -10,11 +10,22 @@ from .models import Event, Place, Rating, Comment
 from .serializers import EventSerializer, PlaceSerializer,  RatingSerializer, CommentSerializer
 from .filters import EventFilter, PlaceFilter, CommentFilter, RatingFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
+# Email
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.conf import settings
+from rest_framework.response import Response
+from rest_framework import status
+from smtplib import SMTPException
+import traceback
+
+
+
 
 
 # Serve Vue Application
 index_view = never_cache(TemplateView.as_view(template_name='index.html'))
-
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -96,6 +107,30 @@ class EventViewSet(viewsets.ModelViewSet):
         event.participants.add(user)
         event.save()
         return Response({'status': 'User registered for the event'})
+    
+    @action(detail=True, methods=['post'])
+    def send_notification(self, request, pk=None):
+        subject = request.data.get('subject')
+        message = request.data.get('message')
+
+        email_from = settings.EMAIL_HOST_USER
+
+        # Get the list of recipients
+        event = self.get_object()
+        recipient_list = [participant.email for participant in event.participants.all() if participant.email]
+
+        # Send email
+        print("Recipient list:", recipient_list)
+        print(email_from)
+        if recipient_list:
+            try:
+                send_mail(subject, message, email_from, recipient_list)
+            except SMTPException:
+                print("Failed to send email. Exception: ", e)
+                traceback.print_exc()
+
+
+        return Response({'status': 'Attempted to send emails'}, status=status.HTTP_200_OK)
 
 
 class MyEventsViewSet(viewsets.ModelViewSet):
@@ -124,8 +159,31 @@ class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     filterser_class = RatingFilter
-    # SHOULD IMPLEMENT CUSTOM PERMISSIONS FOR OBJECT LEVEL SECURITY
 
+# def get_recipient_list(event_id):
+#     # Assuming Event model has a related name 'participants' to User model
+#     event = Event.objects.get(pk=event_id)
+#     return [participant.email for participant in event.participants.all()]
+
+# class SendEventNotificationView(viewsets.ModelViewSet):
+#     """
+#     API View for sending event notifications
+#     """
+#     permission_classes = [permissions.IsAuthenticated]
+#     def post(self, request, *args, **kwargs):
+#         subject = request.data.get('subject')
+#         message = request.data.get('message')
+#         event_id = request.data.get('event_id')  # Get the event ID from the request data
+
+#         email_from = settings.EMAIL_HOST_USER
+
+#         # Get the list of recipients
+#         recipient_list = get_recipient_list(event_id)
+
+#         # Send email
+#         send_mail(subject, message, email_from, recipient_list)
+
+#         return Response({'status': 'email sent'}, status=status.HTTP_200_OK)
 
 
 

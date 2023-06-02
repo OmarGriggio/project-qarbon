@@ -64,5 +64,13 @@ export default {
   },
   eventDetail(eventId) {
     return api.get(`/events/${eventId}/`)
+  },
+  async deleteEvent(id, token) {
+    const headers = { Authorization: `Bearer ${token}` }
+    try {
+      await api.delete(`/events/${id}/`, { headers })
+    } catch (err) {
+      throw err.response.data
+    }
   }
 }

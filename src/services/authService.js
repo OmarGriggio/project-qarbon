@@ -108,19 +108,35 @@ export default {
     })
   },
   register(payload) {
-    if (!payload.username || !payload.password1 || !payload.password2) {
-      return Promise.reject("Username and password1 and password2 are required.")
+    if (!payload.username || !payload.password1 || !payload.password2 || !payload.email) {
+      return Promise.reject("Username, password1, password2, and email are required.")
     }
-    return api.post(`dj-rest-auth/registration/`, payload).then((response) => {
-      access_token = response.data.access_token
-      refresh_token = response.data.refresh_token
-      localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, access_token)
-      localStorage.setItem(LOCALSTORAGE_REFRESH_TOKEN_KEY, refresh_token)
-      localStorage.setItem(LOCALSTORAGE_TOKEN_TIMESTAMP, Date.now().toString())
-      user.value = response.data.user
-      return response.data.user
-    })
+  
+    return api.post(`dj-rest-auth/registration/`, payload)
+      .then((response) => {
+        if (response.data && response.data.access_token && response.data.refresh_token) {
+          access_token = response.data.access_token;
+          refresh_token = response.data.refresh_token;
+          localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, access_token);
+          localStorage.setItem(LOCALSTORAGE_REFRESH_TOKEN_KEY, refresh_token);
+          localStorage.setItem(LOCALSTORAGE_TOKEN_TIMESTAMP, Date.now().toString());
+  
+          if (response.data.user) {
+            user.value = response.data.user;
+            return response.data.user;
+          } else {
+            throw new Error("User data is missing in the response");
+          }
+        } else {
+          throw new Error("Access token or refresh token is missing in the response");
+        }
+      })
+      .catch((error) => {
+        console.error("Error during registration: ", error);
+        throw error; // re-throw the error to be handled in Vue component
+      });
   },
+  
   // allows to relogin with saved token
   getUser() {
     return api.get(`dj-rest-auth/user/`).then((response) => {

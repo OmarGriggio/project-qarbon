@@ -10,8 +10,22 @@
       <h1>My Events</h1>
       <div class="row justify-content-center">
         <div v-for="event in events" :key="event.id" class="col-md-4">
-          <div class="card mb-3">
-            <img :src="event.image" alt="event image" class="card-img-top" />
+          <div class="card mb-3 position-relative">
+            <div class="position-relative">
+              <img :src="event.image" alt="event image" class="card-img-top" />
+              <button
+                class="btn btn-success position-absolute top-50 start-50 translate-middle"
+                @click="openModal(event.id)"
+              >
+                Notify Participants
+              </button>
+            </div>
+            <button
+              class="btn btn-danger position-absolute top-0 start-0"
+              @click="deleteEvent(event.id)"
+            >
+              Delete
+            </button>
             <div class="card-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -47,11 +61,40 @@
       </div>
     </div>
   </div>
+  <div v-if="showModal" class="modal d-block" style="background-color: rgba(0, 0, 0, 0.5)">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" style="color: var(--main-color); font-weight: bold">
+            Let them know how great your event will be !
+          </h5>
+          <button type="button" class="btn-close" @click="closeModal"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="subjectInput" class="form-label" style="font-weight: bold">Subject</label>
+              <input type="text" class="form-control" id="subjectInput" v-model="subject" />
+            </div>
+            <div class="mb-3">
+              <label for="messageInput" class="form-label" style="font-weight: bold">Message</label>
+              <textarea class="form-control" id="messageInput" v-model="message"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
+          <button type="button" class="btn btn-success" @click="sendNotification">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import eventService from "../services/eventService"
 import placeService from "../services/placeService"
+import emailService from "../services/emailService"
 
 export default {
   name: "MyEvents",
@@ -59,9 +102,14 @@ export default {
     return {
       error: null,
       events: [],
-      places: []
+      places: [],
+      showModal: false,
+      subject: "",
+      message: "",
+      currentEventId: null
     }
   },
+
   async mounted() {
     const token = localStorage.getItem("access_token")
     try {
@@ -75,6 +123,36 @@ export default {
     }
   },
   methods: {
+    async sendNotification() {
+      try {
+        await emailService.sendNotification(this.currentEventId, this.subject, this.message)
+        this.closeModal()
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    openModal(eventId) {
+      this.currentEventId = eventId
+      this.showModal = true
+    },
+    closeModal() {
+      this.currentEventId = null
+      this.showModal = false
+    },
+    toggleModal(eventId) {
+      this.currentEventId = eventId
+      this.showModal = !this.showModal
+    },
+    async deleteEvent(id) {
+      const token = localStorage.getItem("access_token")
+      try {
+        await eventService.deleteEvent(id, token)
+        this.events = this.events.filter((event) => event.id !== id)
+      } catch (error) {
+        this.error = error.message
+      }
+    },
+
     getPlace(placeId) {
       return this.places.find((place) => place.id === placeId) || {}
     },

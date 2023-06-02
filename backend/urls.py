@@ -31,6 +31,7 @@ router.register('comments', CommentViewSet)
 router.register('ratings', RatingViewSet)
 router.register('myevents', MyEventsViewSet, basename='myevents')
 
+
 urlpatterns = [
     
     path('', index_view, name='index'),
