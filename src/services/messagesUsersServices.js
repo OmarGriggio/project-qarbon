@@ -7,7 +7,7 @@ export default {
   async postMessage(token, id) {
     const headers = { Authorization: `Bearer ${token}` }
     try {
-      await api.delete(`/messagesusers/${id}/send_message/`, { headers })
+      await api.post(`/messagesusers/${id}/send_message/`, { headers })
     } catch (err) {
       throw err.response.data
     }
