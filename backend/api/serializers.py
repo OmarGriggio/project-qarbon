@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from django.db.models import Avg
-from .models import Message, Place, Event, Profile, Rating, Comment
+from .models import Message, Place, Event, Profile, Rating, Comment, Waitlist
 
 
 
@@ -94,8 +94,26 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id','name', 'description','price', 'date', 'image', 'place', 'user', 'participants', 'capacity']
+        fields = ['id',
+                  'name', 
+                  'description',
+                  'price', 
+                  'date', 
+                  'image', 
+                  'place', 
+                  'user', 
+                  'participants', 
+                  'capacity']
         # On récupère l'utilisateur authentifié donc pas besoin de faire un POST avec la pk.
         # Utilisateur automatiquement associé avec le token JWT dans le requête
+        read_only_fields = ('user',)
+
+class WaitListSerializer(serializers.ModelSerializer):
+    user = UserStringSerializer(read_only=True)
+    event = EventSerializer(read_only=True)
+
+    class Meta:
+        model = Waitlist
+        fields = ['id', 'user', 'event', 'created_at']
         read_only_fields = ('user',)
 

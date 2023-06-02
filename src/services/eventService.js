@@ -72,5 +72,13 @@ export default {
     } catch (err) {
       throw err.response.data
     }
+  },
+  async unregisterEvent(id, token) {
+    const headers = { Authorization: `Bearer ${token}` }
+    try {
+      await api.delete(`/events/${id}/unregister/`, { headers })
+    } catch (err) {
+      throw err.response.data
+    }
   }
 }

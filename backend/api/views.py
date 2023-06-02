@@ -3,10 +3,10 @@ from django.views.decorators.cache import never_cache
 from rest_framework import viewsets, permissions
 from .models import Message
 from django.views.generic import TemplateView
-from .serializers import UserSerializer, GroupSerializer, MessageSerializer
+from .serializers import UserSerializer, GroupSerializer, MessageSerializer, WaitListSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
-from .models import Event, Place, Rating, Comment
+from .models import Event, Place, Rating, Comment, Waitlist
 from .serializers import EventSerializer, PlaceSerializer,  RatingSerializer, CommentSerializer
 from .filters import EventFilter, PlaceFilter, CommentFilter, RatingFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -104,9 +104,28 @@ class EventViewSet(viewsets.ModelViewSet):
     def register(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         user = request.user
-        event.participants.add(user)
+        if event.is_full():
+            Waitlist.objects.create(user=user, event=event)
+            return Response({'status': 'Event is full, user added to waiting list'})
+        else:
+            event.participants.add(user)
+            event.save()
+            return Response({'status': 'User registered for the event'})
+    
+    @action(detail=True, methods=['delete'])
+    def unregister(self, request, pk=None):
+        event = Event.objects.get(pk=pk)
+        user = request.user
+        event.participants.remove(user)
         event.save()
-        return Response({'status': 'User registered for the event'})
+        waiting_list = Waitlist.objects.filter(event=event).order_by('created_at').first() 
+        if waiting_list:
+            event.participants.add(waiting_list.user)
+            event.save()
+            waiting_list.delete()
+            return Response({'status': 'User unregistered from the event, and first user on waiting list registered'})
+        else:
+            return Response({'status': 'User unregistered from the event'})
     
     @action(detail=True, methods=['post'])
     def send_notification(self, request, pk=None):
@@ -159,6 +178,14 @@ class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     filterser_class = RatingFilter
+
+class WaitlistViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows waitlists to be viewed or edited.
+    """
+    queryset = Waitlist.objects.all()
+    serializer_class = WaitListSerializer
+    # filterset_class = WaitlistFilter
 
 # def get_recipient_list(event_id):
 #     # Assuming Event model has a related name 'participants' to User model

@@ -36,8 +36,8 @@
             </li>
             <li class="list-group-item" style="margin-top: 10px">
               <p class="card-subtitle">
-                Number of participants : 
-                {{ participants.length }} / 
+                Number of participants :
+                {{ participants.length }} /
                 {{ event.capacity }}
               </p>
             </li>
@@ -50,8 +50,20 @@
                 >
                   Register
                 </button>
-                <p v-else-if="isUserRegistered(participants)" class="text">You are already registered</p>
-                <p v-else class="text">The event is full</p>
+                <p v-else-if="isUserRegistered(participants)" class="text">
+                  <button class="buttonSee" @click="unregisterForEvent(event.id)">
+                    Unregistered
+                  </button>
+                  <br />
+                  <br />
+                  You are already registered
+                </p>
+                <p v-else class="text">
+                  <button class="buttonSee" @click="registerForEvent(event.id)">WaitingList</button>
+                  <br />
+                  <br />
+                  The event is full
+                </p>
               </li>
             </div>
             <div v-else class="text">
@@ -157,7 +169,7 @@ export default {
       const token = localStorage.getItem("access_token")
       try {
         await eventService.registerForEvent(id, this.place, token)
-        this.$router.push("/event-list")
+        await this.fetchEvent(id)
       } catch (err) {
         this.error = err
       }
@@ -194,6 +206,15 @@ export default {
         url
       )}&text=${encodeURIComponent(text)}&via=qarbon`
       window.location.href = twitterUrl
+    },
+    async unregisterForEvent(id) {
+      const token = localStorage.getItem("access_token")
+      try {
+        await eventService.unregisterEvent(id, token)
+        await this.fetchEvent(id)
+      } catch (err) {
+        this.error = err
+      }
     }
   },
   components: {
@@ -203,8 +224,7 @@ export default {
 </script>
 
 <style scoped>
-
-.text{
+.text {
   margin-top: 10px;
   font-size: 12px;
   text-transform: uppercase;
@@ -212,7 +232,6 @@ export default {
   font-weight: 500;
   color: #000;
   background-color: #fff;
-
 }
 
 .transparent-button {

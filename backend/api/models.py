@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from PIL import Image
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 class Message(models.Model):
     subject = models.CharField(max_length=200)
     body = models.TextField()
@@ -48,6 +49,9 @@ class Event(models.Model):
     participants = models.ManyToManyField(User, related_name='participating_events', blank=True)
     capacity = models.IntegerField(default=0)
 
+    def is_full(self):
+        return self.participants.count() >= self.capacity
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
@@ -82,3 +86,12 @@ class Rating(models.Model):
 
     def __str__(self):
         return f'{self.rated_by.username} rated {self.place.name} {self.rating}'
+    
+
+class Waitlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers 
-from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet, is_authenticated, RatingViewSet, CommentViewSet, MyEventsViewSet
+from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet, is_authenticated, RatingViewSet, CommentViewSet, MyEventsViewSet, WaitlistViewSet
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -30,6 +30,8 @@ router.register('places', PlaceViewSet)
 router.register('comments', CommentViewSet)
 router.register('ratings', RatingViewSet)
 router.register('myevents', MyEventsViewSet, basename='myevents')
+router.register('waitlist', WaitlistViewSet, basename='waitings')
+
 
 
 urlpatterns = [
@@ -37,6 +39,7 @@ urlpatterns = [
     path('', index_view, name='index'),
     path('api/', include(router.urls)),
     path('api/events/<int:pk>/register/', EventViewSet.register, name='register_event'),
+    path('api/events/<int:pk>/unregister/', EventViewSet.unregister, name='unregister_event'),
     path('api/places/<int:pk>/add_comment/', PlaceViewSet.add_comment, name='add_comments'),
     path('api/places/<int:pk>/add_rating/', PlaceViewSet.add_rating, name='add_ratings'),
     path('api/explorer/', include('rest_framework.urls', namespace='rest_framework')),
