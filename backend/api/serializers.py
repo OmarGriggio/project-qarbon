@@ -120,5 +120,5 @@ class WaitListSerializer(serializers.ModelSerializer):
 class MessagesUsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = MessagesUsers
-        fields = ['id', 'sender', 'receiver', 'timestamp']
+        fields = ['id', 'sender', 'receiver', 'timestamp', 'content']
 

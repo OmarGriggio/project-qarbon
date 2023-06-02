@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
 from .models import Event, Place, Rating, Comment, Waitlist, MessagesUsers
 from .serializers import EventSerializer, PlaceSerializer,  RatingSerializer, CommentSerializer
-from .filters import EventFilter, PlaceFilter, CommentFilter, RatingFilter
+from .filters import EventFilter, PlaceFilter, CommentFilter, RatingFilter, MessagesUsersFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # Email
 from django.core.validators import validate_email
@@ -209,7 +209,7 @@ class MessagesUsersViewSet(viewsets.ModelViewSet):
     """
     queryset = MessagesUsers.objects.all()
     serializer_class = MessagesUsersSerializer
-    # filterset_class = MessagesUsersFilter
+    filterset_class = MessagesUsersFilter
 
     @action(detail=True, methods=['post'])
     def send_message(self, request, pk=None):

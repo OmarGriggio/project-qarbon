@@ -48,6 +48,7 @@
                 <div class="dropdown-menu dropdown-menu-end">
                   <a class="dropdown-item" @click="$router.push('/my-events')">My Events</a>
                   <a class="dropdown-item">Edit Profile</a>
+                  <a class="dropdown-item" @click="$router.push('/myinbox')">My Inbox</a>
                   <div class="dropdown-divder"></div>
                   <a class="dropdown-item" @click="logout">Sign out</a>
                 </div>

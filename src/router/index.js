@@ -14,6 +14,11 @@ const routes = [
     component: () => import("../views/MyEventsView.vue")
 
   },
+  {
+    path: "/myinbox",
+    name: "myinbox",
+    component: () => import("../views/MyInboxView.vue")
+  },
   // {
   //   path: "/messages",
   //   name: "messages",
