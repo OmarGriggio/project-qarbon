@@ -58,6 +58,9 @@
                   <br />
                   You are already registered
                 </p>
+                <p v-else-if="isUserOnWaitingList" class="text">
+                  You are on the waiting list
+                </p>
                 <p v-else class="text">
                   <button class="buttonSee" @click="registerForEvent(event.id)">WaitingList</button>
                   <br />
@@ -88,6 +91,7 @@
                 >
                   <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
                 </button>
+                <p>{{ isUserOnWaitingList }}</p>
               </div>
             </li>
           </ul>
@@ -120,7 +124,8 @@ export default {
       places: [],
       userPublisher: "",
       userCo: "",
-      participants: []
+      participants: [],
+      isUserOnWaitingList: false
     }
   },
   async mounted() {
@@ -128,6 +133,7 @@ export default {
     this.fetchEvent(eventId)
     const resp = await placeService.fetchPlaces()
     this.places = resp.data
+    this.checkUserIsOnWaitList(eventId)
   },
   computed: {
     user() {
@@ -135,6 +141,11 @@ export default {
     }
   },
   methods: {
+    async checkUserIsOnWaitList(eventId) {
+      const resp = await eventService.isUserOnWaitingList(eventId)
+      this.isUserOnWaitingList = resp.status
+    },
+
     logout() {
       authService.logout()
     },

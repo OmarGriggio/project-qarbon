@@ -80,5 +80,13 @@ export default {
     } catch (err) {
       throw err.response.data
     }
+  },
+  async isUserOnWaitingList(eventId) {
+    try {
+      const response = await api.get(`/events/${eventId}/isUserOnWaitingList/`)
+      return response.data
+    } catch (err) {
+      throw err.response.data
+    }
   }
 }

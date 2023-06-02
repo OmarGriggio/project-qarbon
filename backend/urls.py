@@ -40,6 +40,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/events/<int:pk>/register/', EventViewSet.register, name='register_event'),
     path('api/events/<int:pk>/unregister/', EventViewSet.unregister, name='unregister_event'),
+    path('api/events/<int:pk>/isUserOnWaitingList/', EventViewSet.isUserOnWaitingList, name='isUserOnWaitingList'),
     path('api/places/<int:pk>/add_comment/', PlaceViewSet.add_comment, name='add_comments'),
     path('api/places/<int:pk>/add_rating/', PlaceViewSet.add_rating, name='add_ratings'),
     path('api/explorer/', include('rest_framework.urls', namespace='rest_framework')),

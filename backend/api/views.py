@@ -104,6 +104,15 @@ class EventViewSet(viewsets.ModelViewSet):
     def register(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         user = request.user
+
+        # Check if the user is already registered
+        if event.participants.filter(pk=user.pk).exists():
+            return Response({'status': 'User already registered for the event'})
+        
+        # Check if user is already on the waitlist
+        if Waitlist.objects.filter(event=event, user=user).exists():
+            return Response({'status': 'User already on the waiting list'})
+
         if event.is_full():
             Waitlist.objects.create(user=user, event=event)
             return Response({'status': 'Event is full, user added to waiting list'})
@@ -126,6 +135,13 @@ class EventViewSet(viewsets.ModelViewSet):
             return Response({'status': 'User unregistered from the event, and first user on waiting list registered'})
         else:
             return Response({'status': 'User unregistered from the event'})
+        
+    @action(detail=True, methods=['get'])
+    def isUserOnWaitingList(self, request, pk=None):
+        event = Event.objects.get(pk=pk)
+        user = request.user
+        waiting_list = Waitlist.objects.filter(event=event, user=user).exists()
+        return Response({'status': waiting_list})
     
     @action(detail=True, methods=['post'])
     def send_notification(self, request, pk=None):
