@@ -3,7 +3,7 @@
     <img :src="src" alt="Picture" class="img-fluid" />
     <br />
     <div class="col-lg-12">
-      <button type="button" id="btn-pic-inp" class="btn btn-primary col-lg-2" @click="browse()">
+      <button type="button" id="btn-pic-inp" class="btn btn-success" @click="browse()">
         Photo
       </button>
     </div>
@@ -41,7 +41,7 @@ export default {
 </script>
 <style>
 .img-fluid {
-  max-width: 20%;
+  max-width: 30%;
   margin: 2rem;
 }
 </style>
