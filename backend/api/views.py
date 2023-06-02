@@ -3,10 +3,10 @@ from django.views.decorators.cache import never_cache
 from rest_framework import viewsets, permissions
 from .models import Message
 from django.views.generic import TemplateView
-from .serializers import UserSerializer, GroupSerializer, MessageSerializer, WaitListSerializer
+from .serializers import UserSerializer, GroupSerializer, MessageSerializer, WaitListSerializer, MessagesUsersSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
-from .models import Event, Place, Rating, Comment, Waitlist
+from .models import Event, Place, Rating, Comment, Waitlist, MessagesUsers
 from .serializers import EventSerializer, PlaceSerializer,  RatingSerializer, CommentSerializer
 from .filters import EventFilter, PlaceFilter, CommentFilter, RatingFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -202,6 +202,25 @@ class WaitlistViewSet(viewsets.ModelViewSet):
     queryset = Waitlist.objects.all()
     serializer_class = WaitListSerializer
     # filterset_class = WaitlistFilter
+
+class MessagesUsersViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows messages to be viewed or edited.
+    """
+    queryset = MessagesUsers.objects.all()
+    serializer_class = MessagesUsersSerializer
+    # filterset_class = MessagesUsersFilter
+
+    @action(detail=True, methods=['post'])
+    def send_message(self, request, pk=None):
+        receiver = User.objects.get(pk=pk)
+        sender = request.user
+        content = request.data.get('content')
+        if not content:
+            return Response({'status': 'Message content cannot be empty'})
+        MessagesUsers.objects.create(sender=sender, receiver=receiver, content=content)
+        return Response({'status': 'Message sent successfully'})
+
 
 # def get_recipient_list(event_id):
 #     # Assuming Event model has a related name 'participants' to User model
