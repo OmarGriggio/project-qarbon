@@ -55,19 +55,42 @@
               <router-link to="/login" class="buttonSee router">Login</router-link>
             </div>
             <div class="d-flex justify-content-evenly">
-              <button class="transparent-button" @click="shareOnTwitter">
-                <span
-                  ><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"
-                /></span>
-              </button>
+              
+              <ShareNetwork
+                network="twitter"
+                :title="place.name"
+                :url="placeURL(place.id)"
+                description="Check out this place!"
+                twitter-user="qarbon"
+              >
+                <button class="transparent-button">
+                  <span
+                    ><font-awesome-icon icon="fa-brands fa-twitter" class="icon main-color"
+                  /></span>
+                </button>
+              </ShareNetwork>
 
-              <button class="transparent-button" @click="shareOnFacebook">
-                <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
-              </button>
+              <ShareNetwork
+                network="facebook"
+                :title="place.name"
+                :url="placeURL(place.id)"
+                description="Check out this place!"
+              >
+                <button class="transparent-button">
+                  <font-awesome-icon icon="fa-brands fa-facebook" class="icon main-color" />
+                </button>
+              </ShareNetwork>
 
-              <button class="transparent-button" style="margin-left: 10px" @click="shareOnWhatsapp">
-                <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
-              </button>
+              <shareNetwork
+                network="whatsapp"
+                :title="place.name"
+                :url="placeURL(place.id)"
+                description="Check out this place!"
+              >
+                <button class="transparent-button">
+                  <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon main-color" />
+                </button>
+              </shareNetwork>
             </div>
           </ul>
         </div>
@@ -81,6 +104,7 @@ import authService from "../services/authService"
 import placeService from "../services/placeService"
 import commmentService from "../services/commentService"
 // import api from "../services/api"
+import { ShareNetwork } from "vue-social-sharing"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
@@ -124,7 +148,7 @@ export default {
       authService.logout()
     },
     placeURL(id) {
-      return "http://localhost:8000/#/place-detail/" + id
+      return window.location.href + id
     },
     async fetchPlace(id) {
       const response = await placeService.fetchPlaceDetail(id)
@@ -175,15 +199,14 @@ export default {
     }
   },
   components: {
-    FontAwesomeIcon
+    FontAwesomeIcon,
+    ShareNetwork
   }
 }
 </script>
 
 <style scoped>
-
-
-.text{
+.text {
   font-size: 15px;
   padding-top: 20px;
 }
@@ -354,7 +377,7 @@ textarea {
   transform: translateY(-1px);
 }
 
-.d-flex{
+.d-flex {
   margin-top: 20px;
 }
 </style>
