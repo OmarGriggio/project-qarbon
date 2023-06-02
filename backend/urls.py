@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers 
-from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet, is_authenticated, RatingViewSet, CommentViewSet, MyEventsViewSet, WaitlistViewSet
+from .api.views import index_view, UserViewSet, GroupViewSet, MessageViewSet, EventViewSet, PlaceViewSet, is_authenticated, RatingViewSet, CommentViewSet, MyEventsViewSet, WaitlistViewSet, MessagesUsersViewSet
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -31,6 +31,7 @@ router.register('comments', CommentViewSet)
 router.register('ratings', RatingViewSet)
 router.register('myevents', MyEventsViewSet, basename='myevents')
 router.register('waitlist', WaitlistViewSet, basename='waitings')
+router.register('messagesusers', MessagesUsersViewSet, basename='waitings')
 
 
 
@@ -43,6 +44,7 @@ urlpatterns = [
     path('api/events/<int:pk>/isUserOnWaitingList/', EventViewSet.isUserOnWaitingList, name='isUserOnWaitingList'),
     path('api/places/<int:pk>/add_comment/', PlaceViewSet.add_comment, name='add_comments'),
     path('api/places/<int:pk>/add_rating/', PlaceViewSet.add_rating, name='add_ratings'),
+    path('api/messages/<int:pk>/send_message/', MessagesUsersViewSet.send_message, name='sending_message'),
     path('api/explorer/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
     path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),

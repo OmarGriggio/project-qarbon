@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from django.db.models import Avg
-from .models import Message, Place, Event, Profile, Rating, Comment, Waitlist
+from .models import Message, Place, Event, Profile, Rating, Comment, Waitlist, MessagesUsers
 
 
 
@@ -116,4 +116,9 @@ class WaitListSerializer(serializers.ModelSerializer):
         model = Waitlist
         fields = ['id', 'user', 'event', 'created_at']
         read_only_fields = ('user',)
+
+class MessagesUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MessagesUsers
+        fields = ['id', 'sender', 'receiver', 'timestamp']
 

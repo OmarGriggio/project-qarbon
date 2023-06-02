@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
-from .models import Message, Event, Place, Comment, Rating, Waitlist
+from .models import Message, Event, Place, Comment, Rating, Waitlist, MessagesUsers
 
 @admin.register(Message)
 class ModelAdmin(admin.ModelAdmin):
@@ -42,3 +42,8 @@ class RatingAdmin(admin.ModelAdmin):
 class WaitlistAdmin(admin.ModelAdmin):
     list_display = ('pk', 'user', 'event', 'created_at')
     search_fields = ('user', 'event', 'created_at')
+
+@admin.register(MessagesUsers)
+class MessagesUsersAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'sender', 'receiver', 'timestamp')
+    search_fields = ('sender', 'receiver', 'timestamp')
