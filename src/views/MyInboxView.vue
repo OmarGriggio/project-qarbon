@@ -3,11 +3,14 @@
     <input type="text" v-model="username" placeholder="Search user...">
     <button @click="searchUser">Search</button>
 
-    <div v-if="user">
+    <div>
       <h2>Results:</h2>
-      <p>Username: {{ user }}</p>
+      <p>Username: {{ userId }}</p>
+      <p>User id connected {{ this.user.pk }}</p>
       <!-- Display other user properties here -->
     </div>
+
+    <button @click="postMessage">Send message</button>
 
     <div v-if="errorMessage">
       <h2>Error:</h2>
@@ -17,29 +20,42 @@
 </template>
 
 <script>
-import axios from "axios"
 import userService from "../services/userService"
+import authService from "../services/authService"
+import messagesUsersServices from "../services/messagesUsersServices"
 
 export default {
   data() {
     return {
       username: '',
-      user: null,
+      userId: null,
       errorMessage: '',
     }
   },
-  computed: {},
+  computed: {
+    user() {
+      return authService.user.value
+    }
+  },
   methods: {
-    postMessage() {},
+    async postMessage() {
+      const token = localStorage.getItem("access_token")
+      const receiver = this.userId[0].id
+      const content = "Hello"
+      await messagesUsersServices.postMessage(token, receiver, content)
+    },
     async searchUser() {
       try {
-        this.user = await userService.fetchUserByUsername(this.username)
+        const resp = await userService.fetchUserByUsername(this.username)
+        this.userId = resp.data
       } catch (error) {
         this.errorMessage = error.message
       }
     },
   },
-  async mounted() {}
+  async mounted() {
+
+  }
 }
 </script>
 

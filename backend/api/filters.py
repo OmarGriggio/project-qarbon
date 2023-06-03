@@ -48,10 +48,9 @@ class MessagesUsersFilter(filters.FilterSet):
         fields = ['sender', 'receiver']
 
 class UsersFilter(filters.FilterSet):
-    pk = filters.CharFilter(lookup_expr='icontains')
+    id = filters.CharFilter(lookup_expr='icontains')
     username = filters.CharFilter(lookup_expr='icontains')
     
     class Meta:
         model = User
-        fields = ['username', 'pk']
-
+        fields = ['username', 'id']

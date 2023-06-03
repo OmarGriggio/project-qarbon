@@ -4,10 +4,10 @@ export default {
   fetchMessagesUsers() {
     return api.get(`messagesusers/`).then((response) => response.data)
   },
-  async postMessage(token, id) {
+  async postMessage(token, id, content) {
     const headers = { Authorization: `Bearer ${token}` }
     try {
-      await api.post(`/messagesusers/${id}/send_message/`, { headers })
+      await api.post(`/messagesusers/${id}/send_message/`, { content }, { headers })
     } catch (err) {
       throw err.response.data
     }
