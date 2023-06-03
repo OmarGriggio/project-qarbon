@@ -33,7 +33,9 @@ export default {
     }
   },
   computed: {
-    
+    hasConversation() {
+      return !! this.conversation;
+    }
   }
 }
 </script>
