@@ -118,6 +118,9 @@ class WaitListSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
 class MessagesUsersSerializer(serializers.ModelSerializer):
+    sender = UserRegisterSerializer(read_only=True)
+    receiver = UserRegisterSerializer(read_only=True)
+
     class Meta:
         model = MessagesUsers
         fields = ['id', 'sender', 'receiver', 'timestamp', 'content']
