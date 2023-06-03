@@ -8,6 +8,8 @@
       <p>Username: {{ userId }}</p>
       <p>User id connected {{ this.user.pk }}</p>
       <!-- Display other user properties here -->
+      <p>Messages : {{ messages }}</p>
+      <p>Messages2 : {{ messages2 }}</p>
     </div>
 
     <button @click="postMessage">Send message</button>
@@ -30,6 +32,8 @@ export default {
       username: '',
       userId: null,
       errorMessage: '',
+      messages: [],
+      messages2: []
     }
   },
   computed: {
@@ -52,9 +56,28 @@ export default {
         this.errorMessage = error.message
       }
     },
+    async loadMessages() {
+      try {
+        const token = localStorage.getItem("access_token")
+        const resp = await userService.fetchMessages(token, this.user.pk)
+        this.messages = resp.data
+      } catch (error) {
+        this.errorMessage = error.message
+      }
+    },
+    async loadMessages2(){
+      try {
+        const token = localStorage.getItem("access_token")
+        const resp = await messagesUsersServices.fetchUsersMessages(token)
+        this.messages2 = resp.data
+      } catch (error) {
+        this.errorMessage = error.message
+      }
+    }
   },
   async mounted() {
-
+    this.loadMessages()
+    this.loadMessages2()
   }
 }
 </script>

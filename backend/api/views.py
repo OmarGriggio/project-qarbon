@@ -19,7 +19,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from smtplib import SMTPException
 import traceback
-
+from django.db.models import Q
 
 
 
@@ -33,8 +33,17 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     filterset_class = UsersFilter
+
+    @action(detail=True, methods=['get'])
+    def messages(self, request, pk=None):
+        current_user = request.user
+        messages = MessagesUsers.objects.filter(
+            Q(sender=current_user) | Q(receiver=current_user)
+        ).order_by('timestamp')
+        serializer = MessagesUsersSerializer(messages, many=True)
+        return Response(serializer.data)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -221,6 +230,15 @@ class MessagesUsersViewSet(viewsets.ModelViewSet):
             return Response({'status': 'Message content cannot be empty'})
         MessagesUsers.objects.create(sender=sender, receiver=receiver, content=content)
         return Response({'status': 'Message sent successfully'})
+    
+    @action(detail=False, methods=['get'])
+    def messages(self, request):
+        current_user = request.user
+        messages = MessagesUsers.objects.filter(
+            Q(sender=current_user) | Q(receiver=current_user)
+        ).order_by('timestamp')
+        serializer = MessagesUsersSerializer(messages, many=True)
+        return Response(serializer.data)
 
 
 

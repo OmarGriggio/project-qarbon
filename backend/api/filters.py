@@ -40,8 +40,8 @@ class RatingFilter(filters.FilterSet):
 
 class MessagesUsersFilter(filters.FilterSet):
     
-    sender = filters.CharFilter(field_name='sender__id', lookup_expr='icontains')
-    receiver = filters.CharFilter(field_name='receiver__id', lookup_expr='icontains')
+    sender = filters.NumberFilter(field_name='sender__id', lookup_expr='exact')
+    receiver = filters.NumberFilter(field_name='receiver__id', lookup_expr='exact')
     
     class Meta:
         model = MessagesUsers

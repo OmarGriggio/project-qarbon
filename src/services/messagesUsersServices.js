@@ -14,5 +14,9 @@ export default {
   },
   fetchMessagesUsersDetail(id) {
     return api.get(`messagesusers/?sender=${id}/`).then((response) => response.data)
+  },
+  fetchUsersMessages(token) {
+    const headers = { Authorization: `Bearer ${token}` }
+    return api.get("messagesusers/messages/", { headers })
   }
 }
