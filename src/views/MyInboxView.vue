@@ -1,11 +1,7 @@
 <template>
   <div>
-    <input type="text" v-model="username" placeholder="Search user..." />
-    <button @click="searchUser">Search</button>
-
     <div>
       <h2>Results:</h2>
-      <p>Username:</p>
       <p>User id connected {{ this.user.pk }}</p>
       <!-- Display other user properties here -->
       <p>{{ conversations }}</p>
