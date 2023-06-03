@@ -33,9 +33,7 @@ export default {
     }
   },
   computed: {
-    hasConversation() {
-      return !!this.conversation && Object.keys(this.conversation).length > 0;
-    }
+    
   }
 }
 </script>

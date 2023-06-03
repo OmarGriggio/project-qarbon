@@ -8,8 +8,7 @@
       <p>Username:</p>
       <p>User id connected {{ this.user.pk }}</p>
       <!-- Display other user properties here -->
-      <p>{{ messages }}</p>
-      <p>{{ messages2 }}</p>
+      <p>{{ conversations }}</p>
       <br />
       <p></p>
       <p></p>
@@ -51,7 +50,6 @@
 <script>
 import userService from "../services/userService"
 import authService from "../services/authService"
-import messagesUsersServices from "../services/messagesUsersServices"
 import ConversationBox from "../components/ConversationBox.vue"
 
 export default {
@@ -60,8 +58,6 @@ export default {
       username: "",
       userId: null,
       errorMessage: "",
-      messages: {},
-      messages2: {},
       conversations: [],
       searchOptions: [],
       showOptions: false
@@ -121,15 +117,6 @@ export default {
         this.errorMessage = error.message
       }
     },
-    async loadMessages2() {
-      try {
-        const token = localStorage.getItem("access_token")
-        const resp = await messagesUsersServices.fetchUsersMessages(token)
-        this.messages2 = resp.data
-      } catch (error) {
-        this.errorMessage = error.message
-      }
-    },
     async fetchUser(id) {
       const token = localStorage.getItem("access_token")
       const resp = await userService.fetchUserDetail(token, id)
@@ -154,7 +141,6 @@ export default {
   },
   async mounted() {
     this.loadMessages()
-    this.loadMessages2()
   },
   components: {
     ConversationBox
