@@ -38,6 +38,8 @@
                 placeholder="Locality"
                 v-model="place.locality"
               />
+            </div>
+            <div class="col-lg-8">
               <picture-input
                 v-model="form.picture"
                 @src="this.src = $event"
@@ -110,7 +112,7 @@ export default {
       } catch (error) {
         console.error(error.response)
       }
-    },
+    }
   },
   async mounted() {
     await placeService.fetchPlaces()
