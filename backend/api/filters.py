@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Event, Place, Comment, Rating, MessagesUsers
+from .models import Event, Place, Comment, Rating, MessagesUsers, User
 
 class EventFilter(filters.FilterSet):
     name = filters.CharFilter(lookup_expr='icontains')
@@ -46,4 +46,12 @@ class MessagesUsersFilter(filters.FilterSet):
     class Meta:
         model = MessagesUsers
         fields = ['sender', 'receiver']
+
+class UsersFilter(filters.FilterSet):
+    pk = filters.CharFilter(lookup_expr='icontains')
+    username = filters.CharFilter(lookup_expr='icontains')
+    
+    class Meta:
+        model = User
+        fields = ['username', 'pk']
 

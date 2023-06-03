@@ -1,41 +1,45 @@
 <template>
   <div>
-    <h1>My inbox</h1>
-    <div>
-      <select v-model="selectedUserId" @change="fetchConversation">
-        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
-      </select>
-      <br />
-      <br />
-      <textarea v-model="message" placeholder="Enter your message"></textarea>
-      <button @click="sendMessage">Send</button>
-      <div v-for="message in conversation" :key="message.id">
-        <p>{{ message.content }}</p>
-      </div>
+    <input type="text" v-model="username" placeholder="Search user...">
+    <button @click="searchUser">Search</button>
+
+    <div v-if="user">
+      <h2>Results:</h2>
+      <p>Username: {{ user }}</p>
+      <!-- Display other user properties here -->
+    </div>
+
+    <div v-if="errorMessage">
+      <h2>Error:</h2>
+      <p>{{ errorMessage }}</p>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios"
+import userService from "../services/userService"
+
 export default {
   data() {
     return {
-      users: [],
-      selectedUserId: null,
-      message: "",
-      conversation: []
+      username: '',
+      user: null,
+      errorMessage: '',
     }
   },
   computed: {},
   methods: {
-    postMessage(){
-        
-    }
-
+    postMessage() {},
+    async searchUser() {
+      try {
+        this.user = await userService.fetchUserByUsername(this.username)
+      } catch (error) {
+        this.errorMessage = error.message
+      }
+    },
   },
-  async mounted() {
-
-  }
+  async mounted() {}
 }
 </script>
 

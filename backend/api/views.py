@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
 from .models import Event, Place, Rating, Comment, Waitlist, MessagesUsers
 from .serializers import EventSerializer, PlaceSerializer,  RatingSerializer, CommentSerializer
-from .filters import EventFilter, PlaceFilter, CommentFilter, RatingFilter, MessagesUsersFilter
+from .filters import EventFilter, PlaceFilter, CommentFilter, RatingFilter, MessagesUsersFilter, UsersFilter
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # Email
 from django.core.validators import validate_email
@@ -33,7 +33,8 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
+    filterset_class = UsersFilter
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -220,6 +221,8 @@ class MessagesUsersViewSet(viewsets.ModelViewSet):
             return Response({'status': 'Message content cannot be empty'})
         MessagesUsers.objects.create(sender=sender, receiver=receiver, content=content)
         return Response({'status': 'Message sent successfully'})
+
+
 
 
 # def get_recipient_list(event_id):
