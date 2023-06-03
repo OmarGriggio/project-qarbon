@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2>Conversation avec {{ conversation.user.username }}</h2>
+    <h2 v-if="hasConversation">Conversation avec {{ conversation.user.username }}</h2>
 
-    <ul>
+    <ul v-if="conversation">
       <li v-for="message in conversation.messages" :key="message.id">
         <p>
           {{ message.content }}
@@ -30,6 +30,11 @@ export default {
     emitSendMessage() {
       this.$emit("sendMessage", this.conversation.user, this.newMessage)
       this.newMessage = ""
+    }
+  },
+  computed: {
+    hasConversation() {
+      return !!this.conversation && Object.keys(this.conversation).length > 0;
     }
   }
 }

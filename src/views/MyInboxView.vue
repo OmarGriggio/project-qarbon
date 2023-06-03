@@ -15,6 +15,13 @@
       <p></p>
     </div>
 
+    <input type="text" v-model="username" placeholder="Search user..." @input="handleSearchInput" />
+    <ul v-if="showOptions">
+      <li v-for="option in searchOptions" :key="option.id">
+        {{ option.username }}<button @click="selectUser(option)">Select</button>
+      </li>
+    </ul>
+
     <div v-if="errorMessage">
       <h2>Error:</h2>
       <p>{{ errorMessage }}</p>
@@ -22,7 +29,6 @@
 
     <div>
       <!-- ... -->
-      <h2>Conversation avec {{ userId }}</h2>
       <ul>
         <li v-for="msg in messages" :key="msg.id">
           {{ msg.content }}
@@ -56,7 +62,9 @@ export default {
       errorMessage: "",
       messages: {},
       messages2: {},
-      conversations: []
+      conversations: [],
+      searchOptions: [],
+      showOptions: false
     }
   },
   computed: {
@@ -65,8 +73,34 @@ export default {
     }
   },
   methods: {
+    async handleSearchInput() {
+      if (this.username.trim() === "") {
+        this.showOptions = false
+        this.searchOptions = []
+      } else {
+        try {
+          const resp = await userService.fetchUserByUsername(this.username)
+          this.searchOptions = resp.data
+          this.showOptions = true
+        } catch (error) {
+          this.errorMessage = error.message
+        }
+      }
+    },
+    selectUser(user) {
+      const existingConversation = this.conversations.find((c) => c.user.id === user.id)
+      if (!existingConversation) {
+        this.conversations.unshift({
+          user: user,
+          messages: []
+        })
+      }
+      this.showOptions = false
+      this.searchOptions = []
+      this.username = ""
+    },
     deleteEmptyMessages() {
-      const emptyConversationIndex = this.conversations.findIndex(c => c.messages.length === 0)
+      const emptyConversationIndex = this.conversations.findIndex((c) => c.messages.length === 0)
       if (emptyConversationIndex !== -1) {
         this.conversations.splice(emptyConversationIndex, 1)
       }
@@ -77,25 +111,6 @@ export default {
       await messagesUsersServices.postMessage(token, receiver, content)
       this.loadMessages()
       this.loadMessages2()
-    },
-    async searchUser() {
-      try {
-        const resp = await userService.fetchUserByUsername(this.username)
-        this.userId = resp.data
-
-        // Vérifier si une conversation avec cet utilisateur existe déjà
-        const existingConversation = this.conversations.find((c) => c.user.id === this.userId[0].id)
-        if (!existingConversation) {
-          // Si aucune conversation n'existe, en créer une nouvelle
-          this.conversations.unshift({
-            user: this.userId[0],
-            messages: []
-          })
-        }
-        this.deleteEmptyMessages()
-      } catch (error) {
-        this.errorMessage = error.message
-      }
     },
     async loadMessages() {
       try {
