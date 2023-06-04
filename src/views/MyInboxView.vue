@@ -115,7 +115,7 @@ export default {
           messages: [],
           isOpened: true
         })
-      } else{
+      } else {
         // Si elle existe, la mettre à jour
         existingConversation.isOpened = true
       }
@@ -134,13 +134,24 @@ export default {
       const receiver = user.id
       await messagesUsersServices.postMessage(token, receiver, content)
       this.loadMessages()
-      this.loadMessages2()
     },
     async loadMessages() {
       try {
         const token = localStorage.getItem("access_token")
         const resp = await userService.fetchMessages(token, this.user.pk)
-        this.conversations = this.groupMessgagesbyUser(resp.data)
+        let newConversations = this.groupMessgagesbyUser(resp.data)
+        // Keep state of the open conv
+        this.conversations.forEach((oldConv) => {
+          // Find the new conv
+          const newConv = newConversations.find((newConv) => newConv.user.id === oldConv.user.id)
+          // If the new conv exists, keep the state of the old conv
+          if (newConv) {
+            // Keep the state of the old conv
+            newConv.isOpened = oldConv.isOpened
+          }
+        })
+        // Update the conversations
+        this.conversations = newConversations
       } catch (error) {
         this.errorMessage = error.message
       }
