@@ -18,5 +18,13 @@ export default {
   fetchUsersMessages(token) {
     const headers = { Authorization: `Bearer ${token}` }
     return api.get("messagesusers/messages/", { headers })
+  },
+  async deleteMessage(token, id) {
+    const headers = { Authorization: `Bearer ${token}` }
+    try {
+      await api.delete(`messagesusers/${id}/delete_messages/`, { headers })
+    } catch (err) {
+      throw err.response.data
+    }
   }
 }

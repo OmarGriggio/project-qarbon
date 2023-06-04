@@ -44,7 +44,7 @@ class UserViewSet(viewsets.ModelViewSet):
         ).order_by('timestamp')
         serializer = MessagesUsersSerializer(messages, many=True)
         return Response(serializer.data)
-
+    
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
@@ -239,7 +239,19 @@ class MessagesUsersViewSet(viewsets.ModelViewSet):
         ).order_by('timestamp')
         serializer = MessagesUsersSerializer(messages, many=True)
         return Response(serializer.data)
-
+    
+    @action(detail=True, methods=['delete'])
+    def delete_messages(self, request, pk=None):
+        receiver = User.objects.get(pk=pk)
+        sender = request.user
+        conversation = MessagesUsers.objects.filter(
+            Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender)
+        )
+        if conversation.exists():
+            conversation.delete()
+            return Response({'status': 'Conversation deleted successfully'})
+        else:
+            return Response({'status': 'Conversation could not be deleted'})
 
 
 

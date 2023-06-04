@@ -24,6 +24,8 @@
           <button @click="toggleConversation(conversation)">
             Conversation avec {{ conversation.user.username }}
           </button>
+          <br />
+          <button @click="deleteConversation(conversation.user)">Delete conversation</button>
           <ConversationBox
             v-if="conversation.isOpened"
             :conversation="conversation"
@@ -184,6 +186,20 @@ export default {
       if (conversation) {
         conversation.isOpened = false
       }
+    },
+    deleteConversation(user) {
+      const conversationIndex = this.conversations.findIndex((c) => c.user.id === user.id)
+      if (conversationIndex !== -1) {
+        const conversation = this.conversations[conversationIndex];
+        this.deleteFromDjango(conversation.user);
+        this.conversations.splice(conversationIndex, 1)
+      }
+    },
+    async deleteFromDjango(user) {
+      const token = localStorage.getItem("access_token")
+      //await userService.deleteMessage(token, user.id)
+       await messagesUsersServices.deleteMessage(token, user.id)
+      this.loadMessages()
     },
     toggleConversation(conversation) {
       conversation.isOpened = !conversation.isOpened

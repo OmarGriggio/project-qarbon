@@ -46,7 +46,7 @@ urlpatterns = [
     path('api/places/<int:pk>/add_rating/', PlaceViewSet.add_rating, name='add_ratings'),
     path('api/messagessusers/<int:pk>/send_message/', MessagesUsersViewSet.send_message, name='sending_message'),
     path('api/messagesusers/messages/', MessagesUsersViewSet.messages, name='get_messages'),
-    path('api/users/<int:pk>/messages/', UserViewSet.messages, name='getting_messages'),
+    path('api/messagesusers/<int:pk>/delete_messages/', MessagesUsersViewSet.delete_messages, name='delete_msg'),
     path('api/explorer/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
     path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
