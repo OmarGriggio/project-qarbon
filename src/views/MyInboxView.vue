@@ -17,6 +17,23 @@
       </li>
     </ul>
 
+    <!-- Liste des conversations -->
+    <div style="float: left; width: 30%">
+      <ul>
+        <li v-for="conversation in conversations" :key="conversation.user.id">
+          <button @click="toggleConversation(conversation)">
+            Conversation avec {{ conversation.user.username }}
+          </button>
+          <ConversationBox
+            v-if="conversation.isOpened"
+            :conversation="conversation"
+            @sendMessage="postMessage"
+            @closeConversation="closeConversation(conversation.user)"
+          />
+        </li>
+      </ul>
+    </div>
+
     <div v-if="errorMessage">
       <h2>Error:</h2>
       <p>{{ errorMessage }}</p>
@@ -38,7 +55,12 @@
     </div>
 
     <div v-for="conversation in conversations" :key="conversation.user.id">
-      <ConversationBox :conversation="conversation" @sendMessage="postMessage" />
+      <ConversationBox
+        v-if="conversation.isOpened"
+        :conversation="conversation"
+        @sendMessage="postMessage"
+        @closeConversation="closeConversation(conversation.user)"
+      />
     </div>
   </div>
 </template>
@@ -47,6 +69,7 @@
 import userService from "../services/userService"
 import authService from "../services/authService"
 import ConversationBox from "../components/ConversationBox.vue"
+import messagesUsersServices from "../services/messagesUsersServices"
 
 export default {
   data() {
@@ -56,7 +79,8 @@ export default {
       errorMessage: "",
       conversations: [],
       searchOptions: [],
-      showOptions: false
+      showOptions: false,
+      activeConversation: null
     }
   },
   computed: {
@@ -66,6 +90,7 @@ export default {
   },
   methods: {
     async handleSearchInput() {
+      // Vérifier si le champ de recherche est vide
       if (this.username.trim() === "") {
         this.showOptions = false
         this.searchOptions = []
@@ -80,12 +105,19 @@ export default {
       }
     },
     selectUser(user) {
+      // Vérifier si la conversation existe déjà
       const existingConversation = this.conversations.find((c) => c.user.id === user.id)
+      // Si elle n'existe pas, l'ajouter
       if (!existingConversation) {
+        // unshift ajoute un élément au début du tableau
         this.conversations.unshift({
           user: user,
-          messages: []
+          messages: [],
+          isOpened: true
         })
+      } else{
+        // Si elle existe, la mettre à jour
+        existingConversation.isOpened = true
       }
       this.showOptions = false
       this.searchOptions = []
@@ -121,18 +153,29 @@ export default {
     groupMessgagesbyUser(messages) {
       let groupedMessages = {}
       messages.forEach((msg) => {
+        // Trouver l'autre utilisateur de la conversation
         let otherUser = msg.sender.id === this.user.pk ? msg.receiver : msg.sender
+        // Ajouter l'autre utilisateur à l'objet groupedMessages
         if (!groupedMessages[otherUser.id]) {
           groupedMessages[otherUser.id] = {
             user: otherUser,
-            messages: []
+            messages: [],
+            isOpened: false
           }
         }
         groupedMessages[otherUser.id].messages.push(msg)
       })
-
       // Convertir l'objet en tableau
       return Object.values(groupedMessages)
+    },
+    closeConversation(user) {
+      const conversation = this.conversations.find((c) => c.user.id === user.id)
+      if (conversation) {
+        conversation.isOpened = false
+      }
+    },
+    toggleConversation(conversation) {
+      conversation.isOpened = !conversation.isOpened
     }
   },
   async mounted() {

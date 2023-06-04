@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <h2 v-if="hasConversation">Conversation avec {{ conversation.user.username }}</h2>
 
     <ul v-if="conversation">
@@ -13,6 +14,7 @@
 
     <input v-model="newMessage" type="text" placeholder="Type your message..." />
     <button @click="emitSendMessage">Send message</button>
+    <button @click="emitCloseConversation">Close conversation</button>
   </div>
 </template>
 
@@ -30,11 +32,14 @@ export default {
     emitSendMessage() {
       this.$emit("sendMessage", this.conversation.user, this.newMessage)
       this.newMessage = ""
+    },
+    emitCloseConversation() {
+      this.$emit("closeConversation", this.conversation.user)
     }
   },
   computed: {
     hasConversation() {
-      return !! this.conversation;
+      return !!this.conversation
     }
   }
 }
