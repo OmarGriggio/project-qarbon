@@ -1,48 +1,47 @@
 <template>
-  <div>
-    <div>
-      <h2>Results:</h2>
-      <p>User id connected {{ this.user.pk }}</p>
-      <!-- Display other user properties here -->
-      <p></p>
-      <br />
-      <p></p>
-      <p></p>
-    </div>
-
-    <input type="text" v-model="username" placeholder="Search user..." @input="handleSearchInput" />
-
-    <ul v-if="showOptions">
-      <li v-for="option in searchOptions" :key="option.id">
-        {{ option.username }}<button @click="selectUser(option)">Select</button>
-      </li>
-    </ul>
-
-    <!-- Liste des conversations -->
-    <div class="listConv">
-      <ul>
-        <li v-for="conversation in conversations" :key="conversation.user.id">
-          <button @click="toggleConversation(conversation)">
-            Conversation avec {{ conversation.user.username }}
-          </button>
-          <br />
-          <button @click="deleteConversation(conversation.user)">Delete conversation</button>
+  <div class="app-container">
+    <div class="left-section">
+      <div></div>
+      <ul v-if="showOptions">
+        <li v-for="option in searchOptions" :key="option.id">
+          {{ option.username }}<button @click="selectUser(option)">Select</button>
         </li>
       </ul>
-    </div>
-
-    <div v-if="errorMessage">
-      <h2>Error:</h2>
-      <p>{{ errorMessage }}</p>
-    </div>
-
-    <div v-for="conversation in conversations" :key="conversation.user.id">
-      <ConversationBox
-        v-if="conversation.isOpened"
-        :conversation="conversation"
-        @sendMessage="postMessage"
-        @closeConversation="closeConversation(conversation.user)"
+      <p>New conversation</p>
+      <input
+        type="text"
+        v-model="username"
+        placeholder="Search user..."
+        @input="handleSearchInput"
       />
+      <!-- liste des convs ici -->
+      <div class="listConv">
+        <div class="oneComment" v-for="conversation in conversations" :key="conversation.user.id">
+          <div class="CommentText">
+            <button class="buttonUser" @click="toggleConversation(conversation)">
+              {{ conversation.user.username }}
+            </button>
+            <button class="transparent-button" @click="deleteConversation(conversation.user)">
+              <FontAwesomeIcon icon="fa-close" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div v-if="errorMessage">
+        <h2>Error:</h2>
+        <p>{{ errorMessage }}</p>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div v-for="conversation in conversations" :key="conversation.user.id">
+        <ConversationBox
+          v-if="conversation.isOpened"
+          :conversation="conversation"
+          @sendMessage="postMessage"
+          @closeConversation="closeConversation(conversation.user)"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -52,6 +51,11 @@ import userService from "../services/userService"
 import authService from "../services/authService"
 import ConversationBox from "../components/ConversationBox.vue"
 import messagesUsersServices from "../services/messagesUsersServices"
+
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { faClose } from "@fortawesome/free-solid-svg-icons"
+library.add(faClose)
 
 export default {
   data() {
@@ -106,6 +110,7 @@ export default {
       this.username = ""
     },
     deleteEmptyMessages() {
+      // delete if conv created but no message sent
       const emptyConversationIndex = this.conversations.findIndex((c) => c.messages.length === 0)
       if (emptyConversationIndex !== -1) {
         this.conversations.splice(emptyConversationIndex, 1)
@@ -177,7 +182,6 @@ export default {
     },
     async deleteFromDjango(user) {
       const token = localStorage.getItem("access_token")
-      //await userService.deleteMessage(token, user.id)
       await messagesUsersServices.deleteMessage(token, user.id)
       this.loadMessages()
     },
@@ -193,14 +197,126 @@ export default {
     this.loadMessages()
   },
   components: {
-    ConversationBox
+    ConversationBox,
+    FontAwesomeIcon
   }
 }
 </script>
 
 <style scoped>
-.listConversation {
-  width: 30%;
-  border: 1px solid #0000;
+.buttonUser {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.5;
+  text-align: left;
+  width: auto;
+  background-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #000;
+  font-size: 12px;
+}
+
+.transparent-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.CommentText {
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.5;
+  text-align: left;
+  width: 100%;
+  background-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #000;
+  font-size: 12px;
+}
+
+.postedCommentBy {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+  float: right;
+  width: auto;
+}
+
+.commentDate {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+  float: left;
+  width: auto;
+}
+
+.transparent-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.oneComment {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.5s;
+  overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+.app-container {
+  width: 100%;
+  height: 100%;
+}
+
+.left-section {
+  width: auto;
+  margin-left: 100px;
+}
+
+.right-section {
+  width: auto;
+}
+
+.listConv {
+  max-height: 80vh;
+  max-width: 90%;
+  background-color: #ffffff;
+  width: 15%;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.5s;
+  overflow: hidden;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  margin-left: 35px;
+  align-items: center;
+  overflow-y: scroll;
+  height: 600px;
+}
+
+.listConv::-webkit-scrollbar {
+  display: none;
 }
 </style>
