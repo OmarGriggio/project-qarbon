@@ -4,13 +4,14 @@
       <h2>Results:</h2>
       <p>User id connected {{ this.user.pk }}</p>
       <!-- Display other user properties here -->
-      <p>{{ conversations }}</p>
+      <p></p>
       <br />
       <p></p>
       <p></p>
     </div>
 
     <input type="text" v-model="username" placeholder="Search user..." @input="handleSearchInput" />
+
     <ul v-if="showOptions">
       <li v-for="option in searchOptions" :key="option.id">
         {{ option.username }}<button @click="selectUser(option)">Select</button>
@@ -18,7 +19,7 @@
     </ul>
 
     <!-- Liste des conversations -->
-    <div style="float: left; width: 30%">
+    <div class="listConv">
       <ul>
         <li v-for="conversation in conversations" :key="conversation.user.id">
           <button @click="toggleConversation(conversation)">
@@ -26,12 +27,6 @@
           </button>
           <br />
           <button @click="deleteConversation(conversation.user)">Delete conversation</button>
-          <ConversationBox
-            v-if="conversation.isOpened"
-            :conversation="conversation"
-            @sendMessage="postMessage"
-            @closeConversation="closeConversation(conversation.user)"
-          />
         </li>
       </ul>
     </div>
@@ -39,21 +34,6 @@
     <div v-if="errorMessage">
       <h2>Error:</h2>
       <p>{{ errorMessage }}</p>
-    </div>
-
-    <div>
-      <!-- ... -->
-      <ul>
-        <li v-for="msg in messages" :key="msg.id">
-          {{ msg.content }}
-          {{ msg.sender }}
-          {{ msg.receiver }}
-        </li>
-      </ul>
-    </div>
-
-    <div v-for="conversation in conversations" :key="conversation">
-      <p>{{ conversation.groupedMessages }}</p>
     </div>
 
     <div v-for="conversation in conversations" :key="conversation.user.id">
@@ -190,19 +170,23 @@ export default {
     deleteConversation(user) {
       const conversationIndex = this.conversations.findIndex((c) => c.user.id === user.id)
       if (conversationIndex !== -1) {
-        const conversation = this.conversations[conversationIndex];
-        this.deleteFromDjango(conversation.user);
+        const conversation = this.conversations[conversationIndex]
+        this.deleteFromDjango(conversation.user)
         this.conversations.splice(conversationIndex, 1)
       }
     },
     async deleteFromDjango(user) {
       const token = localStorage.getItem("access_token")
       //await userService.deleteMessage(token, user.id)
-       await messagesUsersServices.deleteMessage(token, user.id)
+      await messagesUsersServices.deleteMessage(token, user.id)
       this.loadMessages()
     },
-    toggleConversation(conversation) {
-      conversation.isOpened = !conversation.isOpened
+    toggleConversation(selectedConversation) {
+      // if the conversation is already opened, close it
+      this.conversations.forEach((conversation) => {
+        conversation.isOpened =
+          conversation === selectedConversation ? !conversation.isOpened : false
+      })
     }
   },
   async mounted() {
@@ -214,4 +198,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.listConversation {
+  width: 30%;
+  border: 1px solid #0000;
+}
+</style>
