@@ -35,11 +35,26 @@
               </p>
             </li>
             <li class="list-group-item" style="margin-top: 10px">
-              <p class="card-subtitle">
+              <div class="card-subtitle">
                 Number of participants :
                 {{ participants.length }} /
                 {{ event.capacity }}
-              </p>
+              </div>
+              <div>
+                <button @click="showParticipants = !showParticipants" class="buttonSee">
+                  <font-awesome-icon icon="fa-solid fa-user" class="icon main-color" />
+                  participants
+                </button>
+              </div>
+              <div v-if="showParticipants">
+                <div class="participants-section">
+                  <div class="oneComment" v-for="p in participants" :key="p.id">
+                    <div class="CommentText">
+                      {{ p.username }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
             <div v-if="user">
               <li class="list-group-item" style="margin-top: 10px">
@@ -129,7 +144,8 @@ import { faUserSecret } from "@fortawesome/free-solid-svg-icons"
 import { faTwitter } from "@fortawesome/free-brands-svg-icons"
 import { faFacebook } from "@fortawesome/free-brands-svg-icons"
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons"
-library.add(faUserSecret, faTwitter, faFacebook, faWhatsapp)
+import { faUser } from "@fortawesome/free-solid-svg-icons"
+library.add(faUserSecret, faTwitter, faFacebook, faWhatsapp, faUser)
 
 export default {
   data() {
@@ -141,7 +157,8 @@ export default {
       userPublisher: "",
       userCo: "",
       participants: [],
-      isUserOnWaitingList: false
+      isUserOnWaitingList: false,
+      showParticipants: false
     }
   },
   async mounted() {
@@ -255,6 +272,55 @@ export default {
 </script>
 
 <style scoped>
+.participants-section {
+  max-height: 25vh;
+  max-width: 90%;
+  background-color: #ffffff;
+  width: auto;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.5s;
+  overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 35px;
+  align-items: center;
+  overflow-y: scroll;
+}
+
+.participants-section::-webkit-scrollbar {
+  display: none;
+}
+.oneComment {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.5s;
+  overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.CommentText {
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.5;
+  text-align: center;
+  width: auto;
+  background-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #000;
+  font-size: 12px;
+}
+
 .text {
   margin-top: 10px;
   font-size: 12px;
@@ -349,7 +415,7 @@ export default {
 }
 
 .icon {
-  font-size: 30px;
+  font-size: 20px;
   margin: 10px;
 }
 
