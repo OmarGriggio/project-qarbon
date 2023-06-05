@@ -22,7 +22,7 @@ export default {
   async deleteMessage(token, id) {
     const headers = { Authorization: `Bearer ${token}` }
     try {
-      await api.delete(`messagesusers/${id}/delete_messages/`, { headers })
+      await api.put(`messagesusers/${id}/delete_messages/`, { headers })
     } catch (err) {
       throw err.response.data
     }

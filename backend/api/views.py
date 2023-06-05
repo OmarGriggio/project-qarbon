@@ -40,7 +40,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def messages(self, request, pk=None):
         current_user = request.user
         messages = MessagesUsers.objects.filter(
-            Q(sender=current_user) | Q(receiver=current_user)
+            Q(sender=current_user, sender_deleted=False) | Q(receiver=current_user, receiver_deleted=False)
         ).order_by('timestamp')
         serializer = MessagesUsersSerializer(messages, many=True)
         return Response(serializer.data)
@@ -240,18 +240,23 @@ class MessagesUsersViewSet(viewsets.ModelViewSet):
         serializer = MessagesUsersSerializer(messages, many=True)
         return Response(serializer.data)
     
-    @action(detail=True, methods=['delete'])
+    @action(detail=True, methods=['put'])
     def delete_messages(self, request, pk=None):
         receiver = User.objects.get(pk=pk)
-        sender = request.user
+        current_user = request.user
         conversation = MessagesUsers.objects.filter(
-            Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender)
+            Q(sender=current_user, receiver=receiver) | Q(sender=receiver, receiver=current_user)
         )
         if conversation.exists():
-            conversation.delete()
-            return Response({'status': 'Conversation deleted successfully'})
+            for message in conversation:
+                if message.sender == current_user:
+                    message.receiver_deleted = True
+                elif message.receiver == current_user:
+                    message.sender_deleted = True
+                message.save()
+            return Response({'status': 'Conversation marked as deleted successfully'})
         else:
-            return Response({'status': 'Conversation could not be deleted'})
+            return Response({'status': 'Conversation could not be found or you do not have permission to delete this conversation'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
