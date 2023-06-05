@@ -250,9 +250,9 @@ class MessagesUsersViewSet(viewsets.ModelViewSet):
         if conversation.exists():
             for message in conversation:
                 if message.sender == current_user:
-                    message.receiver_deleted = True
-                elif message.receiver == current_user:
                     message.sender_deleted = True
+                elif message.receiver == current_user:
+                    message.receiver_deleted = True
                 message.save()
             return Response({'status': 'Conversation marked as deleted successfully'})
         else:
