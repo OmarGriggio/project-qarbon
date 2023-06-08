@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       file: null,
-      src: "https://www.shutterstock.com/image-vector/continuous-line-drawing-happy-cheerful-260nw-749843629.jpg"
+      src: "../src/assets/picture-input.png"
     }
   },
   methods: {

@@ -174,7 +174,7 @@ h2 {
   margin: 5px;
 }
 .create-place {
-  padding-top: 130px;
+  padding-top: 55px;
 }
 .event-form .form-label {
   color: #34495e;
