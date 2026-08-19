@@ -1,8 +1,5 @@
 # Django Vue Template ✌️ 🐍
 
-![Vue Logo](/src/assets/logo-vue.png "Vue Logo")
-![Django Logo](/src/assets/logo-django.png "Django Logo")
-
 This template is a minimal example for an application using Vue and Django.
 
 Vue and Django are clearly separated in this project. Vue, npm and Webpack handles all frontend logic and bundling assessments. Django and Django REST framework to manage Data Models, Web API and serve static files.
