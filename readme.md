@@ -1,148 +1,62 @@
-# Django Vue Template ✌️ 🐍
+# Qarbon 🌍
 
-This template is a minimal example for an application using Vue and Django.
+*School project — HE-Arc Neuchâtel*
 
-Vue and Django are clearly separated in this project. Vue, npm and Webpack handles all frontend logic and bundling assessments. Django and Django REST framework to manage Data Models, Web API and serve static files.
+Qarbon is a web app for discovering local events and places, built as part of a course at HE-Arc. [One-line description of the actual purpose/target audience — e.g. "helps users find eco-friendly events and places near them" — please confirm/adjust.]
 
-While it's possible to add endpoints to serve django-rendered html responses, the intention is to use Django primarily for the backend, and have view rendering and routing and handled by Vue + Vue Router as a Single Page Application (SPA).
+## ✨ Features
 
-Out of the box, Django will serve the application entry point (`index.html` + bundled assets) at `/` ,
-data at `/api/`, and static files at `/static/`. Django admin panel is also available at `/api/admin/` and can be extended as needed.
+- 📍 Browse places (`places.json`) [describe: categories? map view? search?]
+- 📅 Browse and/or manage events (`events.json`) [describe: filtering by date/category?]
+- 🎨 UX mockups designed before development (see [`mockups/`](./mockups))
+- 🔐 [Authentication if any — register/login via dj-rest-auth?]
+- [Any other feature: favorites, ratings, admin panel...]
 
-The application templates from Vue CLI `create` and Django `createproject` are kept as close as possible to their
-original state, except where a different configuration is needed for better integration of the two frameworks.
+## 🛠️ Tech stack
 
-### Authentication
-Sample register, login, logout function are implemented in the client.
-More endpoints options are available in the backend,
-see [dj-rest-auth](https://dj-rest-auth.readthedocs.io/en/latest/api_endpoints.html).
+| Layer | Technology |
+|---|---|
+| Frontend | Vue 3 + Vite |
+| Backend | Django + Django REST Framework |
+| Database | SQLite |
+| Auth | JWT (dj-rest-auth) [confirm if actually used] |
 
-### Includes
+This project was bootstrapped from a Django/Vue starter template provided by HE-Arc, then built out with the features above.
 
-* Django
-* Django REST framework
-* Django CORS Headers
-* Django Whitenoise
-* login via JWT using dj-rest-auth
-* Vue 3 Vite
-* Vue Router
-* Gunicorn
-* Configuration for Heroku Deployment
+## 🚀 Getting started
 
+### Prerequisites
+- Node.js
+- Python 3
 
-### Template Structure
+### Backend
 
-
-| Location             |  Content                                   |
-|----------------------|--------------------------------------------|
-| `/backend`           | Django Project & Backend Config            |
-| `/backend/api`       | Django App (`/api`)                        |
-| `/src`               | Vue App .                                  |
-| `/src/main.js`       | JS Application Entry Point                 |
-| `/index.html` | [Html Application Entry Point](https://cli.vuejs.org/guide/html-and-static-assets.html) (`/`)         |
-| `/public/static`     | Static Assets                              |
-| `/dist/`             | Bundled Assets Output (generated at `npm run build`) |
-
-## Prerequisites
-
-Before getting started you should have the following installed and running:
-
-- [X] Node - [instructions](https://nodejs.org/en/)
-- [X] Vue 3 - [instructions](https://vuejs.org/)
-- [X] Vite - [instructions](https://vitejs.dev/)
-- [X] Python 3 - [instructions](https://wiki.python.org/moin/BeginnersGuide)
-
-## Setup Template
-
-```
-$ git clone https://github.com/heg-interschool/template-django-vue.git
-$ cd template-django-vue
+```bash
+python -m venv venv
+source venv/bin/activate   # or .\venv\Scripts\Activate.ps1 on Windows
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
 ```
 
-Setup frontend
-```
-$ npm install
-```
-Setup backend
-```
-$ python -m venv venv
-# On windows
-$ .\venv\Scripts\Activate.ps1
-# On linux
-$ source venv/bin/activate
-$ pip install -r requirements.txt
-$ python manage.py migrate
-$ python manage.py createsuperuser --email admin@example.com --username admin
+### Frontend
+
+```bash
+npm install
+npm run dev
 ```
 
-## Running Development Servers
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000/api/
 
-Frontend
+## 📸 Screenshots / mockups
 
-```
-$ npm run dev
-```
-From another tab in the same directory:
+See the [`mockups/`](./mockups) folder for the initial UX design work.
 
-Backend
+[Add 1-2 screenshots of the running app here if available]
 
-```
-$ python manage.py runserver
-```
+## 👨‍💻 Author
 
+**Omar Griggio** — [github.com/OmarGriggio](https://github.com/OmarGriggio)
 
-The Vue application will be served from [`localhost:5173`](http://localhost:5173/) and the Django API
-and static files will be served from [`localhost:8000`](http://localhost:8000/).
-
-The dual dev server setup allows you to take advantage of
-vite's development server with hot module replacement.
-
-This requires cors to be configured correctly in Django.
-
-```
-CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "https://sub.example.com",
-    "http://localhost:8080",
-    "http://127.0.0.1:9000",
-]
-```
-
-If you would rather run a single dev server, you can run Django's
-development server only on `:8000`, and you have to build the Vue app first
-and the page will not reload on changes.
-
-```
-$ npm run build
-$ python manage.py runserver
-```
-
-## urls
-http://localhost:5173/#/ for vue frontend
-http://localhost:8000/api/ for django rest framework api
-http://localhost:8000/api/admin/ for django admin
-
-
-
-## Deploy
-
-For production you need to change **baseURL** in `src/services/api.js` 
-
-### Production deployment
-env variables to configure
-```
-DATABASE_URL
-DJANGO_DEBUG
-DJANGO_SECRET_KEY
-DJANGO_ALLOWED_HOSTS
-DJANGO_SETTINGS_MODULE=backend.settings.prod
-```
-
-## Static Assets
-
-See [`vite.config.js`](/vite.config.js) for notes on static assets strategy.
-
-This template implements the approach suggested by Whitenoise Django.
-For more details see [WhiteNoise Documentation](http://whitenoise.evans.io/en/stable/django.html)
-
-It uses Django Whitenoise to serve all static files and Vue bundled files at `/static/`.
+School project built at HE-Arc Neuchâtel as part of the Business IT (Informatique de gestion) program.
