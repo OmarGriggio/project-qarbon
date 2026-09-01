@@ -2,15 +2,15 @@
 
 *School project — HE-Arc Neuchâtel*
 
-Qarbon is a web app for discovering local events and places, built as part of a course at HE-Arc. [One-line description of the actual purpose/target audience — e.g. "helps users find eco-friendly events and places near them" — please confirm/adjust.]
+Qarbon is a web app for discovering local events and places, built as part of a course at HE-Arc. It helps users discover local places and events, rate and comment on places, and register for events.
 
 ## ✨ Features
 
-- 📍 Browse places (`places.json`) [describe: categories? map view? search?]
-- 📅 Browse and/or manage events (`events.json`) [describe: filtering by date/category?]
+- 📍 Browse and search places (`places.json`) by name, street or locality — with photo, average rating and comments
+- 📅 Browse, search and register for events (`events.json`) — filter by event name, place, organizer, or registration status; capacity limit with automatic waitlist
 - 🎨 UX mockups designed before development (see [`mockups/`](./mockups))
-- 🔐 [Authentication if any — register/login via dj-rest-auth?]
-- [Any other feature: favorites, ratings, admin panel...]
+- 🔐 Authentication via dj-rest-auth + JWT (register/login/logout, token refresh)
+- ⭐ Ratings (0-5) & comments on places, 💬 direct messaging between users (inbox), 📧 email notifications to event participants, 🖼️ profile with bio/location
 
 ## 🛠️ Tech stack
 
@@ -19,7 +19,7 @@ Qarbon is a web app for discovering local events and places, built as part of a 
 | Frontend | Vue 3 + Vite |
 | Backend | Django + Django REST Framework |
 | Database | SQLite |
-| Auth | JWT (dj-rest-auth) [confirm if actually used] |
+| Auth | JWT (dj-rest-auth) |
 
 This project was bootstrapped from a Django/Vue starter template provided by HE-Arc, then built out with the features above.
 
