@@ -27,12 +27,12 @@ This project was bootstrapped from a Django/Vue starter template provided by HE-
 
 ### Prerequisites
 - Node.js
-- Python 3
+- Python 3 (tested with 3.13)
 
 ### Backend
 
 ```bash
-python -m venv venv
+python -m venv venv        # on Windows, if `python` isn't recognized, use `py` instead
 source venv/bin/activate   # or .\venv\Scripts\Activate.ps1 on Windows
 pip install -r requirements.txt
 python manage.py migrate
